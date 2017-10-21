@@ -1,7 +1,9 @@
+//g++ -ggdb `pkg-config --cflags opencv` -o `basename harrisCorner.cpp .cpp` harrisCorner.cpp `pkg-config --libs opencv`
+
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
-// incluindo todas as bibliotecas std do c/c++
+//Incluindo todas as bibliotecas std do c/c++
 #include <bits/stdc++.h>
 
 using namespace cv;
@@ -11,15 +13,18 @@ const int INF = (int) 1e9;
 const float k = 0.04;//Constante calculo response 
 
 //Criando imagens do tipo Mat
+FILE *in;
 Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response;
 bool isHDR = false;
 int quantKeyPoints = 0;
-int gaussianSize = 3;
+int gaussianSize = 9;
 float thresholdValue = 0;
 vector<pair<int, int> > keyPoint;
-
+vector<pair<int, int> > ROI;
+vector<pair<int, int> > quadROIo;
+	
 //Abrindo imagem no argumento da linha de comando
-void read(char *name){	
+void read(char *name){
 	input = imread(name, IMREAD_UNCHANGED);
 	//Gerando imagem grayscale
 	cvtColor(input, inputGray, COLOR_BGR2GRAY);
@@ -27,8 +32,34 @@ void read(char *name){
 	if(input.depth() == CV_32F) {
 		isHDR = true;
 		printf("Imagem HDR\n");
+	}else isHDR = false;
+	
+	//Lendo arquivo com os pontos (x, y) da ROI
+	if(in != NULL){
+		float x, y;
+		while(fscanf(in, "%f%f", &x, &y) != EOF){
+			ROI.push_back(make_pair(x, y));
+		}
+		ROI.push_back(ROI[0]);
+		
+		//Quadrado externo
+		quadROIo.push_back(ROI[0]);
+		quadROIo.push_back(ROI[1]);
+		quadROIo.push_back(make_pair(ROI[5].first, ROI[1].second));
+		quadROIo.push_back(ROI[5]);
+	}else{
+		ROI.push_back(make_pair(0, 0));
+		ROI.push_back(make_pair(input.cols, 0));
+		ROI.push_back(make_pair(input.cols, input.rows));
+		ROI.push_back(make_pair(0, input.rows));
+		ROI.push_back(make_pair(0, 0));
+		
+		//Quadrado externo
+		quadROIo.push_back(make_pair(0, 0));
+		quadROIo.push_back(make_pair(input.cols, 0));
+		quadROIo.push_back(make_pair(input.cols, input.rows));
+		quadROIo.push_back(make_pair(0, input.rows));
 	}
-	else isHDR = false;
 }
 
 //Pegando maior e menor valor numa imagem
@@ -41,7 +72,6 @@ float getMaxValue(Mat src1){
 	}
 	//printf("\n");
   }
-  
   return maior;
 }
 
@@ -66,9 +96,14 @@ float responseCalc(){
 //Passando o Limiar na imagem resultante response
 void thresholdR(){
 	//Atualizando threshold
-	thresholdValue = thresholdValue * 0.01;
-	for(int row = 0; row < input.rows; row++){
-		for(int col = 0; col < input.cols; col++){
+	//thresholdValue = thresholdValue * 0.15;
+	thresholdValue = 9*(1e14); // Threshold fixo para teste do pribyl
+	int begX = quadROIo[0].first, begY = quadROIo[0].second;
+	int endX = quadROIo[2].first, endY = quadROIo[2].second;
+	
+	for(int row = begY; row < endY; row++){
+		for(int col = begX; col < endX; col++){
+			
 			float val = response.at<float>(row, col);
 			if(val >= thresholdValue){
 				keyPoint.push_back(make_pair(row, col));
@@ -79,7 +114,7 @@ void thresholdR(){
 }
 
 
-//Conferindo se o valor a ser acessado está dentro dos limites da imagem
+//Conferindo se o valor a ser acessado está dentro dos limites da ROI
 bool outOfBounds(int i, int j){
 	return (i < 0 || j < 0 || i >= input.rows || j >= input.cols);
 }
@@ -87,10 +122,7 @@ bool outOfBounds(int i, int j){
 //Selecionando os Keypoinst com a Non Maxima supression
 void nonMaximaSupression(){
 	//Selecionando os vizinhos
-	int maskSize = 3;
-	int quantVizinhos = maskSize*maskSize;
-	int dir1[] = {0, -1, -1, -1, 0, 1,  1, 1};
-	int dir2[] = {1, 1 , 0, -1, -1, -1, 0, 1};
+	int maskSize = 21;
 	//Criando vector auxiliar
 	vector<pair<int, int> > aux;
 	
@@ -99,16 +131,18 @@ void nonMaximaSupression(){
 		int x = keyPoint[i].first;
 		int y = keyPoint[i].second;
 		float mid = response.at<float>(x, y);
-		for(int k = 0; k < quantVizinhos; k++){
-			int I = dir1[k] + x;
-			int J = dir2[k] + y;
-			if(!outOfBounds(I, J)){
-				if(mid < response.at<float>(I, J)){ //Se ele não for o maior dentre os vizinhos
-					isMax = false;
-					break;
+		
+		int mSize2 = maskSize/2;
+		for(int k = x - mSize2; k <= x + mSize2; k++){
+			for(int j = y - mSize2; j <= y + mSize2; j++){
+				if(!outOfBounds(k, j)){
+					if(mid < response.at<float>(k, j)){ //Se ele não for o maior dentre os vizinhos
+						isMax = false;
+						break;
+					}
 				}
 			}
-		}
+		}		
 		if(isMax){
 			aux.push_back(make_pair(x, y));
 		}
@@ -126,19 +160,40 @@ void showKeyPoints(){
 		int x = keyPoint[i].first;
 		int y = keyPoint[i].second;
 		//printf("%d %d\n", x, y);
-		circle(input, Point (y, x), 2, Scalar(0, 0, 255), 1, 8, 0);
+		circle(input, Point (y, x), 3, Scalar(0, 0, 255), 1, 8, 0);
 	}
 }
 
+//Função para marcar na imagem final a ROI
+void showROI(){
+	float x, y, x1, y1;
+	x = ROI[0].first;
+	y = ROI[0].second;
+	for(int i = 1; i < (int)ROI.size(); i++){
+		x1 = ROI[i].first;
+		y1 = ROI[i].second;
+		line(input, Point (x, y), Point (x1, y1), Scalar(0, 0, 255), 5, 8, 0);
+		x = x1;
+		y = y1;
+	}
+}
+
+//Função Principal
+// ROI = Region Of Interest
+//Chamada: ./harrisCorner Imagem ArquivoROIPoints
 int main(int, char** argv ){
+	in = NULL;
+	
+	in = fopen(argv[2], "r");
+	
 	read(argv[1]);
 	
 	//Inicalizando com a gaussiana
 	GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
 	
 	//Computando sobel operator (derivada da gaussiana) no eixo x e y
-	Sobel(inputGray, Ix, CV_32F, 1, 0, gaussianSize, 1, 0, BORDER_DEFAULT);
-	Sobel(inputGray, Iy, CV_32F, 0, 1, gaussianSize, 1, 0, BORDER_DEFAULT);
+	Sobel(inputGray, Ix, CV_32F, 1, 0, 7, 1, 0, BORDER_DEFAULT);
+	Sobel(inputGray, Iy, CV_32F, 0, 1, 7, 1, 0, BORDER_DEFAULT);
 	
 	Ix2 = Ix.mul(Ix); // Ix^2
 	Iy2 = Iy.mul(Iy);// Iy^2
@@ -150,11 +205,7 @@ int main(int, char** argv ){
 	GaussianBlur(Ixy, Ixy, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
 	
 	thresholdValue = responseCalc();
-	imshow("r", response);
-	
 	thresholdR();
-	
-	imshow("r2", response);
 	
 	printf("quantidade de KeyPoints depois threshold: %d\n", quantKeyPoints);
 	
@@ -163,7 +214,7 @@ int main(int, char** argv ){
 	printf("quantidade final KeyPoints: %d\n", quantKeyPoints);
 	
 	showKeyPoints();
-	
+	showROI();
 	imshow("Result", input);
 	
 	waitKey(0);
