@@ -13,7 +13,7 @@ const int INF = (int) 1e9;
 const float k = 0.04;//Constante calculo response 
 
 //Criando imagens do tipo Mat
-FILE *in;
+FILE *in, *out;
 Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response;
 bool isHDR = false;
 int quantKeyPoints = 0;
@@ -22,6 +22,7 @@ float thresholdValue = 0;
 vector<pair<int, int> > keyPoint;
 vector<pair<int, int> > ROI;
 vector<pair<int, int> > quadROIo;
+vector<pair<int, int> > quadROIi;
 	
 //Abrindo imagem no argumento da linha de comando
 void read(char *name){
@@ -47,7 +48,13 @@ void read(char *name){
 		quadROIo.push_back(ROI[1]);
 		quadROIo.push_back(make_pair(ROI[5].first, ROI[1].second));
 		quadROIo.push_back(ROI[5]);
+		//Quadrado Interno
+		quadROIi.push_back(ROI[3]);
+		quadROIi.push_back(ROI[2]);
+		quadROIi.push_back(make_pair(ROI[5].first, ROI[1].second));
+		quadROIi.push_back(ROI[4]);
 	}else{
+		//Imagem completa (normal)
 		ROI.push_back(make_pair(0, 0));
 		ROI.push_back(make_pair(input.cols, 0));
 		ROI.push_back(make_pair(input.cols, input.rows));
@@ -59,6 +66,11 @@ void read(char *name){
 		quadROIo.push_back(make_pair(input.cols, 0));
 		quadROIo.push_back(make_pair(input.cols, input.rows));
 		quadROIo.push_back(make_pair(0, input.rows));
+		//Quadrado interno
+		quadROIi.push_back(make_pair(0, 0));
+		quadROIi.push_back(make_pair(1, 0));
+		quadROIi.push_back(make_pair(1, 1));
+		quadROIi.push_back(make_pair(0, 1));
 	}
 }
 
@@ -97,13 +109,15 @@ float responseCalc(){
 void thresholdR(){
 	//Atualizando threshold
 	//thresholdValue = thresholdValue * 0.15;
-	thresholdValue = 9*(1e14); // Threshold fixo para teste do pribyl
+	thresholdValue = 9.5*(1e14); // Threshold fixo para teste do pribyl
+	//Valor dentro da area externa
 	int begX = quadROIo[0].first, begY = quadROIo[0].second;
 	int endX = quadROIo[2].first, endY = quadROIo[2].second;
 	
 	for(int row = begY; row < endY; row++){
 		for(int col = begX; col < endX; col++){
-			
+			if(row > quadROIi[0].second && row < quadROIi[2].second && col > quadROIi[0].first && col < quadROIi[2].first) //verificando se esta dentro do quadrado menor
+				continue;
 			float val = response.at<float>(row, col);
 			if(val >= thresholdValue){
 				keyPoint.push_back(make_pair(row, col));
@@ -182,9 +196,12 @@ void showROI(){
 // ROI = Region Of Interest
 //Chamada: ./harrisCorner Imagem ArquivoROIPoints
 int main(int, char** argv ){
-	in = NULL;
+	char saida[255];
+	strcpy(saida, argv[1]);
+	saida[strlen(saida)-4] = '\0';
 	
 	in = fopen(argv[2], "r");
+	out = fopen(saida, "w+");
 	
 	read(argv[1]);
 	
@@ -213,11 +230,32 @@ int main(int, char** argv ){
 	
 	printf("quantidade final KeyPoints: %d\n", quantKeyPoints);
 	
+	printf("Salvando keypoints no arquivo...\n");
+	fprintf(out, "%d\n", quantKeyPoints);
+	
+	for(int i = 0; i < (int)keyPoint.size(); i++){
+		fprintf(out, "%d %d %.2f\n", keyPoint[i].first, keyPoint[i].second, response.at<float>(keyPoint[i].first, keyPoint[i].second));
+	}
+	
+	fclose(out);
+	
 	showKeyPoints();
 	showROI();
-	imshow("Result", input);
 	
-	waitKey(0);
+	//Salvando imagens com Keypoints
+	int len = strlen(saida);
+	saida[len] = 'R';
+	saida[len+1] = '.';
+	saida[len+2] = 'j';
+	saida[len+3] = 'p';
+	saida[len+4] = 'g';
+	saida[len+5] = '\0';
+	
+	imwrite(saida, input);
+	
+	//Mostrando imagem com Keypoints
+	//imshow("Result", input);
+	//waitKey(0);
 	
 	return 0;
 }
