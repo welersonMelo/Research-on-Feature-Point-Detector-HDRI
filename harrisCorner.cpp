@@ -32,6 +32,7 @@ void read(char *name){
 	//Conferindo se é HDR
 	if(input.depth() == CV_32F) {
 		isHDR = true;
+		normalize(inputGray, inputGray, 0.0, 256.0, NORM_MINMAX, CV_32FC1, Mat());
 		printf("Imagem HDR\n");
 	}else isHDR = false;
 	
@@ -74,23 +75,20 @@ void read(char *name){
 	}
 }
 
-//Pegando maior e menor valor numa imagem
+//Pegando maior valor numa imagem cinza
 float getMaxValue(Mat src1){
   float maior = -INF;
   for(int row = 0; row < src1.rows; row++){
 	for(int col = 0; col < src1.cols; col++){
-		//printf("%.3f ", src1.at<float>(row, col));
 		maior = max(maior, src1.at<float>(row, col));
 	}
-	//printf("\n");
   }
   return maior;
 }
 
 //Calcula o Response map para obter os Keypoints retornando o maior valor de resposta encontrado
-float responseCalc(){
-	float maior = -INF;
-	response = Mat::zeros(cv::Size(input.rows, input.cols), CV_32F);
+void responseCalc(){
+	response = Mat::zeros(cv::Size(input.cols, input.rows), CV_32F);
 	for(int row = 0; row < input.rows; row++){
 		for(int col = 0; col < input.cols; col++){
 			float fx2 = Ix2.at<float>(row, col);
@@ -99,10 +97,47 @@ float responseCalc(){
 			float det = (fx2 * fy2) - (fxy * fxy);
 			float trace = (fx2 + fy2);
 			response.at<float>(row, col) = det - k*(trace*trace);
-			maior = max(maior, response.at<float>(row, col));
+			if(response.at<float>(row, col) < 0) response.at<float>(row, col) = 0;
 		}
 	}
-	return maior;
+}
+
+//Mostrando na tela o response map em forma de imagens com cores falsas
+void showResponse(bool flag){
+	Mat imResponse, imAux;
+	normalize(response ,imAux, 0, 400, NORM_MINMAX, CV_32FC1, Mat());
+	imResponse = Mat::zeros(cv::Size(input.cols, input.rows), CV_8UC3);
+	for(int row = 0; row < input.rows; row++){
+		for(int col = 0; col < input.cols; col++){
+			float val = imAux.at<float>(row, col);
+			if(val < 100){
+				imResponse.at<Vec3b>(row, col)[2] = (int)val;
+				imResponse.at<Vec3b>(row, col)[1] = (int)val + 50;
+				imResponse.at<Vec3b>(row, col)[0] = 180 + (int)val*0.5;
+			}else if(val < 200){
+				imResponse.at<Vec3b>(row, col)[2] = (int)val-100;
+				imResponse.at<Vec3b>(row, col)[1] = (int)val;
+				imResponse.at<Vec3b>(row, col)[0] = (int)val-100;
+			}else if(val < 300){
+				imResponse.at<Vec3b>(row, col)[2] = 255;
+				imResponse.at<Vec3b>(row, col)[1] = 255;
+				imResponse.at<Vec3b>(row, col)[0] = (int)val-200;
+			}else{
+				imResponse.at<Vec3b>(row, col)[2] = 255;
+				imResponse.at<Vec3b>(row, col)[1] = 100 - (int)(val - 300);
+				imResponse.at<Vec3b>(row, col)[0] = 100 - (int)(val - 300);
+			}
+			if(val == 0 && flag){
+				imResponse.at<Vec3b>(row, col)[2] = 0;
+				imResponse.at<Vec3b>(row, col)[1] = 0;
+				imResponse.at<Vec3b>(row, col)[0] = 0;
+			}
+		}
+	}
+	if(!flag)
+		imshow("Response image1", imResponse);
+	else 
+		imshow("Response image2", imResponse);
 }
 
 //Passando o Limiar na imagem resultante response
@@ -142,13 +177,13 @@ void nonMaximaSupression(){
 	
 	for(int i = 0; i < (int)keyPoint.size(); i++){
 		bool isMax = true;
-		int x = keyPoint[i].first;
-		int y = keyPoint[i].second;
-		float mid = response.at<float>(x, y);
+		int y = keyPoint[i].first;
+		int x = keyPoint[i].second;
+		float mid = response.at<float>(y, x);
 		
 		int mSize2 = maskSize/2;
-		for(int k = x - mSize2; k <= x + mSize2; k++){
-			for(int j = y - mSize2; j <= y + mSize2; j++){
+		for(int k = y - mSize2; k <= y + mSize2; k++){
+			for(int j = x - mSize2; j <= x + mSize2; j++){
 				if(!outOfBounds(k, j)){
 					if(mid < response.at<float>(k, j)){ //Se ele não for o maior dentre os vizinhos
 						isMax = false;
@@ -158,7 +193,7 @@ void nonMaximaSupression(){
 			}
 		}		
 		if(isMax){
-			aux.push_back(make_pair(x, y));
+			aux.push_back(make_pair(y, x));
 		}
 	}
 	
@@ -221,22 +256,28 @@ int main(int, char** argv ){
 	GaussianBlur(Iy2, Iy2, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
 	GaussianBlur(Ixy, Ixy, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
 	
-	thresholdValue = responseCalc();
+	//Calculando resposta da derivada 
+	responseCalc();
+	//cout<<"maior response: "<<getMaxValue(response)<<endl;
+	
+	//Limiar na imagem de Response
 	thresholdR();
+	
+	//showResponse(true);waitKey(0);
 	
 	printf("quantidade de KeyPoints depois threshold: %d\n", quantKeyPoints);
 	
+	//Fazendo NonMaximaSupression nos keypoints encontrados
 	nonMaximaSupression();
 	
 	printf("quantidade final KeyPoints: %d\n", quantKeyPoints);
 	
+	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	printf("Salvando keypoints no arquivo...\n");
 	fprintf(out, "%d\n", quantKeyPoints);
-	
 	for(int i = 0; i < (int)keyPoint.size(); i++){
 		fprintf(out, "%d %d %.2f\n", keyPoint[i].first, keyPoint[i].second, response.at<float>(keyPoint[i].first, keyPoint[i].second));
-	}
-	
+	}	
 	fclose(out);
 	
 	showKeyPoints();
@@ -244,13 +285,7 @@ int main(int, char** argv ){
 	
 	//Salvando imagens com Keypoints
 	int len = strlen(saida);
-	saida[len] = 'R';
-	saida[len+1] = '.';
-	saida[len+2] = 'j';
-	saida[len+3] = 'p';
-	saida[len+4] = 'g';
-	saida[len+5] = '\0';
-	
+	saida[len] = 'R';saida[len+1] = '.';saida[len+2] = 'j';saida[len+3] = 'p';saida[len+4] = 'g';saida[len+5] = '\0';
 	imwrite(saida, input);
 	
 	//Mostrando imagem com Keypoints
