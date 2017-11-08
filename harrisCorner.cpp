@@ -14,11 +14,16 @@ const float k = 0.04;//Constante calculo response
 
 //Criando imagens do tipo Mat
 FILE *in, *out;
+
 Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response;
+
 bool isHDR = false;
+
 int quantKeyPoints = 0;
 int gaussianSize = 9;
+
 float thresholdValue = 0;
+
 vector<pair<int, int> > keyPoint;
 vector<pair<int, int> > ROI;
 vector<pair<int, int> > quadROIo;
@@ -146,8 +151,10 @@ void thresholdR(){
 	//thresholdValue = thresholdValue * 0.15;
 	thresholdValue = 9.5*(1e14); // Threshold fixo para teste do pribyl
 	//Valor dentro da area externa
-	int begX = quadROIo[0].first, begY = quadROIo[0].second;
+	int begX = quadROIo[0].first, begY = quadROIo[0].second; 
 	int endX = quadROIo[2].first, endY = quadROIo[2].second;
+	int error = 0.014981273*(endY - begY);
+	begY = begY + error;//Erro no limite superior do ROI
 	
 	for(int row = begY; row < endY; row++){
 		for(int col = begX; col < endX; col++){

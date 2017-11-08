@@ -147,7 +147,7 @@ bool outOfBounds(int i, int j, Mat input){
 //Selecionando os Keypoinst com a Non Maxima supression 
 void nonMaximaSupression(){
 	//Selecionando os vizinhos
-	int maskSize = 21;
+	int maskSize = 21; // Mascara de 21 x 21 baseado no artigo do prybil
 	int cont = 0;
 	
 	for(int c = 0; c < 4; c++){
@@ -243,57 +243,6 @@ void threshold(){
 	}
 }
 
-//Filtrando para eliminar egdes		 
-void edgeThreshold(){
-	Mat Ix, Iy;
-	
-	float thresholdValue = 12.1;
-	int cont[] = {0, 0, 0, 0, 0}, aux = 0;
-	
-	for(int i = 0; i < (int)keyPoint.size(); i++){
-		int x = keyPoint[i].x;
-		int y = keyPoint[i].y;
-		int c = keyPoint[i].scale;
-		int z = keyPoint[i].z;
-		int maskX[3][3], maskY[3][3];
-		int cX = 1, cY = 1;
-		maskX[0][0] = -1; maskX[0][1] = 0; maskX[0][2] = 1;
-		maskX[1][0] = -2; maskX[1][1] = 0; maskX[1][2] = 2;
-		maskX[2][0] = -1; maskX[2][1] = 0; maskX[2][2] = 1;
-		
-		maskY[0][0] = 1; maskY[0][1] = 2; maskY[0][2] = 1;
-		maskY[1][0] = 0; maskY[1][1] = 0; maskY[1][2] = 0;
-		maskY[2][0] = -1; maskY[2][1] = -2; maskY[2][2] = -1;
-		
-		//Fazer operacao aqui
-		
-		//float fx2 = Ix2[c][z].at<float>(y, x), fy2 = Iy2[c][z].at<float>(y, x), fxy = Ixy[c][z].at<float>(y, x);
-		
-		//printf("%.4f %.4f | ", fx2, fy2);
-		
-		float trace = 0;//(fx2 + fy2);
-		float det = 0;//(fx2 * fy2) - (fxy * fxy);
-		float val = 0;//pow(trace, 2) / det;
-		
-		printf("%.4f %.4f %.4f | ",det, trace, val);
-		
-		if(det < 0 || val > thresholdValue){
-			keyPoint[i].response = 0;
-			swap(keyPoint[i], keyPoint[aux++]);
-		}else{
-			cont[c]++;
-		}
-	}
-	
-	reverse(keyPoint.begin(), keyPoint.end());
-	while(keyPoint.back().response == 0) keyPoint.pop_back();
-	
-	//for(int i = 0; i < (int)keyPoint.size(); i++) cout<<keyPoint[i].response<<" ";
-	
-	for(int i = 0; i < 4; i++) cout<<"t2:"<<cont[i]<<"\n";
-	
-}
-
 int pow2(int exp){
 	if(exp == 0) return 1;
 	if(exp == 1) return 2;
@@ -353,7 +302,7 @@ int main(int, char** argv ){
 	threshold();
 	
 	//Limiar p/ edges response
-	//edgeThreshold(); //Ajeitar implementacao
+	//edgeThreshold(); 
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	printf("Salvando keypoints no arquivo...\n");
