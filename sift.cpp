@@ -121,10 +121,9 @@ void initOctaves(){
 	}
 }
 
-
 //Função que calula a diferença entre as gaussianas DoG e salva em uma nova imagem
 void calcDoG(){
-	for(int i = 0; i < 4; i++){
+	for(int i = 0; i < 1; i++){
 		for(int j = 0; j < 4; j++){
 			dogI[i][j] = Mat::zeros(Size(octave[i][j].cols, octave[i][j].rows), CV_32F);
 			for(int col = 0; col < octave[i][j].cols; col++){
@@ -133,8 +132,6 @@ void calcDoG(){
 					dogI[i][j].at<float>(row, col) = a;
 				}
 			}
-			//string s = to_string(i) + to_string(j) + ".jpg";
-			//imwrite(s ,dogI[i][j]);
 		}
 	}
 }
@@ -150,7 +147,7 @@ void nonMaximaSupression(){
 	int maskSize = 21; // Mascara de 21 x 21 baseado no artigo do prybil
 	int cont = 0;
 	
-	for(int c = 0; c < 4; c++){
+	for(int c = 0; c < 1; c++){
 		for(int z = 1; z < 3; z++){
 			Mat matAux = Mat::zeros(Size(dogI[c][z].cols, dogI[c][z].rows), CV_32F);
 			for(int x = 0; x < dogI[c][z].cols; x++){
@@ -196,8 +193,6 @@ void nonMaximaSupression(){
 				}
 			}
 			dogI[c][z] = matAux;
-			//string s = to_string(c) + to_string(z);
-			//imshow(s, dogI[c][z]);waitKey(0);
 		}
 		cout<<cont<<endl;//Mostrando quantidade de keypoints encontrado na imagem i j
 		cont = 0;
@@ -217,7 +212,7 @@ void threshold(){
 	
 	begY = begY + error;//Erro no limite superior do ROI
 	
-	for(int c = 0; c < 4; c++){ //scale/octave
+	for(int c = 0; c < 1; c++){ //scale/octave
 		for(int z = 1; z < 3; z++){
 			for(int y = begY; y < endY-10; y++){
 				for(int x = begX; x < endX-10; x++){
@@ -228,9 +223,15 @@ void threshold(){
 					if(val > thresholdValue){
 						keyPoint.push_back({x, y, c, z,val});
 						cont++;
-					}else dogI[c][z].at<float>(y, x) = 0;	
+					}else{
+						 dogI[c][z].at<float>(y, x) = 0;	
+						 if(val != 0)
+							circle(input, Point (x, y), 5, Scalar(255, 0, 0), 1, 8, 0);
+					}
 				}
 			}
+			//string s = to_string(c) + to_string(z);
+			//imshow(s, dogI[c][z]); waitKey(0);
 		}
 		cout<<"t:"<<cont<<endl;
 		cont = 0;
@@ -243,22 +244,12 @@ void threshold(){
 	}
 }
 
-int pow2(int exp){
-	if(exp == 0) return 1;
-	if(exp == 1) return 2;
-	if(exp == 2) return 4;
-	if(exp == 3) return 8;
-}
-
 void showKeyPoints(){
 	for(int i = 0; i < (int)keyPoint.size(); i++){
-		int e = keyPoint[i].scale;
-		int k = pow2(e);
-		int x = keyPoint[i].x * k;
-		int y = keyPoint[i].y * k;
-		
-		if(e == 0)
-			circle(input, Point (x, y), k+2, Scalar(0, 0, 255), 1, 8, 0);
+		int x = keyPoint[i].x;
+		int y = keyPoint[i].y;
+
+		circle(input, Point (x, y), 4, Scalar(0, 0, 255), 1, 8, 0);
 	}
 }
 
@@ -308,9 +299,7 @@ int main(int, char** argv ){
 	printf("Salvando keypoints no arquivo...\n");
 	fprintf(out, "%d\n", (int)keyPoint.size());
 	for(int i = 0; i < (int)keyPoint.size(); i++){
-		int exp = keyPoint[i].scale;
-		int ratio = pow2(exp);
-		fprintf(out, "%d %d %.2f\n", keyPoint[i].x * ratio, keyPoint[i].y * ratio, keyPoint[i].response);
+		fprintf(out, "%d %d %.2f\n", keyPoint[i].x , keyPoint[i].y, keyPoint[i].response);
 	}	
 	fclose(out);
 	

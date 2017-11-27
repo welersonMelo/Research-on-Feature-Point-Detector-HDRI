@@ -1,4 +1,4 @@
-//g++ -ggdb `pkg-config --cflags opencv` -o `basename harrisCorner.cpp .cpp` harrisCorner.cpp `pkg-config --libs opencv`
+//g++ -ggdb `pkg-config --cflags opencv` -o `basename harrisCornerForHDRI.cpp .cpp` harrisCornerForHDRI.cpp `pkg-config --libs opencv`
 
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
@@ -15,28 +15,43 @@ const float k = 0.04;//Constante calculo response
 //Criando imagens do tipo Mat
 FILE *in, *out;
 
-Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response, response2;
+Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response, integralIm;
 
 bool isHDR = false;
 
 int quantKeyPoints = 0;
 int gaussianSize = 9;
 
-float thresholdValue = 0;
+float thresholdValue = 0, sumVal;
 
 vector<pair<int, int> > keyPoint;
 vector<pair<int, int> > ROI;
 vector<pair<int, int> > quadROIo;
 vector<pair<int, int> > quadROIi;
+
+//função para aplicar a tranformação logaritmica na image HDR
+//Parametros: c constante de multiplicacao da formula
+void logTranform(int c){
+	for(int y = 0; y < input.rows; y++){
+		for(int x = 0; x < input.cols; x++){
+			float r = inputGray.at<float>(y, x);
+			float val = c * log10(r + 1);
+			inputGray.at<float>(y, x) = val;
+		}
+	}
+}
 	
 //Abrindo imagem no argumento da linha de comando
 void read(char *name){
 	input = imread(name, IMREAD_UNCHANGED);
+	
 	//Gerando imagem grayscale
 	cvtColor(input, inputGray, COLOR_BGR2GRAY);
+	
 	//Conferindo se é HDR
 	if(input.depth() == CV_32F) {
 		isHDR = true;
+		logTranform(1);	
 		normalize(inputGray, inputGray, 0.0, 256.0, NORM_MINMAX, CV_32FC1, Mat());
 		printf("Imagem HDR\n");
 	}else isHDR = false;
@@ -80,22 +95,22 @@ void read(char *name){
 	}
 }
 
-//Pegando maior valor numa imagem cinza
-float getMaxValue(Mat src1){
+//Pegando maior valor numa imagem float cinza
+float getMaxValue(Mat src1, int xBeg, int xEnd,int yBeg, int yEnd){
   float maior = -INF;
-  for(int row = 0; row < src1.rows; row++){
-	for(int col = 0; col < src1.cols; col++){
-		maior = max(maior, src1.at<float>(row, col));
+  for(int y = yBeg; y < yEnd; y++){
+	for(int x = xBeg; x < xEnd; x++){
+		maior = max(maior, src1.at<float>(y, x));
 	}
   }
   return maior;
 }
 
-float getMinValue(Mat src1){
-  float menor = getMaxValue(src1) + 1;
-  for(int row = 0; row < src1.rows; row++){
-	for(int col = 0; col < src1.cols; col++){
-		menor = min(menor, src1.at<float>(row, col));
+float getMinValue(Mat src1, int xBeg, int xEnd,int yBeg, int yEnd){
+  float menor = INF;
+  for(int y = yBeg; y < yEnd; y++){
+	for(int x = xBeg; x < xEnd; x++){
+		menor = min(menor, src1.at<float>(y, x));
 	}
   }
   return menor;
@@ -118,13 +133,14 @@ void responseCalc(){
 }
 
 //Passando o Limiar na imagem resultante response
-void thresholdR(){
+int thresholdR(float value, int begX, int endX, int begY, int endY){
+	int cont = 0;
 	//Atualizando threshold
-	//thresholdValue = thresholdValue * 0.15;
-	thresholdValue = (1e15); // Threshold fixo para teste do pribyl
+	thresholdValue = value;
+	
 	//Valor dentro da area externa
-	int begX = quadROIo[0].first, begY = quadROIo[0].second; 
-	int endX = quadROIo[2].first, endY = quadROIo[2].second;
+	//int begX = quadROIo[0].first, begY = quadROIo[0].second; 
+	//int endX = quadROIo[2].first, endY = quadROIo[2].second;
 	int error = 0.014981273*(endY - begY);
 	begY = begY + error;//Erro no limite superior do ROI
 	
@@ -133,12 +149,14 @@ void thresholdR(){
 			if(row > quadROIi[0].second && row < quadROIi[2].second && col > quadROIi[0].first && col < quadROIi[2].first) //verificando se esta dentro do quadrado menor
 				continue;
 			float val = response.at<float>(row, col);
+			sumVal += val;
 			if(val >= thresholdValue){
+				cont++;
 				keyPoint.push_back(make_pair(row, col));
 			}else response.at<float>(row, col) = 0;
 		}
 	}
-	quantKeyPoints = (int)keyPoint.size();
+	return cont;
 }
 
 
@@ -188,6 +206,44 @@ void nonMaximaSupression(){
 	
 }//Fim função
 
+void partitionImageThreshold(){
+	float t = 0.10, N, media; // Porcentagem de corte do threshold
+	int quantBox = 10; //Quantidade de particao por linha 10% da largura da imagem
+	float maior = 0.0, menor = 1;
+	int n = response.cols/quantBox; // mask Size
+	int m = response.rows/n + 1;
+	
+	for(int i = 0; i < quantBox; i++){
+		int xBeg = i*n, xEnd = min(response.cols, (i+1)*n);
+		int yBeg, yEnd;
+		for(int j = 0; j < m; j++){
+			yBeg = j*n;
+			yEnd = min(response.rows, (j+1)*n);
+						
+			maior = getMaxValue(response, xBeg, xEnd, yBeg, yEnd);
+			
+			sumVal = 0;
+			N = (xEnd - xBeg) * (yEnd - yBeg);
+			int quantNewKeypoints = thresholdR(maior * t, xBeg, xEnd, yBeg, yEnd); // t% do maior valor encontrado
+		
+			media = sumVal/N;
+			float porcentagem = 100*media/maior;
+			
+			if(porcentagem > 0.9){
+				while(quantNewKeypoints--){
+					keyPoint.pop_back();
+				}
+				thresholdR(maior * (1-t), xBeg, xEnd, yBeg, yEnd); // t% do maior valor encontrado
+			}
+			
+			//Marcações na tela
+			circle(input, Point (xEnd, yEnd), 20, Scalar(0, 255, 0), 1, 8, 0);
+			circle(input, Point (xBeg, yBeg), 5, Scalar(0, 255, 0), 1, 8, 0);
+			//printf("(%d %d) = %.14f, med = %.14f, porc= %.4f \n", j, i, maior, media, porcentagem);
+		}
+	}
+}
+
 void showKeyPoints(){
 	for(int i = 0; i < (int)keyPoint.size(); i++){
 		int x = keyPoint[i].first;
@@ -210,8 +266,7 @@ void showResponse(string name){
 			if(response.at<float>(row, col) == 0 && name != "Antes Th")
 				imResponse.at<Vec3b>(row, col) = Vec3b(0, 0, 0);
 	
-	imshow(name, imResponse);
-	waitKey(0);
+	//imshow(name, imResponse); waitKey(0);
 }
 
 //Função para marcar na imagem final a ROI
@@ -230,7 +285,7 @@ void showROI(){
 
 //Função Principal
 // ROI = Region Of Interest
-//Chamada: ./harrisCorner Imagem ArquivoROIPoints
+//Chamada: ./harrisCornerForHDRI Imagem ArquivoROIPoints
 int main(int, char** argv ){
 	char saida[255];
 	strcpy(saida, argv[1]);
@@ -259,29 +314,43 @@ int main(int, char** argv ){
 	
 	//Calculando resposta da derivada 
 	responseCalc();
+	
+	//Reescalando o response para o range [0.0-1000.0]
 	normalize(response, response, 0.0, 1000.0, NORM_MINMAX, CV_32FC1, Mat());
 	
-	showResponse("Antes Th");
+	//showResponse("Antes Th");
 	
-	//Limiar na imagem de Response
-	thresholdR();
-	showResponse("Depois Th");
+	//Threshold por area da imagem
+	partitionImageThreshold();
 	
+	//showResponse("Depois Th");
+	quantKeyPoints = (int)keyPoint.size();
 	printf("quantidade de KeyPoints depois threshold: %d\n", quantKeyPoints);
 	
 	//Fazendo NonMaximaSupression nos keypoints encontrados
 	nonMaximaSupression();
 	
-	showResponse("Depois nonMax Th");
+	//showResponse("Depois nonMax Th");
 	printf("quantidade final KeyPoints: %d\n", quantKeyPoints);
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	printf("Salvando keypoints no arquivo...\n");
 	fprintf(out, "%d\n", quantKeyPoints);
 	for(int i = 0; i < (int)keyPoint.size(); i++)
-		fprintf(out, "%d %d %.2f\n", keyPoint[i].first, keyPoint[i].second, response2.at<float>(keyPoint[i].first, keyPoint[i].second));
-	
+		fprintf(out, "%d %d %.2f\n", keyPoint[i].first, keyPoint[i].second, response.at<float>(keyPoint[i].first, keyPoint[i].second));
+		
 	fclose(out);
+	
+	//Armengue para ver imagem hdr	---------------------------------------------------------
+	/*
+	for(int y = 0; y < input.rows; y++){
+		for(int x = 0; x < input.cols; x++){
+			input.at<Vec3f>(y, x)[0] *= 400;
+			input.at<Vec3f>(y, x)[1] *= 400;
+			input.at<Vec3f>(y, x)[2] *= 400;	
+		}
+	}
+	*/
 	
 	showKeyPoints();
 	showROI();
@@ -289,6 +358,7 @@ int main(int, char** argv ){
 	//Salvando imagens com Keypoints
 	int len = strlen(saida);
 	saida[len] = 'R';saida[len+1] = '.';saida[len+2] = 'j';saida[len+3] = 'p';saida[len+4] = 'g';saida[len+5] = '\0';
+	
 	imwrite(saida, input);
 	
 	//Mostrando imagem com Keypoints

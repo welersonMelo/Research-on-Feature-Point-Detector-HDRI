@@ -28,15 +28,22 @@ vector<pair<float, pair<int, int> > > keyPointS;
 
 int quantPositiveKP; //quantidade de KeyPoints que é encontrado em ambas imagens 
 
-void readMatriz(){
+void readMatriz(char* argv){
+	// Abrindo arquivos
+	ifstream in(argv);
+    streambuf *cinbuf = std::cin.rdbuf();
+    cin.rdbuf(in.rdbuf());
+    
 	float value;
 	homografia = Mat::zeros(cv::Size(3, 3), CV_32F);
 	for(int i = 0; i < 3; i++){
 		for(int j = 0; j < 3; j++){
-			fscanf(inMat, "%f", &value);
+			cin>>value;
 			homografia.at<float>(i, j) = value;
 		}
 	}
+	in.close();
+	
 }
 
 //Lendo keyPoints do arquivo de texto 
@@ -90,8 +97,8 @@ void calculandoRR(int quantK){
 			// Calculando a distância em pixel entre os dois pontos
 			int dist = max(abs(x - x1) , abs(y - y1)); 
 			
-			//Se estiver dentro do raio de 9 pixels
-			if(dist < 10){
+			//Se estiver dentro do raio de 14 pixels
+			if(dist < 15){ 
 				struct Line linhaAux;
 				linhaAux.p1 = make_pair(keyPointB2[i].second.first, keyPointB2[i].second.second);
 				linhaAux.p2 = make_pair(x1, y1);
@@ -145,8 +152,8 @@ void showPointsCorrelation(char *img1, char *img2){
 //Função Principal
 //Chamada: ./repeatability MatrizDaTransformacao(Homografia) keyPointsBase keyPointsSaida
 int main(int, char** argv ){
-	inMat = fopen(argv[1], "r");
-	readMatriz();
+	
+	readMatriz(argv[1]);
 	
 	inKP = fopen(argv[2], "r");
 	readKeyPoints(1);
