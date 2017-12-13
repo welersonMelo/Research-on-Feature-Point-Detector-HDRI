@@ -15,7 +15,7 @@ const float k = 0.04;//Constante calculo response
 //Criando imagens do tipo Mat
 FILE *in, *out;
 
-Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response, response2;
+Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response;
 
 bool isHDR = false;
 
@@ -28,12 +28,30 @@ vector<pair<int, int> > keyPoint;
 vector<pair<int, int> > ROI;
 vector<pair<int, int> > quadROIo;
 vector<pair<int, int> > quadROIi;
-	
+
+//Transformaçao Log para a LOG.HDR
+void logTranform(int c){
+	for(int y = 0; y < input.rows; y++){
+		for(int x = 0; x < input.cols; x++){
+			float r = inputGray.at<float>(y, x);
+			float val = c * log10(r + 1);
+			inputGray.at<float>(y, x) = val;
+		}
+	}
+}
+
 //Abrindo imagem no argumento da linha de comando
 void read(char *name){
 	input = imread(name, IMREAD_UNCHANGED);
 	//Gerando imagem grayscale
-	cvtColor(input, inputGray, COLOR_BGR2GRAY);
+	
+	if(input.channels() != 1)
+		cvtColor(input, inputGray, COLOR_BGR2GRAY);
+	else{
+		inputGray = input;
+		cvtColor(input, input, COLOR_GRAY2BGR);
+	}
+	
 	//Conferindo se é HDR
 	if(input.depth() == CV_32F) {
 		isHDR = true;
@@ -80,27 +98,6 @@ void read(char *name){
 	}
 }
 
-//Pegando maior valor numa imagem cinza
-float getMaxValue(Mat src1){
-  float maior = -INF;
-  for(int row = 0; row < src1.rows; row++){
-	for(int col = 0; col < src1.cols; col++){
-		maior = max(maior, src1.at<float>(row, col));
-	}
-  }
-  return maior;
-}
-
-float getMinValue(Mat src1){
-  float menor = getMaxValue(src1) + 1;
-  for(int row = 0; row < src1.rows; row++){
-	for(int col = 0; col < src1.cols; col++){
-		menor = min(menor, src1.at<float>(row, col));
-	}
-  }
-  return menor;
-}
-
 //Calcula o Response map para obter os Keypoints retornando o maior valor de resposta encontrado
 void responseCalc(){
 	response = Mat::zeros(cv::Size(input.cols, input.rows), CV_32F);
@@ -120,8 +117,8 @@ void responseCalc(){
 //Passando o Limiar na imagem resultante response
 void thresholdR(){
 	//Atualizando threshold
-	//thresholdValue = thresholdValue * 0.15;
-	thresholdValue = (1e15); // Threshold fixo para teste do pribyl
+	thresholdValue = (1e14); // Threshold fixo para teste do pribyl
+	
 	//Valor dentro da area externa
 	int begX = quadROIo[0].first, begY = quadROIo[0].second; 
 	int endX = quadROIo[2].first, endY = quadROIo[2].second;
@@ -140,7 +137,6 @@ void thresholdR(){
 	}
 	quantKeyPoints = (int)keyPoint.size();
 }
-
 
 //Conferindo se o valor a ser acessado está dentro dos limites da ROI
 bool outOfBounds(int i, int j){
@@ -193,7 +189,7 @@ void showKeyPoints(){
 		int x = keyPoint[i].first;
 		int y = keyPoint[i].second;
 		//printf("%d %d\n", x, y);
-		circle(input, Point (y, x), 3, Scalar(0, 0, 255), 1, 8, 0);
+		circle(input, Point (y, x), 3, Scalar(0, 0, 255), 1, 8, 0);	
 	}
 }
 
@@ -259,27 +255,28 @@ int main(int, char** argv ){
 	
 	//Calculando resposta da derivada 
 	responseCalc();
-	normalize(response, response, 0.0, 1000.0, NORM_MINMAX, CV_32FC1, Mat());
-	
-	showResponse("Antes Th");
+	//showResponse("Antes Th");	
 	
 	//Limiar na imagem de Response
 	thresholdR();
-	showResponse("Depois Th");
+	
+	normalize(response, response, 0.0, 1000.0, NORM_MINMAX, CV_32FC1, Mat());
+	
+	//showResponse("Depois Th");
 	
 	printf("quantidade de KeyPoints depois threshold: %d\n", quantKeyPoints);
 	
 	//Fazendo NonMaximaSupression nos keypoints encontrados
 	nonMaximaSupression();
 	
-	showResponse("Depois nonMax Th");
+	//showResponse("Depois nonMax Th");
 	printf("quantidade final KeyPoints: %d\n", quantKeyPoints);
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	printf("Salvando keypoints no arquivo...\n");
 	fprintf(out, "%d\n", quantKeyPoints);
 	for(int i = 0; i < (int)keyPoint.size(); i++)
-		fprintf(out, "%d %d %.2f\n", keyPoint[i].first, keyPoint[i].second, response2.at<float>(keyPoint[i].first, keyPoint[i].second));
+		fprintf(out, "%d %d %.2f\n", keyPoint[i].first, keyPoint[i].second, response.at<float>(keyPoint[i].first, keyPoint[i].second));
 	
 	fclose(out);
 	

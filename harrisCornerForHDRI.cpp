@@ -3,6 +3,7 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
+
 //Incluindo todas as bibliotecas std do c/c++
 #include <bits/stdc++.h>
 
@@ -24,7 +25,7 @@ int gaussianSize = 9;
 
 float thresholdValue = 0, sumVal;
 
-vector<pair<int, int> > keyPoint;
+vector<pair<int, int> > keyPoint;	
 vector<pair<int, int> > ROI;
 vector<pair<int, int> > quadROIo;
 vector<pair<int, int> > quadROIi;
@@ -37,6 +38,16 @@ void logTranform(int c){
 			float r = inputGray.at<float>(y, x);
 			float val = c * log10(r + 1);
 			inputGray.at<float>(y, x) = val;
+		}
+	}
+}
+
+void logTranformUchar(int c){
+	for(int y = 0; y < input.rows; y++){
+		for(int x = 0; x < input.cols; x++){
+			uchar r = inputGray.at<uchar>(y, x);
+			uchar val = c * log10(r + 1);
+			inputGray.at<uchar>(y, x) = val;
 		}
 	}
 }
@@ -97,7 +108,7 @@ void read(char *name){
 
 //Pegando maior valor numa imagem float cinza
 float getMaxValue(Mat src1, int xBeg, int xEnd,int yBeg, int yEnd){
-  float maior = -INF;
+  float maior = -1e22;
   for(int y = yBeg; y < yEnd; y++){
 	for(int x = xBeg; x < xEnd; x++){
 		maior = max(maior, src1.at<float>(y, x));
@@ -106,10 +117,10 @@ float getMaxValue(Mat src1, int xBeg, int xEnd,int yBeg, int yEnd){
   return maior;
 }
 
-float getMinValue(Mat src1, int xBeg, int xEnd,int yBeg, int yEnd){
-  float menor = INF;
-  for(int y = yBeg; y < yEnd; y++){
-	for(int x = xBeg; x < xEnd; x++){
+float getMinValue(Mat src1){
+  float menor = 1e22;
+  for(int y = 0; y < src1.rows; y++){
+	for(int x = 0; x < src1.cols; x++){
 		menor = min(menor, src1.at<float>(y, x));
 	}
   }
@@ -133,30 +144,27 @@ void responseCalc(){
 }
 
 //Passando o Limiar na imagem resultante response
-int thresholdR(float value, int begX, int endX, int begY, int endY){
-	int cont = 0;
-	//Atualizando threshold
-	thresholdValue = value;
-	
+void thresholdR(){
 	//Valor dentro da area externa
-	//int begX = quadROIo[0].first, begY = quadROIo[0].second; 
-	//int endX = quadROIo[2].first, endY = quadROIo[2].second;
+	int begX = quadROIo[0].first, begY = quadROIo[0].second; 
+	int endX = quadROIo[2].first, endY = quadROIo[2].second;
 	int error = 0.014981273*(endY - begY);
 	begY = begY + error;//Erro no limite superior do ROI
+		
+	float maior = getMaxValue(response, begX, endX, begY, endY);
+	thresholdValue = maior * 0.25; 
 	
 	for(int row = begY; row < endY; row++){
 		for(int col = begX; col < endX; col++){
 			if(row > quadROIi[0].second && row < quadROIi[2].second && col > quadROIi[0].first && col < quadROIi[2].first) //verificando se esta dentro do quadrado menor
 				continue;
 			float val = response.at<float>(row, col);
-			sumVal += val;
 			if(val >= thresholdValue){
-				cont++;
 				keyPoint.push_back(make_pair(row, col));
 			}else response.at<float>(row, col) = 0;
 		}
 	}
-	return cont;
+	quantKeyPoints = (int)keyPoint.size();
 }
 
 
@@ -206,42 +214,109 @@ void nonMaximaSupression(){
 	
 }//Fim função
 
-void partitionImageThreshold(){
-	float t = 0.10, N, media; // Porcentagem de corte do threshold
-	int quantBox = 10; //Quantidade de particao por linha 10% da largura da imagem
-	float maior = 0.0, menor = 1;
-	int n = response.cols/quantBox; // mask Size
-	int m = response.rows/n + 1;
+//Coeficiente de Variacao
+Mat coefficienceOfVariationMask(){
+
+	if(inputGray.depth() != CV_32F)
+		inputGray.convertTo(inputGray, CV_32F);
 	
-	for(int i = 0; i < quantBox; i++){
-		int xBeg = i*n, xEnd = min(response.cols, (i+1)*n);
-		int yBeg, yEnd;
-		for(int j = 0; j < m; j++){
-			yBeg = j*n;
-			yEnd = min(response.rows, (j+1)*n);
-						
-			maior = getMaxValue(response, xBeg, xEnd, yBeg, yEnd);
+	response = inputGray;
+	
+	Mat auxResponse = Mat::zeros(cv::Size(response.cols, response.rows), CV_32F);
+	
+	int n = 5;//maskSize impar
+	int N = n*n, cont = 0;//quantidade de pixels visitados
+	
+	float mediaGeral = 0; 
+	
+	Mat response2 = Mat::zeros(cv::Size(response.cols, response.rows), CV_64F);
+	//response * response 
+	for(int y = 0; y < response.rows; y++)
+		for(int x = 0; x < response.cols; x++)
+			response2.at<float>(y, x) = (response.at<float>(y, x) * response.at<float>(y, x));
+	
+	//Pre-processamento	- melhorando complexidade -----------------
+	queue<float> fila1, fila2;
+	int yBeg = 0, yEnd = n-1;
+	for(int y = yBeg; y <= yEnd; y++){
+		for(int j = (n/2); j < response.cols - (n/2); j++){
+			int xBeg = j-(n/2), xEnd = j+(n/2);
 			
-			sumVal = 0;
-			N = (xEnd - xBeg) * (yEnd - yBeg);
-			int quantNewKeypoints = thresholdR(maior * t, xBeg, xEnd, yBeg, yEnd); // t% do maior valor encontrado
-		
-			media = sumVal/N;
-			float porcentagem = 100*media/maior;
+			float sumLinha1 = 0, sumLinha2 = 0;
 			
-			if(porcentagem > 0.9){
-				while(quantNewKeypoints--){
-					keyPoint.pop_back();
-				}
-				thresholdR(maior * (1-t), xBeg, xEnd, yBeg, yEnd); // t% do maior valor encontrado
+			for(int x = xBeg; x <= xEnd; x++){
+				sumLinha1 += response.at<float>(y, x);
+				sumLinha2 += response2.at<float>(y, x);
 			}
-			
-			//Marcações na tela
-			circle(input, Point (xEnd, yEnd), 20, Scalar(0, 255, 0), 1, 8, 0);
-			circle(input, Point (xBeg, yBeg), 5, Scalar(0, 255, 0), 1, 8, 0);
-			//printf("(%d %d) = %.14f, med = %.14f, porc= %.4f \n", j, i, maior, media, porcentagem);
+			fila1.push(sumLinha1);
+			fila2.push(sumLinha2);
 		}
 	}
+	
+	float sum1 = 0, sum2 = 0;
+	
+	for(int y = 1; y < n; y++){
+		for(int x = 0; x <= n; x++){
+			sum1 += response.at<float>(y, x);
+			sum2 += response2.at<float>(y, x);
+		}
+	}
+	
+	//"Convolution"
+	for(int i = (n/2)+1; i < response.rows - (n/2); i++){
+		int yBeg = i-(n/2), yEnd = i+(n/2);
+		for(int j = (n/2); j < response.cols - (n/2); j++){
+			//passando mascara 
+			float sumVal = 0, sumVal2 = 0, maior = 0;
+			int xBeg = j-(n/2), xEnd = j+(n/2);
+			
+			/*
+			for(int x = xBeg; x <= xEnd; x++){
+				sumVal += response.at<float>(y, x);
+				sumVal2 += response2.at<float>(y, x);
+			}
+			
+			sum1 = sum1 - fila1.front() + sumVal;
+			sum2 = sum2 - fila2.front() + sumVal2;
+			
+			fila1.pop(); fila2.pop();
+			fila1.push(sumVal);
+			fila2.push(sumVal2);
+			*/
+			
+			for(int y = yBeg; y <= yEnd; y++){
+				for(int x = xBeg; x <= xEnd; x++){
+					sumVal += response.at<float>(y, x);
+					sumVal2 += response2.at<float>(y, x);
+					maior = max(maior, response.at<float>(y, x));
+				}
+			}
+						
+			float media = sumVal/N;
+			
+			float variancia = (sumVal2/N) - (media*media);
+
+			float S = sqrt(variancia); // desvio padrao
+			float CV = media == 0? 0 : S/media; // Coef de Variacao
+			auxResponse.at<float>(i, j) = CV * 100;
+			
+			//printf("%d %d %f\n", i, j, CV);
+			//printf("%.8f %.8f %.8f %.8f %.8f %.8f\n", sumVal, sumVal2, media, variancia, S, CV);
+			
+			mediaGeral += CV;	
+		}
+	}
+
+	mediaGeral = mediaGeral/((response.cols-n)*(response.rows-n));
+	printf("Media do Coefv = %.10f\n", mediaGeral);//
+	
+	//Response recebe o valor de coef salvo em aux
+	response = auxResponse;
+	
+	Mat aux2;
+	normalize(response, aux2, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
+	
+	return aux2;
 }
 
 void showKeyPoints(){
@@ -249,7 +324,7 @@ void showKeyPoints(){
 		int x = keyPoint[i].first;
 		int y = keyPoint[i].second;
 		//printf("%d %d\n", x, y);
-		circle(input, Point (y, x), 3, Scalar(0, 0, 255), 1, 8, 0);
+		circle(input, Point (y, x), 4, Scalar(0, 0, 255), 1, 8, 0);
 	}
 }
 
@@ -299,6 +374,16 @@ int main(int, char** argv ){
 	//Inicalizando com a gaussiana
 	GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
 	
+	inputGray = coefficienceOfVariationMask();
+	
+	//Tranformaçao logarítimica com constante c = 2 na imagem inputGray
+	logTranformUchar(2);
+	
+	//imshow("in1", inputGray);waitKey(0);
+	
+	//Inicalizando com a gaussiana
+	GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
+	
 	//Computando sobel operator (derivada da gaussiana) no eixo x e y
 	Sobel(inputGray, Ix, CV_32F, 1, 0, 7, 1, 0, BORDER_DEFAULT);
 	Sobel(inputGray, Iy, CV_32F, 0, 1, 7, 1, 0, BORDER_DEFAULT);
@@ -317,13 +402,10 @@ int main(int, char** argv ){
 	
 	//Reescalando o response para o range [0.0-1000.0]
 	normalize(response, response, 0.0, 1000.0, NORM_MINMAX, CV_32FC1, Mat());
+
+	//Threshold
+	thresholdR();
 	
-	//showResponse("Antes Th");
-	
-	//Threshold por area da imagem
-	partitionImageThreshold();
-	
-	//showResponse("Depois Th");
 	quantKeyPoints = (int)keyPoint.size();
 	printf("quantidade de KeyPoints depois threshold: %d\n", quantKeyPoints);
 	
@@ -340,14 +422,13 @@ int main(int, char** argv ){
 		fprintf(out, "%d %d %.2f\n", keyPoint[i].first, keyPoint[i].second, response.at<float>(keyPoint[i].first, keyPoint[i].second));
 		
 	fclose(out);
-	
-	//Armengue para ver imagem hdr	---------------------------------------------------------
 	/*
+	//Armengue para ver imagem hdr	---------------------------------------------------------
 	for(int y = 0; y < input.rows; y++){
 		for(int x = 0; x < input.cols; x++){
-			input.at<Vec3f>(y, x)[0] *= 400;
-			input.at<Vec3f>(y, x)[1] *= 400;
-			input.at<Vec3f>(y, x)[2] *= 400;	
+			input.at<Vec3f>(y, x)[0] *= 300;
+			input.at<Vec3f>(y, x)[1] *= 300;
+			input.at<Vec3f>(y, x)[2] *= 300;	
 		}
 	}
 	*/
