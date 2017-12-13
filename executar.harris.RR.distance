@@ -1,0 +1,19 @@
+clear
+echo "RR/100"
+
+./repeatability ../dataset/2D/distance/100/100.gLarson97.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.gLogMap.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.gMantiuk08.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.gReinhard02.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.gReinhard05.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.HDR.hdr ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.LDR.histeq.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.LDR.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.lFattal02.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.lFattal09.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.lMantiuk06equ.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.lMantiuk06map.jpg ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.logHDR.hdr ../dataset/2D/distance/100/100.ROI.txt
+./repeatability ../dataset/2D/distance/100/100.lReinhard02.jpg ../dataset/2D/distance/100/100.ROI.txt
+
+

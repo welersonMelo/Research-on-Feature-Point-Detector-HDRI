@@ -1,0 +1,126 @@
+clear
+echo "distance/100"
+
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.gLarson97.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.gLogMap.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.gMantiuk08.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.gReinhard02.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.gReinhard05.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.HDR.hdr ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.LDR.histeq.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.LDR.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.lFattal02.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.lFattal09.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.lMantiuk06equ.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.lMantiuk06map.jpg ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.logHDR.hdr ../dataset/2D/distance/100/100.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/100/100.lReinhard02.jpg ../dataset/2D/distance/100/100.ROI.txt
+
+clear
+echo "distance/103"
+
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.gLarson97.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.gLogMap.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.gMantiuk08.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.gReinhard02.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.gReinhard05.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.HDR.hdr ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.LDR.histeq.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.LDR.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.lFattal02.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.lFattal09.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.lMantiuk06equ.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.lMantiuk06map.jpg ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.logHDR.hdr ../dataset/2D/distance/103/103.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/103/103.lReinhard02.jpg ../dataset/2D/distance/103/103.ROI.txt
+
+clear
+echo "distance/109"
+
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.gLarson97.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.gLogMap.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.gMantiuk08.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.gReinhard02.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.gReinhard05.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.HDR.hdr ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.LDR.histeq.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.LDR.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.lFattal02.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.lFattal09.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.lMantiuk06equ.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.lMantiuk06map.jpg ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.logHDR.hdr ../dataset/2D/distance/109/109.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/109/109.lReinhard02.jpg ../dataset/2D/distance/109/109.ROI.txt
+
+clear
+echo "distance/122"
+
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.gLarson97.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.gLogMap.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.gMantiuk08.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.gReinhard02.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.gReinhard05.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.HDR.hdr ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.LDR.histeq.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.LDR.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.lFattal02.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.lFattal09.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.lMantiuk06equ.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.lMantiuk06map.jpg ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.logHDR.hdr ../dataset/2D/distance/122/122.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/122/122.lReinhard02.jpg ../dataset/2D/distance/122/122.ROI.txt
+
+clear
+echo "distance/147"
+
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.gLarson97.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.gLogMap.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.gMantiuk08.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.gReinhard02.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.gReinhard05.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.HDR.hdr ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.LDR.histeq.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.LDR.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.lFattal02.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.lFattal09.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.lMantiuk06equ.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.lMantiuk06map.jpg ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.logHDR.hdr ../dataset/2D/distance/147/147.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/147/147.lReinhard02.jpg ../dataset/2D/distance/147/147.ROI.txt
+
+clear
+echo "distance/197"
+
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.gLarson97.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.gLogMap.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.gMantiuk08.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.gReinhard02.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.gReinhard05.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.HDR.hdr ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.LDR.histeq.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.LDR.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.lFattal02.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.lFattal09.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.lMantiuk06equ.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.lMantiuk06map.jpg ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.logHDR.hdr ../dataset/2D/distance/197/197.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/197/197.lReinhard02.jpg ../dataset/2D/distance/197/197.ROI.txt
+
+clear
+echo "distance/297"
+
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.gLarson97.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.gLogMap.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.gMantiuk08.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.gReinhard02.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.gReinhard05.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.HDR.hdr ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.LDR.histeq.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.LDR.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.lFattal02.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.lFattal09.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.lMantiuk06equ.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.lMantiuk06map.jpg ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.logHDR.hdr ../dataset/2D/distance/297/297.ROI.txt
+./harrisCornerForHDRI ../dataset/2D/distance/297/297.lReinhard02.jpg ../dataset/2D/distance/297/297.ROI.txt
+

@@ -21,11 +21,13 @@ FILE *inMat, *inKP;
 //Matriz de Homografia, vetor base, vetor resultado
 Mat homografia, pointBase, resultPoint;
 
+
+
 pair<int, int> point;
 vector<pair<float, pair<int, int> > > keyPointB, keyPointB2;
 vector<pair<float, pair<int, int> > > keyPointS;
 
-
+int quantMaxKP = 1000;
 int quantPositiveKP; //quantidade de KeyPoints que é encontrado em ambas imagens 
 
 void readMatriz(char* argv){
@@ -67,7 +69,7 @@ void transformacao(){
 	int siz = (int)keyPointB.size();
 	keyPointB2 = keyPointB;
 	
-	for(int i = 0; i < siz && i < 300; i++){
+	for(int i = 0; i < siz && i < quantMaxKP; i++){
 		pointBase.at<float>(0, 0) = keyPointB[i].second.first;
 		pointBase.at<float>(1, 0) = keyPointB[i].second.second;
 		pointBase.at<float>(2, 0) = 1;
@@ -116,8 +118,8 @@ void showPointsCorrelation(char *img1, char *img2){
 	Mat im1, im2; //imagens com keypoints correlatos
 	string aux1 = (string)img1;
 	string aux2 = (string)img2;
-	aux1 += "R.jpg";
-	aux2 += "R.jpg";
+	aux1 = "../dataset/2D/distance/100/100.gLarson97R.jpg";
+	aux2 = "../dataset/2D/distance/103/103.gLarson97R.jpg";
 	
 	im1 = imread(aux1, IMREAD_UNCHANGED);
 	im2 = imread(aux2, IMREAD_UNCHANGED);
@@ -142,11 +144,10 @@ void showPointsCorrelation(char *img1, char *img2){
 		line(im3, Point (x, y), Point (x1 , y1), Scalar(0, 0, 255), 1, 8, 0);
 	}
 	
-	resize(im3, im3, Size(), 0.8, 0.8, CV_INTER_LINEAR);
+	resize(im3, im3, Size(), 0.2, 0.2, CV_INTER_LINEAR);
     
     imshow("im3", im3);
-    
-    waitKey(0);
+    waitKey(30000);
 }
 
 //Função Principal
@@ -165,7 +166,7 @@ int main(int, char** argv ){
 	pointBase = Mat::zeros(cv::Size(1, 3), CV_32F);
 	resultPoint = Mat::zeros(cv::Size(1, 3), CV_32F);	
 	
-	//Ordenando pelo maior response para selecionar os 300 maiores para comparação
+	//Ordenando pelo maior response para selecionar os 900 maiores para comparação
 	sort(keyPointB.begin(), keyPointB.end());
 	sort(keyPointB2.begin(), keyPointB2.end());
 	sort(keyPointS.begin(), keyPointS.end());
@@ -174,10 +175,12 @@ int main(int, char** argv ){
 	transformacao();
 	
 	//Setando a quantidade max de keypoints para ser avaliado
-	int quantK = min(keyPointB.size(), keyPointS.size()) < 300 ? min(keyPointB.size(), keyPointS.size()) : 300;
+	int quantK = min(keyPointB.size(), keyPointS.size()) < quantMaxKP ? min(keyPointB.size(), keyPointS.size()) : quantMaxKP;
 	calculandoRR(quantK);	
 	
-	printf("Encontrados %d kp de %d. RR = %.8f\n", quantPositiveKP, quantK, (double)quantPositiveKP/(double)quantK);
+	float RR = (double)quantPositiveKP/(double)quantK;
+	
+	printf("Encontrados %d kp de %d. RR = %.8f\n", quantPositiveKP, quantK, RR);
 	
 	showPointsCorrelation(argv[2], argv[3]);
 	

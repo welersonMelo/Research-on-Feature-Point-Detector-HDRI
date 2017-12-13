@@ -41,7 +41,7 @@ void logTranform(int c){
 }
 
 //Abrindo imagem no argumento da linha de comando
-void read(char *name){
+void read(char *name, char *argv2){
 	input = imread(name, IMREAD_UNCHANGED);
 	//Gerando imagem grayscale
 	
@@ -60,11 +60,20 @@ void read(char *name){
 	}else isHDR = false;
 	
 	//Lendo arquivo com os pontos (x, y) da ROI
-	if(in != NULL){
+	if(argv2 != NULL){
+		printf("Lendo ROI.txt\n");
+		// Abrindo arquivos
+		ifstream in(argv2);
+		streambuf *cinbuf = std::cin.rdbuf();
+		cin.rdbuf(in.rdbuf());
+		
 		float x, y;
-		while(fscanf(in, "%f%f", &x, &y) != EOF){
+		while(cin>>x>>y){
 			ROI.push_back(make_pair(x, y));
 		}
+		
+		in.close();
+		
 		ROI.push_back(ROI[0]);
 		
 		//Quadrado externo
@@ -117,7 +126,7 @@ void responseCalc(){
 //Passando o Limiar na imagem resultante response
 void thresholdR(){
 	//Atualizando threshold
-	thresholdValue = (1e14); // Threshold fixo para teste do pribyl
+	thresholdValue = (1e15); // Threshold fixo para teste do pribyl
 	
 	//Valor dentro da area externa
 	int begX = quadROIo[0].first, begY = quadROIo[0].second; 
@@ -231,11 +240,13 @@ int main(int, char** argv ){
 	char saida[255];
 	strcpy(saida, argv[1]);
 	saida[strlen(saida)-4] = '\0';
+	string saida2(saida);
 	
-	in = fopen(argv[2], "r");
-	out = fopen(saida, "w+");
-	
-	read(argv[1]);
+	saida2 += ".harris.txt";
+		
+	out = fopen(saida2.c_str(), "w+");
+		
+	read(argv[1], argv[2]);
 	
 	//Inicalizando com a gaussiana
 	GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);

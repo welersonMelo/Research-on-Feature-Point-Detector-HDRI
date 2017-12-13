@@ -53,7 +53,7 @@ void logTranformUchar(int c){
 }
 	
 //Abrindo imagem no argumento da linha de comando
-void read(char *name){
+void read(char *name, char *argv2){
 	input = imread(name, IMREAD_UNCHANGED);
 	
 	//Gerando imagem grayscale
@@ -62,17 +62,25 @@ void read(char *name){
 	//Conferindo se é HDR
 	if(input.depth() == CV_32F) {
 		isHDR = true;
-		logTranform(1);	
 		normalize(inputGray, inputGray, 0.0, 256.0, NORM_MINMAX, CV_32FC1, Mat());
 		printf("Imagem HDR\n");
 	}else isHDR = false;
 	
 	//Lendo arquivo com os pontos (x, y) da ROI
-	if(in != NULL){
+	if(argv2 != NULL){
+		printf("Lendo ROI.txt\n");
+		// Abrindo arquivos
+		ifstream in(argv2);
+		streambuf *cinbuf = std::cin.rdbuf();
+		cin.rdbuf(in.rdbuf());
+		
 		float x, y;
-		while(fscanf(in, "%f%f", &x, &y) != EOF){
+		while(cin>>x>>y){
 			ROI.push_back(make_pair(x, y));
 		}
+		
+		in.close();
+		
 		ROI.push_back(ROI[0]);
 		
 		//Quadrado externo
@@ -152,7 +160,7 @@ void thresholdR(){
 	begY = begY + error;//Erro no limite superior do ROI
 		
 	float maior = getMaxValue(response, begX, endX, begY, endY);
-	thresholdValue = maior * 0.25; 
+	thresholdValue = maior * 0.30; 
 	
 	for(int row = begY; row < endY; row++){
 		for(int col = begX; col < endX; col++){
@@ -365,11 +373,13 @@ int main(int, char** argv ){
 	char saida[255];
 	strcpy(saida, argv[1]);
 	saida[strlen(saida)-4] = '\0';
+	string saida2(saida);
 	
-	in = fopen(argv[2], "r");
-	out = fopen(saida, "w+");
+	saida2 += ".harrisForHDR.txt";
 	
-	read(argv[1]);
+	out = fopen(saida2.c_str(), "w+");
+	
+	read(argv[1], argv[2]);
 	
 	//Inicalizando com a gaussiana
 	GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
