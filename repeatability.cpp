@@ -21,16 +21,14 @@ FILE *inMat, *inKP;
 //Matriz de Homografia, vetor base, vetor resultado
 Mat homografia, pointBase, resultPoint;
 
-
-
-pair<int, int> point;
 vector<pair<float, pair<int, int> > > keyPointB, keyPointB2;
 vector<pair<float, pair<int, int> > > keyPointS;
 
-int quantMaxKP = 1000;
+float sumRR = 0.0;
+int quantMaxKP = 300;
 int quantPositiveKP; //quantidade de KeyPoints que é encontrado em ambas imagens 
 
-void readMatriz(char* argv){
+void readMatriz(string argv){
 	// Abrindo arquivos
 	ifstream in(argv);
     streambuf *cinbuf = std::cin.rdbuf();
@@ -45,7 +43,6 @@ void readMatriz(char* argv){
 		}
 	}
 	in.close();
-	
 }
 
 //Lendo keyPoints do arquivo de texto 
@@ -80,6 +77,9 @@ void transformacao(){
 		//Pegando as novas coordenadas do pontoBase
 		float aux1 = resultPoint.at<float>(0, 0) / resultPoint.at<float>(2, 0);
 		float aux2 = resultPoint.at<float>(1, 0) / resultPoint.at<float>(2, 0);
+		
+		pair<int, int> point;
+		
 		point.first = round(aux1); //x
 		point.second = round(aux2); //y
 		
@@ -99,8 +99,8 @@ void calculandoRR(int quantK){
 			// Calculando a distância em pixel entre os dois pontos
 			int dist = max(abs(x - x1) , abs(y - y1)); 
 			
-			//Se estiver dentro do raio de 14 pixels
-			if(dist < 15){ 
+			//Se estiver dentro do raio de X pixels
+			if(dist < 11){ 
 				struct Line linhaAux;
 				linhaAux.p1 = make_pair(keyPointB2[i].second.first, keyPointB2[i].second.second);
 				linhaAux.p2 = make_pair(x1, y1);
@@ -144,29 +144,69 @@ void showPointsCorrelation(char *img1, char *img2){
 		line(im3, Point (x, y), Point (x1 , y1), Scalar(0, 0, 255), 1, 8, 0);
 	}
 	
-	resize(im3, im3, Size(), 0.2, 0.2, CV_INTER_LINEAR);
+	//resize(im3, im3, Size(), 0.2, 0.2, CV_INTER_LINEAR);
     
-    imshow("im3", im3);
-    waitKey(30000);
+    imwrite("im.jpg", im3);
 }
 
-//Função Principal
-//Chamada: ./repeatability MatrizDaTransformacao(Homografia) keyPointsBase keyPointsSaida
-int main(int, char** argv ){
+//salvando rr no arquivo
+void saveFile(string txt1, string txt2){
 	
-	readMatriz(argv[1]);
+}
+
+int lookFor(string x, string str){
+	//cout<<str<<"|"<<x<<endl;
+	for(int i = 0; i < (int) str.size(); i++){
+		if(str[i] == x[0]){
+			if(str[i+1] == x[1])
+				return i;
+		}
+	}
+	return -1;
+}
+
+void execute(char** argv, string base, string saida){
 	
-	inKP = fopen(argv[2], "r");
+	//cout<<"Executando h "<<base<<saida<<endl;
+	
+	string txt0(argv[1]), txt1(argv[2]), txt2(argv[3]);
+	
+	//../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gLarson97.harris1.txt ../dataset/2D/distance/SX/SX.gLarson97.harris1.txt
+	
+	//processando string base e saida
+	int posi;
+	//para o arquivo H
+	posi = lookFor("BX", txt0);
+	txt0.replace(posi, 2, base);
+	posi = lookFor("SX", txt0);
+	txt0.replace(posi, 2, saida);
+	
+	//para os arquivos com os KP
+	posi = lookFor("BX", txt1);
+	txt1.replace(posi, 2, base);
+	posi = lookFor("BX", txt1);
+	txt1.replace(posi, 2, base);
+	
+	posi = lookFor("SX", txt2);
+	txt2.replace(posi, 2, saida);
+	posi = lookFor("SX", txt2);
+	txt2.replace(posi, 2, saida);
+
+	//cout<<txt0<<" "<<txt1<<" "<<txt2<<endl;
+	
+	readMatriz(txt0);
+	
+	inKP = fopen(txt1.c_str(), "r");
 	readKeyPoints(1);
 	
-	inKP = fopen(argv[3], "r");
+	inKP = fopen(txt2.c_str(), "r");
 	readKeyPoints(2);
 	
 	//Inicializando Matriz coordenada
 	pointBase = Mat::zeros(cv::Size(1, 3), CV_32F);
 	resultPoint = Mat::zeros(cv::Size(1, 3), CV_32F);	
 	
-	//Ordenando pelo maior response para selecionar os 900 maiores para comparação
+	//Ordenando pelo maior response para selecionar os x maiores para comparação
 	sort(keyPointB.begin(), keyPointB.end());
 	sort(keyPointB2.begin(), keyPointB2.end());
 	sort(keyPointS.begin(), keyPointS.end());
@@ -176,13 +216,46 @@ int main(int, char** argv ){
 	
 	//Setando a quantidade max de keypoints para ser avaliado
 	int quantK = min(keyPointB.size(), keyPointS.size()) < quantMaxKP ? min(keyPointB.size(), keyPointS.size()) : quantMaxKP;
-	calculandoRR(quantK);	
+	
+	if(quantK != 0)
+		calculandoRR(quantK);	
+	else quantK = 1;
 	
 	float RR = (double)quantPositiveKP/(double)quantK;
 	
-	printf("Encontrados %d kp de %d. RR = %.8f\n", quantPositiveKP, quantK, RR);
+	//salvando resultado no arquivo
+	saveFile(txt1, txt2);
 	
-	showPointsCorrelation(argv[2], argv[3]);
+	sumRR += RR;
+	printf("%.8f\n", RR);
+	
+	//showPointsCorrelation(argv[2], argv[3]);
+}
+
+//Função Principal
+//Chamada: ./repeatability MatrizDaTransformacao(Homografia) keyPointsBase keyPointsSaida
+int main(int, char** argv ){
+	
+	//Executando rr para distancia
+	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
+	int cont = 0;
+	for(int i = 0; i < 7; i++){
+		for(int j = 0; j < 7; j++){
+			if(i != j){
+				cont++;
+				quantPositiveKP = 0;
+				keyPointB.clear();
+				keyPointB2.clear();
+				keyPointS.clear();
+				
+				execute(argv, distance[i], distance[j]);
+			}
+		}
+	}
+	
+	printf("Media: %.8f\n", sumRR/cont);
+	
+	//executanto rr para ...
 	
 	return 0;
 }

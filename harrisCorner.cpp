@@ -13,9 +13,10 @@ const int INF = (int) 1e9;
 const float k = 0.04;//Constante calculo response 
 
 //Criando imagens do tipo Mat
-FILE *in, *out;
+FILE *in, *out1, *out2, *out3;
 
 Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response;
+Mat roi[4];
 
 bool isHDR = false;
 
@@ -25,9 +26,6 @@ int gaussianSize = 9;
 float thresholdValue = 0;
 
 vector<pair<int, int> > keyPoint;
-vector<pair<int, int> > ROI;
-vector<pair<int, int> > quadROIo;
-vector<pair<int, int> > quadROIi;
 
 //Transformaçao Log para a LOG.HDR
 void logTranform(int c){
@@ -61,49 +59,31 @@ void read(char *name, char *argv2){
 	
 	//Lendo arquivo com os pontos (x, y) da ROI
 	if(argv2 != NULL){
-		printf("Lendo ROI.txt\n");
-		// Abrindo arquivos
-		ifstream in(argv2);
-		streambuf *cinbuf = std::cin.rdbuf();
-		cin.rdbuf(in.rdbuf());
-		
-		float x, y;
-		while(cin>>x>>y){
-			ROI.push_back(make_pair(x, y));
+		string path(argv2); //../dataset/2D/distance/100/100
+		string num = "";
+		while(true){
+			if(path.back() == '/'){
+				break;
+			}
+			num += path.back();
+			path.pop_back();
 		}
+		reverse(num.begin(), num.end());
 		
-		in.close();
+		roi[0] = imread(path+"ROI."+num+".png", IMREAD_UNCHANGED);
+		roi[1] = imread(path+"ROIh."+num+".png", IMREAD_UNCHANGED);
+		roi[2] = imread(path+"ROIm."+num+".png", IMREAD_UNCHANGED);
+		roi[3] = imread(path+"ROIs."+num+".png", IMREAD_UNCHANGED);
 		
-		ROI.push_back(ROI[0]);
-		
-		//Quadrado externo
-		quadROIo.push_back(ROI[0]);
-		quadROIo.push_back(ROI[1]);
-		quadROIo.push_back(make_pair(ROI[5].first, ROI[1].second));
-		quadROIo.push_back(ROI[5]);
-		//Quadrado Interno
-		quadROIi.push_back(ROI[3]);
-		quadROIi.push_back(ROI[2]);
-		quadROIi.push_back(make_pair(ROI[5].first, ROI[1].second));
-		quadROIi.push_back(ROI[4]);
 	}else{
-		//Imagem completa (normal)
-		ROI.push_back(make_pair(0, 0));
-		ROI.push_back(make_pair(input.cols, 0));
-		ROI.push_back(make_pair(input.cols, input.rows));
-		ROI.push_back(make_pair(0, input.rows));
-		ROI.push_back(make_pair(0, 0));
+		roi[0] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
+		roi[1] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
+		roi[2] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
+		roi[3] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
 		
-		//Quadrado externo
-		quadROIo.push_back(make_pair(0, 0));
-		quadROIo.push_back(make_pair(input.cols, 0));
-		quadROIo.push_back(make_pair(input.cols, input.rows));
-		quadROIo.push_back(make_pair(0, input.rows));
-		//Quadrado interno
-		quadROIi.push_back(make_pair(0, 0));
-		quadROIi.push_back(make_pair(1, 0));
-		quadROIi.push_back(make_pair(1, 1));
-		quadROIi.push_back(make_pair(0, 1));
+		for(int x = 0; x < input.cols; x++)
+			for(int y = 0; y < input.rows; y++)
+				roi[0].at<uchar>(y, x) = 1;
 	}
 }
 
@@ -118,7 +98,7 @@ void responseCalc(){
 			float det = (fx2 * fy2) - (fxy * fxy);
 			float trace = (fx2 + fy2);
 			response.at<float>(row, col) = det - k*(trace*trace);
-			if(response.at<float>(row, col) < 0) response.at<float>(row, col) = 0;
+			if(response.at<float>(row, col) < 0 || roi[0].at<uchar>(row, col) == 0) response.at<float>(row, col) = 0;
 		}
 	}
 }
@@ -126,18 +106,14 @@ void responseCalc(){
 //Passando o Limiar na imagem resultante response
 void thresholdR(){
 	//Atualizando threshold
-	thresholdValue = (1e15); // Threshold fixo para teste do pribyl
+	thresholdValue = 1; // Threshold fixo para teste do pribyl
 	
 	//Valor dentro da area externa
-	int begX = quadROIo[0].first, begY = quadROIo[0].second; 
-	int endX = quadROIo[2].first, endY = quadROIo[2].second;
-	int error = 0.014981273*(endY - begY);
-	begY = begY + error;//Erro no limite superior do ROI
+	int begX = 0, begY = 0; 
+	int endX = response.cols, endY = response.rows;
 	
 	for(int row = begY; row < endY; row++){
 		for(int col = begX; col < endX; col++){
-			if(row > quadROIi[0].second && row < quadROIi[2].second && col > quadROIi[0].first && col < quadROIi[2].first) //verificando se esta dentro do quadrado menor
-				continue;
 			float val = response.at<float>(row, col);
 			if(val >= thresholdValue){
 				keyPoint.push_back(make_pair(row, col));
@@ -202,6 +178,36 @@ void showKeyPoints(){
 	}
 }
 
+void saveKeypoints(){
+	printf("Salvando keypoints ROIs no arquivo...\n");
+	
+	vector<pair<int, int> > aux1, aux2, aux3;
+	
+    for(int i = 0; i < (int)keyPoint.size(); i++){
+	    //fprintf(out, "%d %d %.2f\n", , response.at<float>(keyPoint[i].first, keyPoint[i].second)); //(y, x)
+	 	int y = keyPoint[i].first, x = keyPoint[i].second;
+	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({y, x});
+	 	else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({y, x});
+	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({y, x});
+    }
+	
+	//Salvando pontos ROI 1
+	fprintf(out1, "%d\n", (int)aux1.size());
+	for(int i = 0; i < (int)aux1.size(); i++)
+		fprintf(out1, "%d %d %.4f\n", aux1[i].first, aux1[i].second, response.at<float>(aux1[i].first, aux1[i].second));
+	fclose(out1);
+	//Salvando pontos ROI 2
+	fprintf(out2, "%d\n", (int)aux2.size());
+	for(int i = 0; i < (int)aux2.size(); i++)
+		fprintf(out2, "%d %d %.4f\n", aux2[i].first, aux2[i].second, response.at<float>(aux2[i].first, aux2[i].second));
+	fclose(out2);
+	//Salvando pontos ROI 3
+	fprintf(out3, "%d\n", (int)aux3.size());
+	for(int i = 0; i < (int)aux3.size(); i++)
+		fprintf(out3, "%d %d %.4f\n", aux3[i].first, aux3[i].second, response.at<float>(aux3[i].first, aux3[i].second));
+	fclose(out3);
+}
+
 //Mostrando na tela o response map em forma de imagens com cores falsas
 void showResponse(string name){
 	Mat imResponse;
@@ -219,32 +225,25 @@ void showResponse(string name){
 	waitKey(0);
 }
 
-//Função para marcar na imagem final a ROI
-void showROI(){
-	float x, y, x1, y1;
-	x = ROI[0].first;
-	y = ROI[0].second;
-	for(int i = 1; i < (int)ROI.size(); i++){
-		x1 = ROI[i].first;
-		y1 = ROI[i].second;
-		line(input, Point (x, y), Point (x1, y1), Scalar(0, 0, 255), 5, 8, 0);
-		x = x1;
-		y = y1;
-	}
-}
-
 //Função Principal
 // ROI = Region Of Interest
-//Chamada: ./harrisCorner Imagem ArquivoROIPoints
+// Ex Chamada: ./harrisCorner ../dataset/2D/distance/100/100.gLarson97.jpg ../dataset/2D/distance/100/100.ROI.txt
 int main(int, char** argv ){
 	char saida[255];
 	strcpy(saida, argv[1]);
 	saida[strlen(saida)-4] = '\0';
 	string saida2(saida);
 	
-	saida2 += ".harris.txt";
-		
-	out = fopen(saida2.c_str(), "w+");
+	string saida3 = saida2;
+	string saida4 = saida3;
+	
+	saida2 += ".harris1.txt";
+	saida3 += ".harris2.txt";
+	saida4 += ".harris3.txt";
+	
+	out1 = fopen(saida2.c_str(), "w+");
+	out2 = fopen(saida3.c_str(), "w+");
+	out3 = fopen(saida4.c_str(), "w+");
 		
 	read(argv[1], argv[2]);
 	
@@ -284,15 +283,9 @@ int main(int, char** argv ){
 	printf("quantidade final KeyPoints: %d\n", quantKeyPoints);
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
-	printf("Salvando keypoints no arquivo...\n");
-	fprintf(out, "%d\n", quantKeyPoints);
-	for(int i = 0; i < (int)keyPoint.size(); i++)
-		fprintf(out, "%d %d %.2f\n", keyPoint[i].first, keyPoint[i].second, response.at<float>(keyPoint[i].first, keyPoint[i].second));
-	
-	fclose(out);
+	saveKeypoints();
 	
 	showKeyPoints();
-	showROI();
 	
 	//Salvando imagens com Keypoints
 	int len = strlen(saida);
