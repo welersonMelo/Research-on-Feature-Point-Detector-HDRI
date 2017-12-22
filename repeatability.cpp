@@ -24,9 +24,11 @@ Mat homografia, pointBase, resultPoint;
 vector<pair<float, pair<int, int> > > keyPointB, keyPointB2;
 vector<pair<float, pair<int, int> > > keyPointS;
 
-float sumRR = 0.0;
+double NR[] = {0, 0, 0}; // Somatorio do Numero de Repeticoes em para cada uma das 3 regioes de interesse
+double NU[] = {0, 0, 0}; // Somatorio do Numero total util para cada uma das 3 regioes de interesse
+
 int quantMaxKP = 300;
-int quantPositiveKP; //quantidade de KeyPoints que é encontrado em ambas imagens 
+int quantPositiveKP = 0; //quantidade de KeyPoints que é encontrado em ambas imagens 
 
 void readMatriz(string argv){
 	// Abrindo arquivos
@@ -167,95 +169,151 @@ int lookFor(string x, string str){
 
 void execute(char** argv, string base, string saida){
 	
-	//cout<<"Executando h "<<base<<saida<<endl;
+	string roiN[] = {"1", "2", "3"};
 	
-	string txt0(argv[1]), txt1(argv[2]), txt2(argv[3]);
-	
-	//../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gLarson97.harris1.txt ../dataset/2D/distance/SX/SX.gLarson97.harris1.txt
-	
-	//processando string base e saida
-	int posi;
-	//para o arquivo H
-	posi = lookFor("BX", txt0);
-	txt0.replace(posi, 2, base);
-	posi = lookFor("SX", txt0);
-	txt0.replace(posi, 2, saida);
-	
-	//para os arquivos com os KP
-	posi = lookFor("BX", txt1);
-	txt1.replace(posi, 2, base);
-	posi = lookFor("BX", txt1);
-	txt1.replace(posi, 2, base);
-	
-	posi = lookFor("SX", txt2);
-	txt2.replace(posi, 2, saida);
-	posi = lookFor("SX", txt2);
-	txt2.replace(posi, 2, saida);
-
-	//cout<<txt0<<" "<<txt1<<" "<<txt2<<endl;
-	
-	readMatriz(txt0);
-	
-	inKP = fopen(txt1.c_str(), "r");
-	readKeyPoints(1);
-	
-	inKP = fopen(txt2.c_str(), "r");
-	readKeyPoints(2);
-	
-	//Inicializando Matriz coordenada
-	pointBase = Mat::zeros(cv::Size(1, 3), CV_32F);
-	resultPoint = Mat::zeros(cv::Size(1, 3), CV_32F);	
-	
-	//Ordenando pelo maior response para selecionar os x maiores para comparação
-	sort(keyPointB.begin(), keyPointB.end());
-	sort(keyPointB2.begin(), keyPointB2.end());
-	sort(keyPointS.begin(), keyPointS.end());
-	
-	//Fazendo a transformação para todos os pontos da base
-	transformacao();
-	
-	//Setando a quantidade max de keypoints para ser avaliado
-	int quantK = min(keyPointB.size(), keyPointS.size()) < quantMaxKP ? min(keyPointB.size(), keyPointS.size()) : quantMaxKP;
-	
-	if(quantK != 0)
-		calculandoRR(quantK);	
-	else quantK = 1;
-	
-	float RR = (double)quantPositiveKP/(double)quantK;
-	
-	//salvando resultado no arquivo
-	saveFile(txt1, txt2);
-	
-	sumRR += RR;
-	printf("%.8f\n", RR);
-	
-	//showPointsCorrelation(argv[2], argv[3]);
+	for(int k = 0; k < 3; k++){
+		quantPositiveKP = 0;
+		keyPointB.clear();
+		keyPointB2.clear();
+		keyPointS.clear();
+		
+		string txt0(argv[1]), txt1(argv[2]), txt2(argv[3]);
+		
+		//../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gLarson97.harrisX.txt ../dataset/2D/distance/SX/SX.gLarson97.harris1.txt
+		
+		//processando string base e saida
+		int posi;
+		//para o arquivo H
+		posi = lookFor("BX", txt0);
+		txt0.replace(posi, 2, base);
+		posi = lookFor("SX", txt0);
+		txt0.replace(posi, 2, saida);
+		
+		//para os arquivos com os KP
+		posi = lookFor("BX", txt1);
+		txt1.replace(posi, 2, base);
+		posi = lookFor("BX", txt1);
+		txt1.replace(posi, 2, base);
+		
+		txt1.replace(txt1.size()-5, 1, roiN[k]);
+		
+		posi = lookFor("SX", txt2);
+		txt2.replace(posi, 2, saida);
+		posi = lookFor("SX", txt2);
+		txt2.replace(posi, 2, saida);
+		
+		txt2.replace(txt2.size()-5, 1, roiN[k]);
+		
+		readMatriz(txt0);
+		
+		inKP = fopen(txt1.c_str(), "r");
+		readKeyPoints(1);
+		
+		inKP = fopen(txt2.c_str(), "r");
+		readKeyPoints(2);
+		
+		//Inicializando Matriz coordenada
+		pointBase = Mat::zeros(cv::Size(1, 3), CV_32F);
+		resultPoint = Mat::zeros(cv::Size(1, 3), CV_32F);	
+		
+		//Ordenando pelo maior response para selecionar os x maiores para comparação
+		sort(keyPointB.begin(), keyPointB.end());
+		sort(keyPointB2.begin(), keyPointB2.end());
+		sort(keyPointS.begin(), keyPointS.end());
+		
+		//Fazendo a transformação para todos os pontos da base
+		transformacao();
+		
+		//Setando a quantidade max de keypoints para ser avaliado
+		int quantK = min(keyPointB.size(), keyPointS.size()) < quantMaxKP ? min(keyPointB.size(), keyPointS.size()) : quantMaxKP;
+		
+		if(quantK != 0)
+			calculandoRR(quantK);	
+		else quantK = 1;
+		
+		NR[k]+= (double)quantPositiveKP;
+		NU[k]+= (double)quantK;
+	}
 }
 
 //Função Principal
-//Chamada: ./repeatability MatrizDaTransformacao(Homografia) keyPointsBase keyPointsSaida
+//Chamada: 
 int main(int, char** argv ){
+	
+	//Executar um por vez, comentar os q n forem executar no momento
 	
 	//Executando rr para distancia
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
 	int cont = 0;
-	for(int i = 0; i < 7; i++){
-		for(int j = 0; j < 7; j++){
-			if(i != j){
-				cont++;
-				quantPositiveKP = 0;
-				keyPointB.clear();
-				keyPointB2.clear();
-				keyPointS.clear();
-				
+	int siz = 2;
+	for(int i = 0; i < siz; i++){
+		for(int j = 0; j < siz; j++){
+			if(i != j){				
 				execute(argv, distance[i], distance[j]);
 			}
 		}
 	}
+
+	double RR1 = NR[0]/NU[0];
+	double RR2 = NR[1]/NU[1];
+	double RR3 = NR[2]/NU[2];
 	
-	printf("Media: %.8f\n", sumRR/cont);
+	double RR = min(RR1, min(RR2, RR3));
 	
-	//executanto rr para ...
+	//printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
+	
+	printf("RR %.8f\n", RR);
+	
+	/*
+	
+	//executanto rr para ligthing ---------------------------------------------------------------------------------
+	
+	string ligh[] = {"001", "010", "011", "100", "101", "110", "111"};
+	int cont = 0;
+	int siz = 7;
+	for(int i = 0; i < siz; i++){
+		for(int j = 0; j < siz; j++){
+			if(i != j){				
+				execute(argv, ligh[i], ligh[j]);
+			}
+		}
+	}
+
+	double RR1 = NR[0]/NU[0];
+	double RR2 = NR[1]/NU[1];
+	double RR3 = NR[2]/NU[2];
+	
+	double RR = min(RR1, min(RR2, RR3));
+	
+	//printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
+	
+	printf("RR %.8f\n", RR);
+	
+	//executanto rr para viewpoint ---------------------------------------------------------------------------------
+	
+	string view[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
+					 "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
+	int cont = 0;
+	int siz = 21;
+	for(int i = 0; i < siz; i++){
+		for(int j = 0; j < siz; j++){
+			if(i != j){				
+				execute(argv, view[i], view[j]);
+			}
+		}
+	}
+
+	double RR1 = NR[0]/NU[0];
+	double RR2 = NR[1]/NU[1];
+	double RR3 = NR[2]/NU[2];
+	
+	double RR = min(RR1, min(RR2, RR3));
+	
+	//printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
+	
+	printf("RR %.8f\n", RR);
+	
+	*/
 	
 	return 0;
 }

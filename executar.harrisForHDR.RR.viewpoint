@@ -1,0 +1,31 @@
+clear
+echo "harrisForHDR RR/viewpoint/BX.SX"
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gLarson97.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.gLarson97.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.gLarson97.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gLogMap.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.gLogMap.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.gLogMap.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gMantiuk08.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.gMantiuk08.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.gMantiuk08.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gReinhard02.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.gReinhard02.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.gReinhard02.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gReinhard05.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.gReinhard05.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.gReinhard05.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.HDR.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.HDR.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.HDR.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.LDR.histeq.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.LDR.histeq.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.LDR.histeq.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.LDR.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.LDR.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.LDR.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lFattal02.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.lFattal02.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.lFattal02.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lFattal09.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.lFattal09.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.lFattal09.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lMantiuk06equ.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.lMantiuk06equ.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.lMantiuk06equ.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lMantiuk06map.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.lMantiuk06map.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.lMantiuk06map.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.logHDR.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.logHDR.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.logHDR.harrisForHDR1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lReinhard02.harrisForHDR1.txt ../dataset/2D/viewpoint/SX/SX.lReinhard02.harrisForHDR1.txt > ../dataset/2D/viewpoint/RR/RR.lReinhard02.harrisForHDR1.txt
+

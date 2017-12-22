@@ -1,4 +1,4 @@
-//g++ -ggdb `pkg-config --cflags opencv` -o `basename harrisCorner.cpp .cpp` harrisCorner.cpp `pkg-config --libs opencv`
+//g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename harrisCorner.cpp .cpp` harrisCorner.cpp `pkg-config --libs opencv`
 
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
