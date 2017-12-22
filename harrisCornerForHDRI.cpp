@@ -332,30 +332,44 @@ void showResponse(string name){
 void saveKeypoints(){
 	printf("Salvando keypoints ROIs no arquivo...\n");
 	
-	vector<pair<int, int> > aux1, aux2, aux3;
+	vector<pair<float, pair<int, int> > > aux1, aux2, aux3;
+	vector<pair<float, pair<int, int> > > aux;
 	
     for(int i = 0; i < (int)keyPoint.size(); i++){
-	    //fprintf(out, "%d %d %.2f\n", , response.at<float>(keyPoint[i].first, keyPoint[i].second)); //(y, x)
-	 	int y = keyPoint[i].first, x = keyPoint[i].second;
-	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({y, x});
-	 	else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({y, x});
-	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({y, x});
+		int y = keyPoint[i].first, x = keyPoint[i].second;
+		aux.push_back({-response.at<float>(y, x), {y, x}});
+	}
+    sort(aux.begin(), aux.end());
+    
+    for(int i = 0; i < 1000 && i < aux.size(); i++){
+	 	int y = aux[i].second.first, x = aux[i].second.second;
+	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({-response.at<float>(y, x), {y, x}});
+	 	else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({-response.at<float>(y, x), {y, x}});
+	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({-response.at<float>(y, x), {y, x}});
     }
+    
+	keyPoint.clear();
+	for(int i = 0; i < aux1.size(); i++)
+		keyPoint.push_back({aux1[i].second.first, aux1[i].second.second});
+	for(int i = 0; i < aux2.size(); i++)
+		keyPoint.push_back({aux2[i].second.first, aux2[i].second.second});
+	for(int i = 0; i < aux3.size(); i++)
+		keyPoint.push_back({aux3[i].second.first, aux3[i].second.second});
 	
 	//Salvando pontos ROI 1
 	fprintf(out1, "%d\n", (int)aux1.size());
 	for(int i = 0; i < (int)aux1.size(); i++)
-		fprintf(out1, "%d %d %.4f\n", aux1[i].first, aux1[i].second, response.at<float>(aux1[i].first, aux1[i].second));
+		fprintf(out1, "%d %d %.4f\n", aux1[i].second.first, aux1[i].second.second, -aux1[i].first);
 	fclose(out1);
 	//Salvando pontos ROI 2
 	fprintf(out2, "%d\n", (int)aux2.size());
 	for(int i = 0; i < (int)aux2.size(); i++)
-		fprintf(out2, "%d %d %.4f\n", aux2[i].first, aux2[i].second, response.at<float>(aux2[i].first, aux2[i].second));
+		fprintf(out2, "%d %d %.4f\n", aux2[i].second.first, aux2[i].second.second, -aux2[i].first);
 	fclose(out2);
 	//Salvando pontos ROI 3
 	fprintf(out3, "%d\n", (int)aux3.size());
 	for(int i = 0; i < (int)aux3.size(); i++)
-		fprintf(out3, "%d %d %.4f\n", aux3[i].first, aux3[i].second, response.at<float>(aux3[i].first, aux3[i].second));
+		fprintf(out3, "%d %d %.4f\n", aux3[i].second.first, aux3[i].second.second, -aux3[i].first);
 	fclose(out3);
 }
 

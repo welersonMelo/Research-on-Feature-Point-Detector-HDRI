@@ -91,18 +91,23 @@ void transformacao(){
 
 //Função para calcular o Repeatability Rate retornando a quantidade de keypoins que deu Positivo (encontrado na outra imagem)
 void calculandoRR(int quantK){
+	int visited[310];
+	memset(visited, 0, sizeof visited);
 	
 	for(int i = 0; i < quantK; i++){
 		int x = keyPointB[i].second.first;
 		int y = keyPointB[i].second.second;
 		for(int j = 0; j < quantK; j++){
+			if(visited[j]) continue;
+			
 			int x1 = keyPointS[j].second.first;
 			int y1 = keyPointS[j].second.second;
 			// Calculando a distância em pixel entre os dois pontos
 			int dist = max(abs(x - x1) , abs(y - y1)); 
 			
 			//Se estiver dentro do raio de X pixels
-			if(dist < 11){ 
+			if(dist < 12){ 
+				//visited[j] = 1;
 				struct Line linhaAux;
 				linhaAux.p1 = make_pair(keyPointB2[i].second.first, keyPointB2[i].second.second);
 				linhaAux.p2 = make_pair(x1, y1);
@@ -245,7 +250,7 @@ int main(int, char** argv ){
 	//Executando rr para distancia
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
 	int cont = 0;
-	int siz = 2;
+	int siz = 7;
 	for(int i = 0; i < siz; i++){
 		for(int j = 0; j < siz; j++){
 			if(i != j){				
@@ -260,7 +265,7 @@ int main(int, char** argv ){
 	
 	double RR = min(RR1, min(RR2, RR3));
 	
-	//printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
+	printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
 	
 	printf("RR %.8f\n", RR);
 	
