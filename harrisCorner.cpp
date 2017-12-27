@@ -179,7 +179,9 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-    for(int i = 0; i < 1000 && i < aux.size(); i++){
+    int quantMaxKP = 600;
+    
+    for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
 	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({-response.at<float>(y, x), {y, x}});
 	 	else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({-response.at<float>(y, x), {y, x}});
