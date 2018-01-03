@@ -14,7 +14,7 @@ const int INF = (int) 1e9;
 const float k = 0.04;//Constante calculo response 
 
 //Criando imagens do tipo Mat
-FILE *in, *out1, *out2, *out3;
+FILE *in, *out0, *out1, *out2, *out3;
 
 Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response, integralIm;
 Mat roi[4];
@@ -138,8 +138,8 @@ void thresholdR(){
 	int endX = response.cols, endY = response.rows;
 		
 	float maior = getMaxValue(response, begX, endX, begY, endY);
-	//thresholdValue = maior * 0.30; 
-	thresholdValue = 0.5;
+	//thresholdValue = maior * 0.30; 	
+	thresholdValue = 0.1;
 	
 	for(int row = begY; row < endY; row++){
 		for(int col = begX; col < endX; col++){
@@ -350,6 +350,17 @@ void saveKeypoints(){
 	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({-response.at<float>(y, x), {y, x}});
     }
     
+    if(aux3.size() > 500) aux3.clear();
+    
+    double T = aux1.size() + aux2.size() + aux3.size();
+	
+	double minFp = min(aux1.size()/T, min(aux2.size()/T, aux3.size()/T));
+	double maxFp = max(aux1.size()/T, max(aux2.size()/T, aux3.size()/T));
+	double D = 1 - (maxFp - minFp);
+	
+	//Salvando Distribution Rate
+	fprintf(out0, "%.4f\n", D);
+    
 	keyPoint.clear();
 	for(int i = 0; i < aux1.size(); i++)
 		keyPoint.push_back({aux1[i].second.first, aux1[i].second.second});
@@ -383,14 +394,17 @@ int main(int, char** argv ){
 	strcpy(saida, argv[1]);
 	saida[strlen(saida)-4] = '\0';
 	string saida2(saida);
-
+	
+	string saida1 = saida2;
 	string saida3 = saida2;
 	string saida4 = saida3;
 	
+	saida1 += ".harrisForHDR.distribution.txt";
 	saida2 += ".harrisForHDR1.txt";
 	saida3 += ".harrisForHDR2.txt";
 	saida4 += ".harrisForHDR3.txt";
 	
+	out0 = fopen(saida1.c_str(), "w+");
 	out1 = fopen(saida2.c_str(), "w+");
 	out2 = fopen(saida3.c_str(), "w+");
 	out3 = fopen(saida4.c_str(), "w+");

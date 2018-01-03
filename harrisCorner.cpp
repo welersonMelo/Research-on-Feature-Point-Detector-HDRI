@@ -13,7 +13,7 @@ const int INF = (int) 1e9;
 const float k = 0.04;//Constante calculo response 
 
 //Criando imagens do tipo Mat
-FILE *in, *out1, *out2, *out3;
+FILE *in, *out0, *out1, *out2, *out3;
 
 Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response;
 Mat roi[4];
@@ -95,7 +95,8 @@ void responseCalc(){
 //Passando o Limiar na imagem resultante response
 void thresholdR(){
 	//Atualizando threshold
-	thresholdValue = 1; // Threshold fixo para teste do pribyl
+	//thresholdValue = 8*(1e14); // Threshold fixo para teste do pribyl
+	thresholdValue = 1;
 	
 	//Valor dentro da area externa
 	int begX = 0, begY = 0; 
@@ -196,6 +197,15 @@ void saveKeypoints(){
 	for(int i = 0; i < aux3.size(); i++)
 		keyPoint.push_back({aux3[i].second.first, aux3[i].second.second});
 	
+	double T = aux1.size() + aux2.size() + aux3.size();
+	
+	double minFp = min(aux1.size()/T, min(aux2.size()/T, aux3.size()/T));
+	double maxFp = max(aux1.size()/T, max(aux2.size()/T, aux3.size()/T));
+	double D = 1 - (maxFp - minFp);
+	
+	//Salvando Distribution Rate
+	fprintf(out0, "%.4f\n", D);
+	
 	//Salvando pontos ROI 1
 	fprintf(out1, "%d\n", (int)aux1.size());
 	for(int i = 0; i < (int)aux1.size(); i++)
@@ -239,13 +249,16 @@ int main(int, char** argv ){
 	saida[strlen(saida)-4] = '\0';
 	string saida2(saida);
 	
+	string saida1 = saida2;
 	string saida3 = saida2;
 	string saida4 = saida3;
 	
+	saida1 += ".harris.distribution.txt";
 	saida2 += ".harris1.txt";
 	saida3 += ".harris2.txt";
 	saida4 += ".harris3.txt";
 	
+	out0 = fopen(saida1.c_str(), "w+");
 	out1 = fopen(saida2.c_str(), "w+");
 	out2 = fopen(saida3.c_str(), "w+");
 	out3 = fopen(saida4.c_str(), "w+");
