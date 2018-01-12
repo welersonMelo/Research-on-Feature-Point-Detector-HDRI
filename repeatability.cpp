@@ -17,7 +17,7 @@ struct Line{
 
 vector<struct Line> linha;
 
-FILE *inMat, *inKP;
+FILE *inKP;
 //Matriz de Homografia, vetor base, vetor resultado
 Mat homografia, pointBase, resultPoint;
 
@@ -27,7 +27,9 @@ vector<pair<float, pair<int, int> > > keyPointS;
 double NR[] = {0, 0, 0}; // Somatorio do Numero de Repeticoes em para cada uma das 3 regioes de interesse
 double NU[] = {0, 0, 0}; // Somatorio do Numero total util para cada uma das 3 regioes de interesse
 
-int quantMaxKP = 300;
+const int MAXKP = 600;
+
+int quantMaxKP = MAXKP;
 int quantPositiveKP = 0; //quantidade de KeyPoints que é encontrado em ambas imagens 
 
 void readMatriz(string argv){
@@ -53,7 +55,7 @@ void readKeyPoints(int val){
 	int x, y, n;
 	float response; //Por enquanto n serve pra nada
 	fscanf(inKP, "%d", &n);
-	
+
 	for(int i = 0; i < n; i++){
 		fscanf(inKP, "%d %d %f", &y, &x, &response);
 		if(val == 1)
@@ -91,7 +93,7 @@ void transformacao(){
 
 //Função para calcular o Repeatability Rate retornando a quantidade de keypoins que deu Positivo (encontrado na outra imagem)
 void calculandoRR(int quantK){
-	int visited[310];
+	int visited[MAXKP];
 	memset(visited, 0, sizeof visited);
 	
 	for(int i = 0; i < quantK; i++){
@@ -156,11 +158,6 @@ void showPointsCorrelation(char *img1, char *img2){
     imwrite("im.jpg", im3);
 }
 
-//salvando rr no arquivo
-void saveFile(string txt1, string txt2){
-	
-}
-
 int lookFor(string x, string str){
 	//cout<<str<<"|"<<x<<endl;
 	for(int i = 0; i < (int) str.size(); i++){
@@ -212,8 +209,12 @@ void execute(char** argv, string base, string saida){
 		inKP = fopen(txt1.c_str(), "r");
 		readKeyPoints(1);
 		
+		fclose(inKP);
+		
 		inKP = fopen(txt2.c_str(), "r");
 		readKeyPoints(2);
+		
+		fclose(inKP);
 		
 		//Inicializando Matriz coordenada
 		pointBase = Mat::zeros(cv::Size(1, 3), CV_32F);
@@ -232,10 +233,11 @@ void execute(char** argv, string base, string saida){
 		
 		if(quantK != 0)
 			calculandoRR(quantK);	
-		else quantK = 1;
 		
 		NR[k]+= (double)quantPositiveKP;
 		NU[k]+= (double)quantK;
+		
+		
 	}
 }
 
@@ -271,10 +273,9 @@ int main(int, char** argv ){
 	
 	//Executar um por vez, comentar os q n forem executar no momento
 	
-	/*
-	
 	//executando distribution para distancia
-	
+	/*
+	 
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
 	int siz = 7;
 	for(int i = 0; i < siz; i++){
@@ -284,8 +285,6 @@ int main(int, char** argv ){
 	double medDist = sumDist/siz;
 	
 	printf("%.2f\n", medDist*100);	
-	
-	
 
 	//executando distribution para light
 	
@@ -299,8 +298,6 @@ int main(int, char** argv ){
 	
 	printf("%.2f\n", medDist*100);	
 	
-	*/
-	
 	//executando distribution para viewpoint
 	
 	string view[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
@@ -313,7 +310,6 @@ int main(int, char** argv ){
 	
 	printf("%.2f\n", medDist*100);	
 	
-	/*
 	//Executando rr para distancia
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
 	int cont = 0;
@@ -325,6 +321,10 @@ int main(int, char** argv ){
 			}
 		}
 	}
+	 
+	if(NU[0] == 0) NU[0]=1;
+	if(NU[1] == 0) NU[1]=1;
+	if(NU[2] == 0) NU[2]=1;
 
 	double RR1 = NR[0]/NU[0];
 	double RR2 = NR[1]/NU[1];
@@ -332,9 +332,12 @@ int main(int, char** argv ){
 	
 	double RR = min(RR1, min(RR2, RR3));
 	
-	printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
+	//printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
 	
 	printf("RR %.8f\n", RR);
+	
+	*/
+	/*
 			
 	//executanto rr para ligthing ---------------------------------------------------------------------------------
 	
@@ -348,22 +351,28 @@ int main(int, char** argv ){
 			}
 		}
 	}
-
+	if(NU[0] == 0) NU[0]=1;
+	if(NU[1] == 0) NU[1]=1;
+	if(NU[2] == 0) NU[2]=1;
+	
 	double RR1 = NR[0]/NU[0];
 	double RR2 = NR[1]/NU[1];
 	double RR3 = NR[2]/NU[2];
 	
 	double RR = min(RR1, min(RR2, RR3));
 	
-	printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
+	//printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
 	
 	printf("RR %.8f\n", RR);
+
 	
 	//executanto rr para viewpoint ---------------------------------------------------------------------------------
+	*/
+	///*
 	
 	string view[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 					 "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
-	int cont = 0;
+					 
 	int siz = 21;
 	for(int i = 0; i < siz; i++){
 		for(int j = 0; j < siz; j++){
@@ -372,7 +381,10 @@ int main(int, char** argv ){
 			}
 		}
 	}
-
+	if(NU[0] == 0) NU[0]=1;
+	if(NU[1] == 0) NU[1]=1;
+	if(NU[2] == 0) NU[2]=1;
+	
 	double RR1 = NR[0]/NU[0];
 	double RR2 = NR[1]/NU[1];
 	double RR3 = NR[2]/NU[2];
@@ -383,7 +395,6 @@ int main(int, char** argv ){
 	
 	printf("RR %.8f\n", RR);
 	
-	*/
-	
+	//*/
 	return 0;
 }
