@@ -12,9 +12,10 @@ using namespace std;
 const int INF = (int) 1e9;
 
 //Criando imagens do tipo Mat
-FILE *in, *out;
+FILE *in, *out0, *out1, *out2, *out3;
 
 Mat input, inputGray, inputIm[5], octave[4][5], dogI[4][4], response;
+Mat roi[4];
 
 bool isHDR = false;
 
@@ -53,10 +54,12 @@ uchar getMaxValue2(Mat src1){
 }
 	
 //Abrindo imagem no argumento da linha de comando
-void read(char *name){
+void read(char *name, char *argv2){
 	input = imread(name, IMREAD_UNCHANGED);
+	
 	//Gerando imagem grayscale
 	cvtColor(input, inputGray, COLOR_BGR2GRAY);
+	
 	//Conferindo se é HDR
 	if(input.depth() == CV_32F) {
 		isHDR = true;
@@ -65,41 +68,32 @@ void read(char *name){
 	}else isHDR = false;
 	
 	//Lendo arquivo com os pontos (x, y) da ROI
-	if(in != NULL){
-		float x, y;
-		while(fscanf(in, "%f%f", &x, &y) != EOF){
-			ROI.push_back(make_pair(x, y));
+	if(argv2 != NULL){
+		string path(argv2); //../dataset/2D/distance/100/100
+		string num = "";
+		while(true){
+			if(path.back() == '/'){
+				break;
+			}
+			num += path.back();
+			path.pop_back();
 		}
-		ROI.push_back(ROI[0]);
+		reverse(num.begin(), num.end());
 		
-		//Quadrado externo
-		quadROIo.push_back(ROI[0]);
-		quadROIo.push_back(ROI[1]);
-		quadROIo.push_back(make_pair(ROI[5].first, ROI[1].second));
-		quadROIo.push_back(ROI[5]);
-		//Quadrado Interno
-		quadROIi.push_back(ROI[3]);
-		quadROIi.push_back(ROI[2]);
-		quadROIi.push_back(make_pair(ROI[5].first, ROI[1].second));
-		quadROIi.push_back(ROI[4]);
+		roi[0] = imread(path+"ROI."+num+".png", IMREAD_UNCHANGED);
+		roi[1] = imread(path+"ROIh."+num+".png", IMREAD_UNCHANGED);
+		roi[2] = imread(path+"ROIm."+num+".png", IMREAD_UNCHANGED);
+		roi[3] = imread(path+"ROIs."+num+".png", IMREAD_UNCHANGED);
+		
 	}else{
-		//Imagem completa (normal)
-		ROI.push_back(make_pair(0, 0));
-		ROI.push_back(make_pair(input.cols, 0));
-		ROI.push_back(make_pair(input.cols, input.rows));
-		ROI.push_back(make_pair(0, input.rows));
-		ROI.push_back(make_pair(0, 0));
+		roi[0] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
+		roi[1] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
+		roi[2] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
+		roi[3] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
 		
-		//Quadrado externo
-		quadROIo.push_back(make_pair(0, 0));
-		quadROIo.push_back(make_pair(input.cols, 0));
-		quadROIo.push_back(make_pair(input.cols, input.rows));
-		quadROIo.push_back(make_pair(0, input.rows));
-		//Quadrado interno
-		quadROIi.push_back(make_pair(0, 0));
-		quadROIi.push_back(make_pair(1, 0));
-		quadROIi.push_back(make_pair(1, 1));
-		quadROIi.push_back(make_pair(0, 1));
+		for(int x = 0; x < input.cols; x++)
+			for(int y = 0; y < input.rows; y++)
+				roi[0].at<uchar>(y, x) = 1;
 	}
 }
 
@@ -112,7 +106,7 @@ void initOctaves(){
 	
 	for(int c = 0; c < 4; c++){ // escala
 		float ko = k[c];
-		for(int j = 0; j < 5; j++){
+		for(int j = 0; j < 5; j++){			
 			GaussianBlur(auxImg, octave[c][j], Size(gaussianSize,gaussianSize), ko, ko, BORDER_DEFAULT);
 			ko = ko * 1.414213562; // = ko*sqrt(2);
 		}
@@ -150,9 +144,15 @@ void nonMaximaSupression(){
 	for(int c = 0; c < 1; c++){
 		for(int z = 1; z < 3; z++){
 			Mat matAux = Mat::zeros(Size(dogI[c][z].cols, dogI[c][z].rows), CV_32F);
-			for(int x = 0; x < dogI[c][z].cols; x++){
-				for(int y = 0; y < dogI[c][z].rows; y++){
+			for(int x = 50; x < dogI[c][z].cols-50; x++){
+				for(int y = 50; y < dogI[c][z].rows-50; y++){
 					float mid = dogI[c][z].at<float>(y, x);	
+					
+					if(roi[0].at<uchar>(y, x) == 0){
+						matAux.at<float>(y, x) = 0;
+						continue;
+					}
+					
 					bool cond1 = true, cond2 = true;
 					int mSize2 = maskSize/2;
 					
@@ -200,70 +200,103 @@ void nonMaximaSupression(){
 }//Fim função
 
 //Passando o Limiar na imagem resultante response
-void threshold(){
+void threshold(float val){
 	//Atualizando threshold
-	float thresholdValue = 8; // Threshold fixo para teste do pribyl
+	float thresholdValue = val;
 	int cont = 0;
-	int begX = quadROIo[0].first, begY = quadROIo[0].second; 
-	int endX = quadROIo[2].first, endY = quadROIo[2].second;
-	int quadIYb = quadROIi[0].second, quadIYe = quadROIi[2].second;
-	int quadIXb = quadROIi[0].first, quadIXe = quadROIi[2].first;
-	int error = 0.014981273*(endY - begY);
-	
-	begY = begY + error;//Erro no limite superior do ROI
+	int begX = 0, begY = 0; 
+	int endX = inputGray.cols, endY = inputGray.rows;
 	
 	for(int c = 0; c < 1; c++){ //scale/octave
 		for(int z = 1; z < 3; z++){
 			for(int y = begY; y < endY-10; y++){
 				for(int x = begX; x < endX-10; x++){
-					if(y > quadIYb && y < quadIYe && x > quadIXb && x < quadIXe) //verificando se esta dentro do quadrado menor
-						continue;
 						
 					float val = fabs(dogI[c][z].at<float>(y, x));
 					if(val > thresholdValue){
 						keyPoint.push_back({x, y, c, z,val});
 						cont++;
 					}else{
-						 dogI[c][z].at<float>(y, x) = 0;	
-						 if(val != 0)
-							circle(input, Point (x, y), 5, Scalar(255, 0, 0), 1, 8, 0);
+						 dogI[c][z].at<float>(y, x) = 0;
 					}
 				}
 			}
-			//string s = to_string(c) + to_string(z);
-			//imshow(s, dogI[c][z]); waitKey(0);
 		}
-		cout<<"t:"<<cont<<endl;
+		cout<<"t: "<<cont<<endl;
 		cont = 0;
 			
 		begX /= 2; endX /= 2;
 		begY /= 2; endY /=2;
-		error /= 2;
-		quadIXb /= 2; quadIXe /= 2;
-		quadIYb /= 2; quadIYe /= 2;
 	}
 }
+void saveKeypoints(){
+	printf("Salvando keypoints ROIs no arquivo...\n");
+	
+	vector<pair<float, pair<int, int> > > aux1, aux2, aux3;
+	vector<pair<float, pair<int, int> > > aux;
+	
+    for(int i = 0; i < (int)keyPoint.size(); i++){
+		int y = keyPoint[i].y, x = keyPoint[i].x;
+		aux.push_back({-keyPoint[i].response, {y, x}});
+	}
+    sort(aux.begin(), aux.end());
+    
+    int quantMaxKP = 5400;
+    
+    for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
+	 	int y = aux[i].second.first, x = aux[i].second.second;
+	 	if(y >= roi[1].rows || x >= roi[1].cols) continue;
+	 	if(y >= roi[2].rows || x >= roi[2].cols) continue;
+	 	if(y >= roi[3].rows || x >= roi[3].cols) continue;
+	 	
+	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({aux[i].first, {y, x}});
+	 	else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({aux[i].first, {y, x}});
+	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({aux[i].first, {y, x}});
+    }
+    
+    if(aux3.size() > 500) aux3.clear();
+    
+    double T = aux1.size() + aux2.size() + aux3.size();
+	
+	double minFp = min(aux1.size()/T, min(aux2.size()/T, aux3.size()/T));
+	double maxFp = max(aux1.size()/T, max(aux2.size()/T, aux3.size()/T));
+	double D = 1 - (maxFp - minFp);
+	
+	//Salvando Distribution Rate
+	fprintf(out0, "%.4f\n", D);
+    
+	keyPoint.clear();
+	for(int i = 0; i < aux1.size(); i++)
+		keyPoint.push_back({aux1[i].second.first, aux1[i].second.second});
+	for(int i = 0; i < aux2.size(); i++)
+		keyPoint.push_back({aux2[i].second.first, aux2[i].second.second});
+	for(int i = 0; i < aux3.size(); i++)
+		keyPoint.push_back({aux3[i].second.first, aux3[i].second.second});
+	
+	//Salvando pontos ROI 1
+	fprintf(out1, "%d\n", (int)aux1.size());
+	for(int i = 0; i < (int)aux1.size(); i++)
+		fprintf(out1, "%d %d %.4f\n", aux1[i].second.first, aux1[i].second.second, -aux1[i].first);
+	fclose(out1);
+	//Salvando pontos ROI 2
+	fprintf(out2, "%d\n", (int)aux2.size());
+	for(int i = 0; i < (int)aux2.size(); i++)
+		fprintf(out2, "%d %d %.4f\n", aux2[i].second.first, aux2[i].second.second, -aux2[i].first);
+	fclose(out2);
+	//Salvando pontos ROI 3
+	fprintf(out3, "%d\n", (int)aux3.size());
+	for(int i = 0; i < (int)aux3.size(); i++)
+		fprintf(out3, "%d %d %.4f\n", aux3[i].second.first, aux3[i].second.second, -aux3[i].first);
+	fclose(out3);
+}
+
 
 void showKeyPoints(){
 	for(int i = 0; i < (int)keyPoint.size(); i++){
-		int x = keyPoint[i].x;
-		int y = keyPoint[i].y;
+		int x = keyPoint[i].y;
+		int y = keyPoint[i].x;
 
 		circle(input, Point (x, y), 4, Scalar(0, 0, 255), 1, 8, 0);
-	}
-}
-
-//Função para marcar na imagem final a ROI
-void showROI(){
-	float x, y, x1, y1;
-	x = ROI[0].first;
-	y = ROI[0].second;
-	for(int i = 1; i < (int)ROI.size(); i++){
-		x1 = ROI[i].first;
-		y1 = ROI[i].second;
-		line(input, Point (x, y), Point (x1, y1), Scalar(0, 0, 255), 5, 8, 0);
-		x = x1;
-		y = y1;
 	}
 }
 
@@ -274,11 +307,23 @@ int main(int, char** argv ){
 	char saida[255];
 	strcpy(saida, argv[1]);
 	saida[strlen(saida)-4] = '\0';
+	string saida2(saida);
 	
-	in = fopen(argv[2], "r");
-	out = fopen(saida, "w+");
+	string saida1 = saida2;
+	string saida3 = saida2;
+	string saida4 = saida3;
 	
-	read(argv[1]);
+	saida1 += ".dog.distribution.txt";
+	saida2 += ".dog1.txt";
+	saida3 += ".dog2.txt";
+	saida4 += ".dog3.txt";
+	
+	out0 = fopen(saida1.c_str(), "w+");
+	out1 = fopen(saida2.c_str(), "w+");
+	out2 = fopen(saida3.c_str(), "w+");
+	out3 = fopen(saida4.c_str(), "w+");
+	
+	read(argv[1], argv[2]);
 	
 	//Inicializando octaves
 	initOctaves();
@@ -290,26 +335,22 @@ int main(int, char** argv ){
 	nonMaximaSupression();
 	
 	//Limiar na imagem de Response
-	threshold();
-	
+	threshold(8); // Threshold fixo para teste do pribyl = 8
+		
 	//Limiar p/ edges response
 	//edgeThreshold(); 
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
-	printf("Salvando keypoints no arquivo...\n");
-	fprintf(out, "%d\n", (int)keyPoint.size());
-	for(int i = 0; i < (int)keyPoint.size(); i++){
-		fprintf(out, "%d %d %.2f\n", keyPoint[i].x , keyPoint[i].y, keyPoint[i].response);
-	}	
-	fclose(out);
+	saveKeypoints();
 	
 	showKeyPoints();
-	showROI();
 	
 	//Salvando imagens com Keypoints
 	int len = strlen(saida);
 	saida[len] = 'R';saida[len+1] = '.';saida[len+2] = 'j';saida[len+3] = 'p';saida[len+4] = 'g';saida[len+5] = '\0';
 	imwrite(saida, input);
+	
+	cout<<"done!\n";
 	
 	//Mostrando imagem com Keypoints
 	//imshow("Result", input);

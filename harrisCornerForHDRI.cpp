@@ -388,7 +388,7 @@ void saveKeypoints(){
 
 //Função Principal
 // ROI = Region Of Interest
-// Ex Chamada: ./harrisCornerForHDRI ../dataset/2D/distance/100/100.gLarson97.jpg ../dataset/2D/distance/100/100
+// Ex Chamada: 
 int main(int, char** argv ){
 	char saida[255];
 	strcpy(saida, argv[1]);
