@@ -1,0 +1,127 @@
+clear
+echo "lighting/001"
+
+./dog ../dataset/2D/lighting/001/001.gLarson97.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.gLogMap.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.gMantiuk08.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.gReinhard02.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.gReinhard05.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.HDR.hdr ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.LDR.histeq.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.LDR.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.lFattal02.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.lFattal09.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.lMantiuk06equ.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.lMantiuk06map.jpg ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.logHDR.hdr ../dataset/2D/lighting/001/001
+./dog ../dataset/2D/lighting/001/001.lReinhard02.jpg ../dataset/2D/lighting/001/001
+
+clear
+echo "lighting/010"
+
+./dog ../dataset/2D/lighting/010/010.gLarson97.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.gLogMap.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.gMantiuk08.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.gReinhard02.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.gReinhard05.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.HDR.hdr ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.LDR.histeq.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.LDR.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.lFattal02.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.lFattal09.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.lMantiuk06equ.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.lMantiuk06map.jpg ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.logHDR.hdr ../dataset/2D/lighting/010/010
+./dog ../dataset/2D/lighting/010/010.lReinhard02.jpg ../dataset/2D/lighting/010/010
+
+clear
+echo "lighting/011"
+
+./dog ../dataset/2D/lighting/011/011.gLarson97.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.gLogMap.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.gMantiuk08.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.gReinhard02.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.gReinhard05.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.HDR.hdr ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.LDR.histeq.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.LDR.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.lFattal02.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.lFattal09.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.lMantiuk06equ.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.lMantiuk06map.jpg ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.logHDR.hdr ../dataset/2D/lighting/011/011
+./dog ../dataset/2D/lighting/011/011.lReinhard02.jpg ../dataset/2D/lighting/011/011
+
+clear
+echo "lighting/100"
+
+./dog ../dataset/2D/lighting/100/100.gLarson97.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.gLogMap.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.gMantiuk08.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.gReinhard02.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.gReinhard05.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.HDR.hdr ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.LDR.histeq.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.LDR.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.lFattal02.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.lFattal09.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.lMantiuk06equ.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.lMantiuk06map.jpg ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.logHDR.hdr ../dataset/2D/lighting/100/100
+./dog ../dataset/2D/lighting/100/100.lReinhard02.jpg ../dataset/2D/lighting/100/100
+
+clear
+echo "lighting/101"
+
+./dog ../dataset/2D/lighting/101/101.gLarson97.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.gLogMap.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.gMantiuk08.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.gReinhard02.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.gReinhard05.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.HDR.hdr ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.LDR.histeq.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.LDR.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.lFattal02.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.lFattal09.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.lMantiuk06equ.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.lMantiuk06map.jpg ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.logHDR.hdr ../dataset/2D/lighting/101/101
+./dog ../dataset/2D/lighting/101/101.lReinhard02.jpg ../dataset/2D/lighting/101/101
+
+clear
+echo "lighting/110"
+
+./dog ../dataset/2D/lighting/110/110.gLarson97.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.gLogMap.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.gMantiuk08.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.gReinhard02.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.gReinhard05.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.HDR.hdr ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.LDR.histeq.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.LDR.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.lFattal02.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.lFattal09.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.lMantiuk06equ.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.lMantiuk06map.jpg ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.logHDR.hdr ../dataset/2D/lighting/110/110
+./dog ../dataset/2D/lighting/110/110.lReinhard02.jpg ../dataset/2D/lighting/110/110
+
+clear
+echo "lighting/111"
+
+./dog ../dataset/2D/lighting/111/111.gLarson97.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.gLogMap.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.gMantiuk08.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.gReinhard02.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.gReinhard05.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.HDR.hdr ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.LDR.histeq.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.LDR.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.lFattal02.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.lFattal09.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.lMantiuk06equ.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.lMantiuk06map.jpg ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.logHDR.hdr ../dataset/2D/lighting/111/111
+./dog ../dataset/2D/lighting/111/111.lReinhard02.jpg ../dataset/2D/lighting/111/111
+
+

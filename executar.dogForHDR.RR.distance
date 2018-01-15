@@ -1,0 +1,31 @@
+clear
+echo "dogForHDR RR/distance/BX.SX"
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gLarson97.dogForHDR1.txt ../dataset/2D/distance/SX/SX.gLarson97.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.gLarson97.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gLogMap.dogForHDR1.txt ../dataset/2D/distance/SX/SX.gLogMap.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.gLogMap.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gMantiuk08.dogForHDR1.txt ../dataset/2D/distance/SX/SX.gMantiuk08.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.gMantiuk08.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gReinhard02.dogForHDR1.txt ../dataset/2D/distance/SX/SX.gReinhard02.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.gReinhard02.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gReinhard05.dogForHDR1.txt ../dataset/2D/distance/SX/SX.gReinhard05.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.gReinhard05.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.HDR.dogForHDR1.txt ../dataset/2D/distance/SX/SX.HDR.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.HDR.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.LDR.histeq.dogForHDR1.txt ../dataset/2D/distance/SX/SX.LDR.histeq.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.LDR.histeq.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.LDR.dogForHDR1.txt ../dataset/2D/distance/SX/SX.LDR.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.LDR.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lFattal02.dogForHDR1.txt ../dataset/2D/distance/SX/SX.lFattal02.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.lFattal02.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lFattal09.dogForHDR1.txt ../dataset/2D/distance/SX/SX.lFattal09.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.lFattal09.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lMantiuk06equ.dogForHDR1.txt ../dataset/2D/distance/SX/SX.lMantiuk06equ.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.lMantiuk06equ.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lMantiuk06map.dogForHDR1.txt ../dataset/2D/distance/SX/SX.lMantiuk06map.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.lMantiuk06map.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.logHDR.dogForHDR1.txt ../dataset/2D/distance/SX/SX.logHDR.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.logHDR.dogForHDR1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lReinhard02.dogForHDR1.txt ../dataset/2D/distance/SX/SX.lReinhard02.dogForHDR1.txt > ../dataset/2D/distance/RR/RR.lReinhard02.dogForHDR1.txt
+

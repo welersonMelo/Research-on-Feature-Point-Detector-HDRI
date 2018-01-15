@@ -180,7 +180,7 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-    int quantMaxKP = 400;
+    int quantMaxKP = 500;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;

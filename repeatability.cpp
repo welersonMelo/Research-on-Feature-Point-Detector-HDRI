@@ -107,8 +107,8 @@ void calculandoRR(int quantK){
 			// Calculando a distância em pixel entre os dois pontos
 			int dist = max(abs(x - x1) , abs(y - y1)); 
 			
-			//Se estiver dentro do raio de X pixels
-			if(dist < 12){ 
+			//Se estiver dentro do raio de 19 pixels
+			if(dist < 19){ 
 				//visited[j] = 1;
 				struct Line linhaAux;
 				linhaAux.p1 = make_pair(keyPointB2[i].second.first, keyPointB2[i].second.second);
@@ -310,7 +310,12 @@ int main(int, char** argv ){
 	
 	printf("%.2f\n", medDist*100);	
 	
+	*/
+	
 	//Executando rr para distancia
+	 
+	/*
+	
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
 	int cont = 0;
 	int siz = 7;
@@ -336,7 +341,7 @@ int main(int, char** argv ){
 	
 	printf("RR %.8f\n", RR);
 	
-	*/
+	//*/
 	/*
 			
 	//executanto rr para ligthing ---------------------------------------------------------------------------------

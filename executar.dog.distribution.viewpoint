@@ -1,0 +1,31 @@
+clear
+echo "dog distribution/viewpoint/BX.SX"
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gLarson97.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.gLarson97.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.gLarson97.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gLogMap.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.gLogMap.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.gLogMap.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gMantiuk08.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.gMantiuk08.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.gMantiuk08.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gReinhard02.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.gReinhard02.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.gReinhard02.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gReinhard05.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.gReinhard05.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.gReinhard05.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.HDR.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.HDR.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.HDR.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.LDR.histeq.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.LDR.histeq.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.LDR.histeq.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.LDR.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.LDR.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.LDR.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lFattal02.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.lFattal02.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lFattal02.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lFattal09.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.lFattal09.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lFattal09.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lMantiuk06equ.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.lMantiuk06equ.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lMantiuk06equ.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lMantiuk06map.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.lMantiuk06map.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lMantiuk06map.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.logHDR.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.logHDR.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.logHDR.dog.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lReinhard02.dog.distribution.txt ../dataset/2D/viewpoint/SX/SX.lReinhard02.dog.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lReinhard02.dog.distribution.txt
+
