@@ -286,6 +286,8 @@ int main(int, char** argv ){
 	
 	printf("%.2f\n", medDist*100);	
 
+	
+	
 	//executando distribution para light
 	
 	string light[] = {"001", "010", "011", "100", "101", "110", "111"};
@@ -310,11 +312,9 @@ int main(int, char** argv ){
 	
 	printf("%.2f\n", medDist*100);	
 	
-	*/
+	//*/
 	
 	//Executando rr para distancia
-	 
-	/*
 	
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
 	int cont = 0;
@@ -372,8 +372,8 @@ int main(int, char** argv ){
 
 	
 	//executanto rr para viewpoint ---------------------------------------------------------------------------------
-	*/
-	///*
+	//*/
+	/*
 	
 	string view[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 					 "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};

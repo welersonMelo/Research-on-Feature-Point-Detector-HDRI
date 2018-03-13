@@ -10,7 +10,6 @@ echo "lighting/001"
 ./harrisCornerForHDRI ../dataset/2D/lighting/001/001.LDR.histeq.jpg ../dataset/2D/lighting/001/001
 ./harrisCornerForHDRI ../dataset/2D/lighting/001/001.LDR.jpg ../dataset/2D/lighting/001/001
 ./harrisCornerForHDRI ../dataset/2D/lighting/001/001.lFattal02.jpg ../dataset/2D/lighting/001/001
-./harrisCornerForHDRI ../dataset/2D/lighting/001/001.lFattal09.jpg ../dataset/2D/lighting/001/001
 ./harrisCornerForHDRI ../dataset/2D/lighting/001/001.lMantiuk06equ.jpg ../dataset/2D/lighting/001/001
 ./harrisCornerForHDRI ../dataset/2D/lighting/001/001.lMantiuk06map.jpg ../dataset/2D/lighting/001/001
 ./harrisCornerForHDRI ../dataset/2D/lighting/001/001.logHDR.hdr ../dataset/2D/lighting/001/001

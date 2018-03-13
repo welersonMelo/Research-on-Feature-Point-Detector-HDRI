@@ -353,13 +353,11 @@ void threshold(){
 			
 			cout<<"maior : "<<maior<<endl;
 			
-			float thresholdValue = maior * 0.50; //
-			
 			for(int y = begY; y < endY-10; y++){
 				for(int x = begX; x < endX-10; x++){
 					float val = fabs(dogI[c][z].at<float>(y, x));
 					
-					if(val > thresholdValue){
+					if(val > 0){
 						keyPoint.push_back({x, y, c, z,val});
 						cont++;
 					}else{
@@ -397,7 +395,7 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-    int quantMaxKP = 5400;
+    int quantMaxKP = 500;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
@@ -485,9 +483,9 @@ void edgeThreshold(){
 			if(response.at<float>(y, x) != 0)
 				auxKp.push_back(keyPoint[i]);
 		}
-		
 		keyPoint = auxKp;
-								
+		
+		cout<<"edgeThr end\n";			
 	}
 
 }
@@ -537,7 +535,8 @@ int main(int, char** argv ){
 		
 	//Limiar p/ edges response
 	edgeThreshold(); 
-	
+
+	/*
 	//Armengue para ver imagem hdr	---------------------------------------------------------
 	for(int y = 0; y < input.rows; y++){
 		for(int x = 0; x < input.cols; x++){
@@ -546,6 +545,7 @@ int main(int, char** argv ){
 			input.at<Vec3f>(y, x)[2] *= 300;	
 		}
 	}
+	*/
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	saveKeypoints();

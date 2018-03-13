@@ -95,8 +95,8 @@ void responseCalc(){
 //Passando o Limiar na imagem resultante response
 void thresholdR(){
 	//Atualizando threshold
-	//thresholdValue = 8*(1e14); // Threshold fixo para teste do pribyl
-	thresholdValue = 1;
+	thresholdValue = 8*(1e14); // Threshold fixo para teste do pribyl
+	//thresholdValue = 1;
 	
 	//Valor dentro da area externa
 	int begX = 0, begY = 0; 
@@ -160,11 +160,18 @@ void nonMaximaSupression(){
 }//Fim função
 
 void showKeyPoints(){
+	
+	for(int i = 0; i <(int)input.rows; i++)
+		circle(input, Point (1354, i), 1, Scalar(0, 255, 0), 1, 8, 0);
+	
 	for(int i = 0; i < (int)keyPoint.size(); i++){
 		int x = keyPoint[i].first;
 		int y = keyPoint[i].second;
 		//printf("%d %d\n", x, y);
+		circle(input, Point (y, x), 4, Scalar(0, 0, 255), 1, 8, 0);	
 		circle(input, Point (y, x), 3, Scalar(0, 0, 255), 1, 8, 0);	
+		circle(input, Point (y, x), 2, Scalar(0, 0, 255), 1, 8, 0);	
+		circle(input, Point (y, x), 1, Scalar(0, 0, 255), 1, 8, 0);	
 	}
 }
 
