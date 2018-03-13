@@ -241,7 +241,11 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
+<<<<<<< HEAD:dog.cpp
     int quantMaxKP = 500;
+=======
+    int quantMaxKP = 5400;
+>>>>>>> a9cd81b43283ee74ef0b0922078b984bee8a5508:sift.cpp
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
