@@ -138,7 +138,7 @@ void thresholdR(){
 	int endX = response.cols, endY = response.rows;
 		
 	float maior = getMaxValue(response, begX, endX, begY, endY);
-	thresholdValue = maior * 0.05; 	
+	thresholdValue = maior * 0.000000005; 	
 	//thresholdValue = 0.1;
 	
 	for(int row = begY; row < endY; row++){
@@ -356,7 +356,7 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-    int quantMaxKP = 1500;
+    int quantMaxKP = 500;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
@@ -435,7 +435,7 @@ int main(int, char** argv ){
 	//Tranformaçao logarítimica com constante c = 2 na imagem inputGray
 	//logTranformUchar(2);
 
-	inputGray = inputGray.mul(60);
+	inputGray = inputGray.mul(70);
 	//imwrite("in1.png", inputGray);
 	
 	//Inicalizando com a gaussiana

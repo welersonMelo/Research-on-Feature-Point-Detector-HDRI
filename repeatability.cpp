@@ -272,9 +272,8 @@ void executeDistribution(char** argv, string base){
 int main(int, char** argv ){
 	
 	//Executar um por vez, comentar os q n forem executar no momento
-	
-	//executando distribution para distancia
 	/*
+	//executando distribution para distancia
 	 
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
 	int siz = 7;
@@ -286,7 +285,6 @@ int main(int, char** argv ){
 	
 	printf("%.2f\n", medDist*100);	
 
-	
 	
 	//executando distribution para light
 	
@@ -300,6 +298,8 @@ int main(int, char** argv ){
 	
 	printf("%.2f\n", medDist*100);	
 	
+	/*
+	
 	//executando distribution para viewpoint
 	
 	string view[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
@@ -311,9 +311,8 @@ int main(int, char** argv ){
 	double medDist = sumDist/siz;
 	
 	printf("%.2f\n", medDist*100);	
-	
-	//*/
-	
+	*/
+	/*
 	//Executando rr para distancia
 	
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
@@ -341,9 +340,8 @@ int main(int, char** argv ){
 	
 	printf("RR %.8f\n", RR);
 	
-	//*/
-	/*
-			
+	
+	/*		
 	//executanto rr para ligthing ---------------------------------------------------------------------------------
 	
 	string ligh[] = {"001", "010", "011", "100", "101", "110", "111"};
@@ -373,7 +371,6 @@ int main(int, char** argv ){
 	
 	//executanto rr para viewpoint ---------------------------------------------------------------------------------
 	//*/
-	/*
 	
 	string view[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 					 "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
