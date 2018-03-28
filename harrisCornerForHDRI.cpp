@@ -138,8 +138,9 @@ void thresholdR(){
 	int endX = response.cols, endY = response.rows;
 		
 	float maior = getMaxValue(response, begX, endX, begY, endY);
-	thresholdValue = maior * 0.000000005; 	
-	//thresholdValue = 0.1;
+	//threshold "nulo" para o RR
+	thresholdValue = maior * 0.000000005; 
+	
 	
 	for(int row = begY; row < endY; row++){
 		for(int col = begX; col < endX; col++){
@@ -219,32 +220,31 @@ Mat coefficienceOfVariationMask(){
 		for(int x = 0; x < response.cols; x++)
 			response2.at<float>(y, x) = (response.at<float>(y, x) * response.at<float>(y, x));
 	
-	//Pre-processamento	- melhorando complexidade -----------------
-	queue<float> fila1, fila2;
-	int yBeg = 0, yEnd = n-1;
-	for(int y = yBeg; y <= yEnd; y++){
-		for(int j = (n/2); j < response.cols - (n/2); j++){
-			int xBeg = j-(n/2), xEnd = j+(n/2);
+	//Testando a gaussiana 5x5 na média
 			
-			float sumLinha1 = 0, sumLinha2 = 0;
-			
-			for(int x = xBeg; x <= xEnd; x++){
-				sumLinha1 += response.at<float>(y, x);
-				sumLinha2 += response2.at<float>(y, x);
-			}
-			fila1.push(sumLinha1);
-			fila2.push(sumLinha2);
-		}
-	}
+	/*
+	float gaussMask[5][5];
+	gausMask[0][0] = 2;gausMask[0][1] = 4;gausMask[0][2] = 5;gausMask[0][3] = 4;gausMask[0][4] = 2;
+	gausMask[1][0] = 4;gausMask[1][1] = 9;gausMask[1][2] = 12;gausMask[1][3]= 9;gausMask[1][4]=  4;
+	gausMask[2][0] = 5;gausMask[2][1] = 12;gausMask[2][2]= 15;gausMask[2][3]= 12;gausMask[2][4]= 5;
+	gausMask[3][0] = 4;gausMask[3][1] = 9;gausMask[3][2] = 12;gausMask[3][3]= 9;gausMask[3][4]=  4;
+	gausMask[4][0] = 2;gausMask[4][1] = 4;gausMask[4][2] = 5;gausMask[4][3] = 4;gausMask[4][4] = 2;
+	*/
 	
-	float sum1 = 0, sum2 = 0;
+	float gerador[] = {1, 4, 9, 4, 1};
+	Mat gaussianBox = Mat::zeros(cv::Size(5, 5), CV_32F);
+	Mat gen1 = cv::Mat(1, 5, CV_32F, gerador);
+	Mat gen2 = cv::Mat(5, 1, CV_32F, gerador);
+	gaussianBox = gen2*gen1;
 	
-	for(int y = 1; y < n; y++){
-		for(int x = 0; x <= n; x++){
-			sum1 += response.at<float>(y, x);
-			sum2 += response2.at<float>(y, x);
-		}
-	}
+	int SUM = 0; // A soma de todos os valores da mascara gaussiana 5x5
+	
+	for(int R = 0; R < 5; R++)
+		for(int C = 0; C < 5; C++)
+			SUM += gaussianBox.at<float>(R, C);
+		
+	cout<<"S:"<< SUM <<endl;
+	cout<<gaussianBox<<endl;
 	
 	//"Convolution"
 	for(int i = (n/2)+1; i < response.rows - (n/2); i++){
@@ -254,58 +254,22 @@ Mat coefficienceOfVariationMask(){
 			float sumVal = 0, sumVal2 = 0, maior = 0;
 			int xBeg = j-(n/2), xEnd = j+(n/2);
 			
-			/*
-			for(int x = xBeg; x <= xEnd; x++){
-				sumVal += response.at<float>(y, x);
-				sumVal2 += response2.at<float>(y, x);
-			}
-			
-			sum1 = sum1 - fila1.front() + sumVal;
-			sum2 = sum2 - fila2.front() + sumVal2;
-			
-			fila1.pop(); fila2.pop();
-			fila1.push(sumVal);
-			fila2.push(sumVal2);
-			*/
-			
-			//Testando a gaussiana 5x5 na média
-			
-			float gausMask[5][5];
-			
-			gausMask[0][0] = 2;gausMask[0][1] = 4;gausMask[0][2] = 5;gausMask[0][3] = 4;gausMask[0][4] = 2;
-			gausMask[1][0] = 4;gausMask[1][1] = 9;gausMask[1][2] = 12;gausMask[1][3]= 9;gausMask[1][4]=  4;
-			gausMask[2][0] = 5;gausMask[2][1] = 12;gausMask[2][2]= 15;gausMask[2][3]= 12;gausMask[2][4]= 5;
-			gausMask[3][0] = 4;gausMask[3][1] = 9;gausMask[3][2] = 12;gausMask[3][3]= 9;gausMask[3][4]=  4;
-			gausMask[4][0] = 2;gausMask[4][1] = 4;gausMask[4][2] = 5;gausMask[4][3] = 4;gausMask[4][4] = 2;
-			
 			for(int y = yBeg, I = 0; y <= yEnd; y++, I++){
 				for(int x = xBeg, J = 0; x <= xEnd; x++, J++){
-					sumVal += (response.at<float>(y, x) * gausMask[I][J]);
-					sumVal2 += response2.at<float>(y, x);
-					//maior = max(maior, response.at<float>(y, x));
+					sumVal += (response.at<float>(y, x) * gaussianBox.at<float>(I, J));
+					sumVal2 += (response2.at<float>(y, x));
 				}
 			}
 			
-			int SUM = 159; // A soma de todos os valores da mascara gaussiana 5x5
-			float media = sumVal/SUM;			
-			//float media = sumVal/N;
+			float media = sumVal/SUM;
 			
 			float variancia = (sumVal2/N) - (media*media);
 
 			float S = sqrt(variancia); // desvio padrao
 			float CV = media == 0? 0 : S/media; // Coef de Variacao
-			auxResponse.at<float>(i, j) = CV * 100;
-			
-			//printf("%d %d %f\n", i, j, CV);
-			//printf("%.8f %.8f %.8f %.8f %.8f %.8f\n", sumVal, sumVal2, media, variancia, S, CV);
-			
-			mediaGeral += CV;	
+			auxResponse.at<float>(i, j) = CV;
 		}
 	}
-
-	mediaGeral = mediaGeral/((response.cols-n)*(response.rows-n));
-	//printf("Media do Coefv = %.10f\n", mediaGeral);//
-	
 	//Response recebe o valor de coef salvo em aux
 	response = auxResponse;
 	
@@ -356,7 +320,7 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-    int quantMaxKP = 500;
+    int quantMaxKP = 1000;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
@@ -435,8 +399,8 @@ int main(int, char** argv ){
 	//Tranformaçao logarítimica com constante c = 2 na imagem inputGray
 	//logTranformUchar(2);
 
-	inputGray = inputGray.mul(70);
-	//imwrite("in1.png", inputGray);
+	inputGray = inputGray.mul(80);
+	imwrite("in1.png", inputGray);
 	
 	//Inicalizando com a gaussiana
 	GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
@@ -473,7 +437,7 @@ int main(int, char** argv ){
 	printf("quantidade final KeyPoints: %d\n", quantKeyPoints);
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
-	saveKeypoints();
+	saveKeypoints(); 
 	
 	/*
 	//Armengue para ver imagem hdr	---------------------------------------------------------

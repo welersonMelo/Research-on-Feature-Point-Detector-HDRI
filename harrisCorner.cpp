@@ -95,8 +95,8 @@ void responseCalc(){
 //Passando o Limiar na imagem resultante response
 void thresholdR(){
 	//Atualizando threshold
-	thresholdValue = 8*(1e14); // Threshold fixo para teste do pribyl
-	//thresholdValue = 1;
+	//thresholdValue = 8*(1e14); // Threshold fixo para teste do pribyl
+	thresholdValue = 1;
 	
 	//Valor dentro da area externa
 	int begX = 0, begY = 0; 
@@ -187,7 +187,7 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-    int quantMaxKP = 500;
+    int quantMaxKP = 1000;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
@@ -251,6 +251,7 @@ void showResponse(string name){
 // ROI = Region Of Interest
 // Ex Chamada: ./harrisCorner ../dataset/2D/distance/100/100.gLarson97.jpg ../dataset/2D/distance/100/100.ROI.txt
 int main(int, char** argv ){
+	
 	char saida[255];
 	strcpy(saida, argv[1]);
 	saida[strlen(saida)-4] = '\0';

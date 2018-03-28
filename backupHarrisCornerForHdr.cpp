@@ -138,8 +138,8 @@ void thresholdR(){
 	int endX = response.cols, endY = response.rows;
 		
 	float maior = getMaxValue(response, begX, endX, begY, endY);
-	thresholdValue = maior * 0.15; 	
-	//thresholdValue = 0.1;
+	thresholdValue = maior * 0.15;
+	//thresholdValue = 0.0000000001;
 	
 	for(int row = begY; row < endY; row++){
 		for(int col = begX; col < endX; col++){
@@ -254,20 +254,6 @@ Mat coefficienceOfVariationMask(){
 			float sumVal = 0, sumVal2 = 0, maior = 0;
 			int xBeg = j-(n/2), xEnd = j+(n/2);
 			
-			/*
-			for(int x = xBeg; x <= xEnd; x++){
-				sumVal += response.at<float>(y, x);
-				sumVal2 += response2.at<float>(y, x);
-			}
-			
-			sum1 = sum1 - fila1.front() + sumVal;
-			sum2 = sum2 - fila2.front() + sumVal2;
-			
-			fila1.pop(); fila2.pop();
-			fila1.push(sumVal);
-			fila2.push(sumVal2);
-			*/
-			
 			for(int y = yBeg; y <= yEnd; y++){
 				for(int x = xBeg; x <= xEnd; x++){
 					sumVal += response.at<float>(y, x);
@@ -282,7 +268,8 @@ Mat coefficienceOfVariationMask(){
 
 			float S = sqrt(variancia); // desvio padrao
 			float CV = media == 0? 0 : S/media; // Coef de Variacao
-			auxResponse.at<float>(i, j) = CV * 100;
+			
+			auxResponse.at<float>(i, j) = CV;
 			
 			//printf("%d %d %f\n", i, j, CV);
 			//printf("%.8f %.8f %.8f %.8f %.8f %.8f\n", sumVal, sumVal2, media, variancia, S, CV);
@@ -419,12 +406,9 @@ int main(int, char** argv ){
 	//GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
 	
 	inputGray = coefficienceOfVariationMask();
-	
-	//Tranformaçao logarítimica com constante c = 2 na imagem inputGray
-	//logTranformUchar(2);
 
 	inputGray = inputGray.mul(60);
-	imwrite("in1.png", inputGray);
+	//imwrite("in1.png", inputGray);
 	
 	//Inicalizando com a gaussiana
 	GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
@@ -461,7 +445,7 @@ int main(int, char** argv ){
 	printf("quantidade final KeyPoints: %d\n", quantKeyPoints);
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
-	saveKeypoints();
+	saveKeypoints(); 
 	
 	/*
 	//Armengue para ver imagem hdr	---------------------------------------------------------
