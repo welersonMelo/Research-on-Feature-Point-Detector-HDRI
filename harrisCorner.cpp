@@ -187,7 +187,7 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-    int quantMaxKP = 1000;
+    int quantMaxKP = 800;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
@@ -310,6 +310,14 @@ int main(int, char** argv ){
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	saveKeypoints();
+	
+	for(int y = 0; y < input.rows; y++){
+		for(int x = 0; x < input.cols; x++){
+			input.at<Vec3f>(y, x)[0] *= 300;
+			input.at<Vec3f>(y, x)[1] *= 300;
+			input.at<Vec3f>(y, x)[2] *= 300;	
+		}
+	}
 	
 	showKeyPoints();
 	

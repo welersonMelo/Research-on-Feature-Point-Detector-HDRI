@@ -1,4 +1,4 @@
-//g++ -ggdb `pkg-config --cflags opencv` -o `basename repeatability.cpp .cpp` repeatability.cpp `pkg-config --libs opencv`
+//g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename repeatability.cpp .cpp` repeatability.cpp `pkg-config --libs opencv`
 
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
@@ -243,7 +243,7 @@ void execute(char** argv, string base, string saida){
 
 float sumDist = 0;
 
-void executeDistribution(char** argv, string base){	
+void executeUniformity(char** argv, string base){	
 	
 	string txt0(argv[1]), txt1(argv[2]), txt2(argv[3]);
 		
@@ -269,52 +269,41 @@ void executeDistribution(char** argv, string base){
 
 //Função Principal
 //Chamada: 
-int main(int, char** argv ){
-	
-	//Executar um por vez, comentar os q n forem executar no momento
-	/*
-	//executando distribution para distancia
-	 
+
+void distanceUniformity(char ** argv){
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
 	int siz = 7;
 	for(int i = 0; i < siz; i++){
-		executeDistribution(argv, distance[i]);
+		executeUniformity(argv, distance[i]);
 	}
 	
 	double medDist = sumDist/siz;
 	
 	printf("%.2f\n", medDist*100);	
-
-	
-	//executando distribution para light
-	
+}
+void lightUniformity(char **argv){
 	string light[] = {"001", "010", "011", "100", "101", "110", "111"};
 	int siz = 7;
 	for(int i = 0; i < siz; i++){
-		executeDistribution(argv, light[i]);
+		executeUniformity(argv, light[i]);
 	}
 	
 	double medDist = sumDist/siz;
 	
 	printf("%.2f\n", medDist*100);	
-	
-	/*
-	
-	//executando distribution para viewpoint
-	
+}
+void viewpointUniformity(char **argv){
 	string view[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
 	int siz = 21;
 	for(int i = 0; i < siz; i++){
-		executeDistribution(argv, view[i]);
+		executeUniformity(argv, view[i]);
 	}
 	
 	double medDist = sumDist/siz;
 	
 	printf("%.2f\n", medDist*100);	
-	*/
-	/*
-	//Executando rr para distancia
-	
+}
+void distanceRR(char **argv){
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
 	int cont = 0;
 	int siz = 7;
@@ -335,15 +324,12 @@ int main(int, char** argv ){
 	double RR3 = NR[2]/NU[2];
 	
 	double RR = min(RR1, min(RR2, RR3));
-	
+	//double RR = (RR1 + RR2 + RR3)/3;
 	//printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
 	
 	printf("RR %.8f\n", RR);
-	
-	
-	/*		
-	//executanto rr para ligthing ---------------------------------------------------------------------------------
-	
+}
+void lightRR(char **argv){
 	string ligh[] = {"001", "010", "011", "100", "101", "110", "111"};
 	int cont = 0;
 	int siz = 7;
@@ -367,11 +353,8 @@ int main(int, char** argv ){
 	//printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
 	
 	printf("RR %.8f\n", RR);
-
-	
-	//executanto rr para viewpoint ---------------------------------------------------------------------------------
-	//*/
-	
+}
+void viewpointRR(char **argv){
 	string view[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
 					 "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
 					 
@@ -396,7 +379,16 @@ int main(int, char** argv ){
 	//printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
 	
 	printf("RR %.8f\n", RR);
+}
+
+int main(int, char** argv ){
+		
+	//distanceUniformity(argv);
+	//lightUniformity(argv);
+	//viewpointUniformity(argv);
+	distanceRR(argv);
+	//lightRR(argv);
+	//viewpointRR(argv);
 	
-	//*/
 	return 0;
 }

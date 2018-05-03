@@ -16,7 +16,7 @@ const float k = 0.04;//Constante calculo response
 //Criando imagens do tipo Mat
 FILE *in, *out0, *out1, *out2, *out3;
 
-Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response, integralIm;
+Mat input, inputGray, Ix, Iy, Ix2, Iy2, Ixy, response;
 Mat roi[4];
 
 bool isHDR = false;
@@ -221,23 +221,14 @@ Mat coefficienceOfVariationMask(){
 			response2.at<float>(y, x) = (response.at<float>(y, x) * response.at<float>(y, x));
 	
 	//Testando a gaussiana 5x5 na média
-			
-	/*
-	float gaussMask[5][5];
-	gausMask[0][0] = 2;gausMask[0][1] = 4;gausMask[0][2] = 5;gausMask[0][3] = 4;gausMask[0][4] = 2;
-	gausMask[1][0] = 4;gausMask[1][1] = 9;gausMask[1][2] = 12;gausMask[1][3]= 9;gausMask[1][4]=  4;
-	gausMask[2][0] = 5;gausMask[2][1] = 12;gausMask[2][2]= 15;gausMask[2][3]= 12;gausMask[2][4]= 5;
-	gausMask[3][0] = 4;gausMask[3][1] = 9;gausMask[3][2] = 12;gausMask[3][3]= 9;gausMask[3][4]=  4;
-	gausMask[4][0] = 2;gausMask[4][1] = 4;gausMask[4][2] = 5;gausMask[4][3] = 4;gausMask[4][4] = 2;
-	*/
 	
-	float gerador[] = {1, 4, 9, 4, 1};
+	float gerador[] = {0.06136,	0.24477,	0.38774,	0.24477,	0.06136};
 	Mat gaussianBox = Mat::zeros(cv::Size(5, 5), CV_32F);
 	Mat gen1 = cv::Mat(1, 5, CV_32F, gerador);
 	Mat gen2 = cv::Mat(5, 1, CV_32F, gerador);
 	gaussianBox = gen2*gen1;
 	
-	int SUM = 0; // A soma de todos os valores da mascara gaussiana 5x5
+	float SUM = 0; // A soma de todos os valores da mascara gaussiana 5x5
 	
 	for(int R = 0; R < 5; R++)
 		for(int C = 0; C < 5; C++)
@@ -264,7 +255,6 @@ Mat coefficienceOfVariationMask(){
 			float media = sumVal/SUM;
 			
 			float variancia = (sumVal2/N) - (media*media);
-
 			float S = sqrt(variancia); // desvio padrao
 			float CV = media == 0? 0 : S/media; // Coef de Variacao
 			auxResponse.at<float>(i, j) = CV;
@@ -320,7 +310,7 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-    int quantMaxKP = 1000;
+    int quantMaxKP = 400;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
@@ -328,8 +318,6 @@ void saveKeypoints(){
 	 	else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({-response.at<float>(y, x), {y, x}});
 	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({-response.at<float>(y, x), {y, x}});
     }
-    
-    //if(aux3.size() > 500) aux3.clear();
     
     double T = aux1.size() + aux2.size() + aux3.size();
 	
@@ -392,18 +380,15 @@ int main(int, char** argv ){
 	read(argv[1], argv[2]);
 	
 	//Inicalizando com a gaussiana
-	GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
+	//GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0.4, 0.4, BORDER_DEFAULT);
 	
 	inputGray = coefficienceOfVariationMask();
-	
-	//Tranformaçao logarítimica com constante c = 2 na imagem inputGray
-	//logTranformUchar(2);
 
-	inputGray = inputGray.mul(80);
+	inputGray = inputGray.mul(60);
 	imwrite("in1.png", inputGray);
 	
 	//Inicalizando com a gaussiana
-	GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 0, 0, BORDER_DEFAULT);
+	GaussianBlur(inputGray, inputGray, Size(gaussianSize,gaussianSize), 2.4, 2.4, BORDER_DEFAULT);
 	
 	//Computando sobel operator (derivada da gaussiana) no eixo x e y
 	Sobel(inputGray, Ix, CV_32F, 1, 0, 7, 1, 0, BORDER_DEFAULT);

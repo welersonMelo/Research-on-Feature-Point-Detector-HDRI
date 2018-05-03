@@ -1,0 +1,1 @@
+g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename repeatability.cpp .cpp` repeatability.cpp `pkg-config --libs opencv`
