@@ -13,11 +13,9 @@ using namespace std;
 //Criando imagens do tipo Mat
 FILE *in, *out0, *out1, *out2, *out3;
 
-Mat Dxx[5][5], Dyy[5][5], Dxy[5][5], responseBlob[5][5];
+Mat Dxx, Dyy, Dxy, responseBlob[5][5];
 Mat input, inputGray, response;
 Mat roi[4];
-
-Mat aux = Mat::zeros(cv::Size(5000, 5000), CV_64F);
 
 vector<unsigned int> integralImg[5000];
 
@@ -182,10 +180,9 @@ void calcDyy(int i, int j, int s, int sY, int sX){
 			
 			double sum = -2 * sum2 + sum1 + sum3;
 			
-			Dyy[i][j].at<double>(midY, midX) = sum;	
+			Dyy.at<double>(midY, midX) = sum;
 		}
 	}
-	cout<<"ok2\n";
 }
 //Calculando Dxx onde s é o tamanho da mascara, sY o tamanho da area com valor no eixo Y, e sX o tamanho da area com valor no eixo X
 void calcDxx(int i, int j, int s, int sY, int sX){ 
@@ -206,7 +203,7 @@ void calcDxx(int i, int j, int s, int sY, int sX){
 			
 			double sum = -2 * sum2 + sum1 + sum3;
 			
-			Dxx[i][j].at<double>(midY, midX) = sum;	
+			Dxx.at<double>(midY, midX) = sum;	
 		}
 	}
 }
@@ -231,7 +228,7 @@ void calcDxy(int i, int j, int s, int sYX){
 			
 			double sum = sum1 - sum2 + sum3 - sum4;
 			
-			Dxy[i][j].at<double>(midY, midX) = sum;	
+			Dxy.at<double>(midY, midX) = sum;	
 		}
 	}
 }
@@ -239,9 +236,14 @@ void calcDxy(int i, int j, int s, int sYX){
 void initOctaves(){
 	int maskSize[4][4] = {{9,15,21,27}, {15,27,39,51}, {27,51,75,99}, {51,99,147,195}}; //Melhorar tempo aqui depois tirando redundancia
 	
-	for(int i = 0; i < 4; i++){ 
+	Dxx = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
+	Dyy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
+	Dxy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
+	
+	for(int i = 0; i < 1; i++){  //Colocar de volta pra 4 depois
 		for(int j = 0; j < 4; j++){
 			//Eliminando Redundancia - melhorar essa parte 			
+			/*
 			if(i==1&&j==0){
 				Dyy[i][j] = Dyy[0][1];
 				Dxx[i][j] = Dxx[0][1];
@@ -263,24 +265,40 @@ void initOctaves(){
 				Dxy[i][j] = Dxy[2][3];
 				continue;
 			}
+			*/
 			
 			int s = maskSize[i][j];
 			int s3 = s/3;		
 			calcDyy(i, j, s, s3, 2*s3-1);
-			//calcDxx(i, j, s, 2*s3-1, s3);
-			//calcDxy(i, j, s, s3);
+			calcDxx(i, j, s, 2*s3-1, s3);
+			calcDxy(i, j, s, s3);
+			
+			responseBlob[i][j] = Dxx.mul(Dyy);
+			
+			for(int y = 1; y < inputGray.rows ; y++){
+				for(int x = 1; x < inputGray.cols ; x++){
+					responseBlob[i][j].at<double>(y, x) -= (0,81 * (Dxy.at<double>(y, x) * Dxy.at<double>(y, x)));
+				}
+			}
+			
+			
 		}
 	}
 	
-	imwrite("teste.png", Dyy[0][0]);
-	imwrite("teste2.png", Dxx[0][0]);
-	imwrite("teste3.png", Dxy[0][0]);
+	imwrite("response1.png", responseBlob[0][0]);
+	imwrite("response2.png", responseBlob[0][1]);
+	
+	cout<<"passou aqui 3!\n";
+	
+	//imwrite("teste.png", Dyy);
+	//imwrite("teste2.png", Dxx[0][0]);
+	//imwrite("teste3.png", Dxy[0][0]);
 }
 
 //Função Principal
 // ROI = Region Of Interest
 // Ex Chamada: 
-int main(int, char** argv ){
+int main(int, char** argv ){	
 	char saida[255];
 	strcpy(saida, argv[1]);
 	saida[strlen(saida)-4] = '\0';
