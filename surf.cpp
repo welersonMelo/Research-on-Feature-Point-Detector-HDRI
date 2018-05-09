@@ -240,32 +240,23 @@ void initOctaves(){
 	Dyy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	Dxy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	
-	for(int i = 0; i < 1; i++){  //Colocar de volta pra 4 depois
+	for(int i = 0; i < 4; i++){  //Colocar i de volta pra 4 depois
 		for(int j = 0; j < 4; j++){
 			//Eliminando Redundancia - melhorar essa parte 			
-			/*
+			
 			if(i==1&&j==0){
-				Dyy[i][j] = Dyy[0][1];
-				Dxx[i][j] = Dxx[0][1];
-				Dxy[i][j] = Dxy[0][1];
+				responseBlob[i][j] = responseBlob[0][1];
 				continue;
 			}else if((i==1&&j==1)||(i==2&&j==0)){
-				Dyy[i][j] = Dyy[0][3];
-				Dxx[i][j] = Dxx[0][3];
-				Dxy[i][j] = Dxy[0][3];
+				responseBlob[i][j] = responseBlob[0][3];
 				continue;
 			}else if((i==2&&j==1)||(i==3&&j==0)){
-				Dyy[i][j] = Dyy[1][3];
-				Dxx[i][j] = Dxx[1][3];
-				Dxy[i][j] = Dxy[1][3];
+				responseBlob[i][j] = responseBlob[1][3];
 				continue;
 			}else if(i==3&&j==1){
-				Dyy[i][j] = Dyy[2][3];
-				Dxx[i][j] = Dxx[2][3];
-				Dxy[i][j] = Dxy[2][3];
+				responseBlob[i][j] = responseBlob[2][3];
 				continue;
 			}
-			*/
 			
 			int s = maskSize[i][j];
 			int s3 = s/3;		
@@ -281,18 +272,19 @@ void initOctaves(){
 				}
 			}
 			
-			
 		}
 	}
 	
-	imwrite("response1.png", responseBlob[0][0]);
-	imwrite("response2.png", responseBlob[0][1]);
+	normalize(responseBlob[0][0], responseBlob[0][0], 0, 255, NORM_MINMAX, CV_8U, Mat());
+	normalize(responseBlob[0][1], responseBlob[0][1], 0, 255, NORM_MINMAX, CV_8U, Mat());
+	normalize(responseBlob[0][2], responseBlob[0][2], 0, 255, NORM_MINMAX, CV_8U, Mat());
+	normalize(responseBlob[0][3], responseBlob[0][3], 0, 255, NORM_MINMAX, CV_8U, Mat());
 	
-	cout<<"passou aqui 3!\n";
+	imwrite("response0.png", 255-responseBlob[0][0]);
+	imwrite("response1.png", 255-responseBlob[0][1]);
+	imwrite("response2.png", 255-responseBlob[0][2]);
+	imwrite("response3.png", 255-responseBlob[0][3]);
 	
-	//imwrite("teste.png", Dyy);
-	//imwrite("teste2.png", Dxx[0][0]);
-	//imwrite("teste3.png", Dxy[0][0]);
 }
 
 //Função Principal
