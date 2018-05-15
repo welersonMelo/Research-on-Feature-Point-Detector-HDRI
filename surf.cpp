@@ -240,7 +240,7 @@ void initOctaves(){
 	Dyy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	Dxy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	
-	for(int i = 0; i < 4; i++){  //Colocar i de volta pra 4 depois
+	for(int i = 0; i < 1; i++){  //Colocar i de volta pra 4 depois
 		for(int j = 0; j < 4; j++){
 			//Eliminando Redundancia - melhorar essa parte 			
 			
@@ -284,6 +284,10 @@ void initOctaves(){
 	imwrite("response1.png", 255-responseBlob[0][1]);
 	imwrite("response2.png", 255-responseBlob[0][2]);
 	imwrite("response3.png", 255-responseBlob[0][3]);
+	
+	Dxx.release();
+	Dyy.release();
+	Dxy.release();
 	
 }
 
@@ -345,4 +349,3 @@ int main(int, char** argv ){
 	
 	return 0;
 }
-
