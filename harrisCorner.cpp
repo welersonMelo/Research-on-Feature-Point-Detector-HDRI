@@ -161,17 +161,19 @@ void nonMaximaSupression(){
 
 void showKeyPoints(){
 	
-	for(int i = 0; i <(int)input.rows; i++)
-		circle(input, Point (1354, i), 1, Scalar(0, 255, 0), 1, 8, 0);
+	//for(int i = 0; i <(int)input.rows; i++)
+		//circle(input, Point (1354, i), 1, Scalar(0, 255, 0), 1, 8, 0);
 	
 	for(int i = 0; i < (int)keyPoint.size(); i++){
 		int x = keyPoint[i].first;
 		int y = keyPoint[i].second;
 		//printf("%d %d\n", x, y);
-		circle(input, Point (y, x), 4, Scalar(0, 0, 255), 1, 8, 0);	
-		circle(input, Point (y, x), 3, Scalar(0, 0, 255), 1, 8, 0);	
-		circle(input, Point (y, x), 2, Scalar(0, 0, 255), 1, 8, 0);	
-		circle(input, Point (y, x), 1, Scalar(0, 0, 255), 1, 8, 0);	
+		circle(input, Point (y, x), 6, Scalar(0, 0, 255), 1, 8, 0);
+		circle(input, Point (y, x), 5, Scalar(0, 0, 255), 1, 8, 0);
+		circle(input, Point (y, x), 4, Scalar(0, 0, 255), 1, 8, 0);
+		circle(input, Point (y, x), 3, Scalar(0, 255, 0), 1, 8, 0);
+		circle(input, Point (y, x), 2, Scalar(0, 255, 0), 1, 8, 0);
+		circle(input, Point (y, x), 1, Scalar(0, 255, 0), 1, 8, 0);
 	}
 }
 
@@ -187,7 +189,7 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-    int quantMaxKP = 800;
+    int quantMaxKP = 500;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
@@ -293,6 +295,11 @@ int main(int, char** argv ){
 	responseCalc();
 	//showResponse("Antes Th");	
 	
+	Mat aux1;
+	normalize(response, aux1, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
+	aux1*=5;
+	imwrite("response_1.png", aux1);
+	
 	//Limiar na imagem de Response
 	thresholdR();
 	
@@ -311,6 +318,7 @@ int main(int, char** argv ){
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	saveKeypoints();
 	
+	/*
 	for(int y = 0; y < input.rows; y++){
 		for(int x = 0; x < input.cols; x++){
 			input.at<Vec3f>(y, x)[0] *= 300;
@@ -318,6 +326,7 @@ int main(int, char** argv ){
 			input.at<Vec3f>(y, x)[2] *= 300;	
 		}
 	}
+	*/
 	
 	showKeyPoints();
 	

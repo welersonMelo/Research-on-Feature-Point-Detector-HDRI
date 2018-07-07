@@ -1,11 +1,6 @@
 clear
 echo "distance/100"
 
-./dog ../dataset/2D/distance/100/100.gLarson97.jpg ../dataset/2D/distance/100/100
-./dog ../dataset/2D/distance/100/100.gLogMap.jpg ../dataset/2D/distance/100/100
-./dog ../dataset/2D/distance/100/100.gMantiuk08.jpg ../dataset/2D/distance/100/100
-./dog ../dataset/2D/distance/100/100.gReinhard02.jpg ../dataset/2D/distance/100/100
-./dog ../dataset/2D/distance/100/100.gReinhard05.jpg ../dataset/2D/distance/100/100
 ./dog ../dataset/2D/distance/100/100.HDR.hdr ../dataset/2D/distance/100/100
 ./dog ../dataset/2D/distance/100/100.LDR.histeq.jpg ../dataset/2D/distance/100/100
 ./dog ../dataset/2D/distance/100/100.LDR.jpg ../dataset/2D/distance/100/100

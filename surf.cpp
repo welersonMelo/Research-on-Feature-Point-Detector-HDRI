@@ -23,7 +23,12 @@ bool isHDR = false;
 
 int quantKeyPoints = 0;
 
-vector<pair<int, int> > keyPoint;	
+struct KeyPoints{
+	int x, y, scale;//posicao (x, y) e o octave ou escala da imagem
+	double response;
+};
+
+vector<KeyPoints> keyPoint;
 	
 //Abrindo imagem no argumento da linha de comando
 void read(char *name, char *argv2){
@@ -63,49 +68,56 @@ void read(char *name, char *argv2){
 		roi[2] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
 		roi[3] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
 		
-		for(int x = 0; x < input.cols; x++)
-			for(int y = 0; y < input.rows; y++)
+		for(int x = 0; x < input.cols; x++){
+			for(int y = 0; y < input.rows; y++){
 				roi[0].at<uchar>(y, x) = 1;
+				roi[1].at<uchar>(y, x) = 1;
+				roi[2].at<uchar>(y, x) = 1;
+				roi[3].at<uchar>(y, x) = 1;
+			}
+		}
+		
 	}
 }
 
 //Conferindo se o valor a ser acessado está dentro dos limites da ROI
-bool outOfBounds(int i, int j){
-	return (i < 0 || j < 0 || i >= input.rows || j >= input.cols);
+bool outOfBounds(int i, int j, Mat aux){
+	return (i < 0 || j < 0 || i >= aux.rows || j >= aux.cols);
 }
 
 void showKeyPoints(){
-	
 	for(int i = 0; i < (int)keyPoint.size(); i++){
-		int x = keyPoint[i].first;
-		int y = keyPoint[i].second;
-		//printf("%d %d\n", x, y);
-		circle(input, Point (y, x), 4, Scalar(0, 0, 255), 1, 8, 0);
-		circle(input, Point (y, x), 3, Scalar(0, 0, 255), 1, 8, 0);
-		circle(input, Point (y, x), 2, Scalar(0, 0, 255), 1, 8, 0);
-		circle(input, Point (y, x), 1, Scalar(0, 0, 255), 1, 8, 0);
+		int x = keyPoint[i].y;
+		int y = keyPoint[i].x;
+
+		circle(input, Point (x, y), 4, Scalar(0, 0, 255), 1, 8, 0);
 	}
 }
+
+//Salvando keypoints no arquivo
 
 void saveKeypoints(){
 	printf("Salvando keypoints ROIs no arquivo...\n");
 	
-	vector<pair<float, pair<int, int> > > aux1, aux2, aux3;
-	vector<pair<float, pair<int, int> > > aux;
+	vector<pair<double, pair<int, int> > > aux1, aux2, aux3;
+	vector<pair<double, pair<int, int> > > aux;
 	
     for(int i = 0; i < (int)keyPoint.size(); i++){
-		int y = keyPoint[i].first, x = keyPoint[i].second;
-		aux.push_back({-response.at<float>(y, x), {y, x}});
+		int y = keyPoint[i].y, x = keyPoint[i].x;
+		aux.push_back({-keyPoint[i].response, {y, x}});
 	}
-    sort(aux.begin(), aux.end());
+	
+    sort(aux.begin(), aux.end());//Ordenando de forma decrescente
     
-    int quantMaxKP = 400;
+    int quantMaxKP = 500;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
-	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({-response.at<float>(y, x), {y, x}});
-	 	else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({-response.at<float>(y, x), {y, x}});
-	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({-response.at<float>(y, x), {y, x}});
+	 	if(y >= roi[1].rows || x >= roi[1].cols) continue; 
+	 	
+	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({aux[i].first, {y, x}});
+	 	else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({aux[i].first, {y, x}});
+	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({aux[i].first, {y, x}});
     }
     
     double T = aux1.size() + aux2.size() + aux3.size();
@@ -114,7 +126,7 @@ void saveKeypoints(){
 	double maxFp = max(aux1.size()/T, max(aux2.size()/T, aux3.size()/T));
 	double D = 1 - (maxFp - minFp);
 	
-	//Salvando Uniformity Rate
+	//Salvando Distribution Rate
 	fprintf(out0, "%.4f\n", D);
     
 	keyPoint.clear();
@@ -141,6 +153,83 @@ void saveKeypoints(){
 		fprintf(out3, "%d %d %.4f\n", aux3[i].second.first, aux3[i].second.second, -aux3[i].first);
 	fclose(out3);
 }
+
+//Fazendo threshold
+void threshold(){
+	int cont = 0;
+	int begX = 0, begY = 0; 
+	int endX = inputGray.cols, endY = inputGray.rows;
+	
+	double T = 100;
+	
+	for(int c = 0; c < 1; c++){ // Escalas
+		for(int z = 1; z < 3; z++){
+			
+			for(int y = begY; y < endY-10; y++){
+				for(int x = begX; x < endX-10; x++){
+					double val = fabs(responseBlob[c][z].at<double>(y, x));
+					if(val > T){						
+						keyPoint.push_back({x, y, c, val});
+						cont++;
+					}else{
+						 responseBlob[c][z].at<double>(y, x) = 0;
+					}
+				}
+			}
+		}
+		cout<<"Cont KP af thr : "<<cont<<endl;
+		cont = 0;
+	}
+}
+
+// 21 x 21 x 21 non Maxima Supression
+
+void nonMaximaSupression(){
+	int maskSize = 21; // Mascara de 21 x 21 baseado no artigo do prybil
+	int cont = 0;
+	
+	for(int c = 0; c < 1; c++){ // Octave - Escalas - Voltar para 4 depois
+		for(int z = 1; z < 3; z++){ // Layers
+			Mat matAux = Mat::zeros(Size(inputGray.cols, inputGray.rows), CV_64F);
+			
+			for(int x = 22; x < responseBlob[c][z].cols-22; x++){
+				for(int y = 22; y < responseBlob[c][z].rows-22; y++){
+					double mid = responseBlob[c][z].at<double>(y, x);
+					
+					bool cond = true, diferente = false;
+					int mSize2 = maskSize/2;
+					
+					//Maior entre vizinhos
+					for(int i = y - mSize2; i <= y + mSize2; i++){
+						for(int j = x - mSize2; j <= x + mSize2; j++){
+							if(i == y && j == x) continue;
+							
+							if(mid != responseBlob[c][z].at<double>(i, j) || mid != responseBlob[c][z-1].at<double>(i, j) || mid != responseBlob[c][z+1].at<double>(i, j))
+								diferente = true;
+							
+							if(mid <= responseBlob[c][z-1].at<double>(i, j) || mid <= responseBlob[c][z].at<double>(i, j) || mid <= responseBlob[c][z+1].at<double>(i, j)){
+								cond = false;
+								break;
+							}
+						}
+						if(!cond) break;
+					}
+					
+					if(cond && diferente){
+						y += mSize2-1;
+						matAux.at<double>(y, x) = responseBlob[c][z].at<double>(y, x);
+						cont++;
+					}else matAux.at<double>(y, x) = 0;
+				}
+			}
+			responseBlob[c][z] = matAux;
+			cout<<cont<<", ";//parcial
+		}
+		cout<<cont<<endl;//Mostrando quantidade de keypoints encontrado total
+		cont = 0;
+	}
+	
+}//Fim função
 
 //NOVAS FUNCOES DO SURF A PARTIR DAQUI
 
@@ -240,8 +329,8 @@ void initOctaves(){
 	Dyy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	Dxy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	
-	for(int i = 0; i < 1; i++){  //Colocar i de volta pra 4 depois
-		for(int j = 0; j < 4; j++){
+	for(int i = 0; i < 1; i++){ //Octaves ---  //Colocar i de volta pra 4 depois 
+		for(int j = 0; j < 4; j++){ // Layes ----
 			//Eliminando Redundancia - melhorar essa parte 			
 			
 			if(i==1&&j==0){
@@ -257,9 +346,10 @@ void initOctaves(){
 				responseBlob[i][j] = responseBlob[2][3];
 				continue;
 			}
-			
+			int L = (int)pow(2, i)*j+1;
 			int s = maskSize[i][j];
 			int s3 = s/3;		
+			double w = 0.89;
 			calcDyy(i, j, s, s3, 2*s3-1);
 			calcDxx(i, j, s, 2*s3-1, s3);
 			calcDxy(i, j, s, s3);
@@ -268,27 +358,30 @@ void initOctaves(){
 			
 			for(int y = 1; y < inputGray.rows ; y++){
 				for(int x = 1; x < inputGray.cols ; x++){
-					responseBlob[i][j].at<double>(y, x) -= (0,81 * (Dxy.at<double>(y, x) * Dxy.at<double>(y, x)));
+					responseBlob[i][j].at<double>(y, x) = 
+					   (1.0/(L*L*L*L))*(responseBlob[i][j].at<double>(y, x) - ((w * Dxy.at<double>(y, x)) 
+																										* (w * Dxy.at<double>(y, x))));
 				}
 			}
 			
+			normalize(responseBlob[i][j], responseBlob[i][j], 0.0, 1000, NORM_MINMAX, CV_64F, Mat());
+			
 		}
 	}
+
+	Mat im1, im2, im3;
 	
-	normalize(responseBlob[0][0], responseBlob[0][0], 0, 255, NORM_MINMAX, CV_8U, Mat());
-	normalize(responseBlob[0][1], responseBlob[0][1], 0, 255, NORM_MINMAX, CV_8U, Mat());
-	normalize(responseBlob[0][2], responseBlob[0][2], 0, 255, NORM_MINMAX, CV_8U, Mat());
-	normalize(responseBlob[0][3], responseBlob[0][3], 0, 255, NORM_MINMAX, CV_8U, Mat());
+	normalize(responseBlob[0][0], im1, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
+	normalize(responseBlob[0][1], im2, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
+	normalize(responseBlob[0][2], im3, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	
-	imwrite("response0.png", 255-responseBlob[0][0]);
-	imwrite("response1.png", 255-responseBlob[0][1]);
-	imwrite("response2.png", 255-responseBlob[0][2]);
-	imwrite("response3.png", 255-responseBlob[0][3]);
+	imwrite("response0.png", im1);
+	imwrite("response1.png", im2);
+	imwrite("response2.png", im3);
 	
 	Dxx.release();
 	Dyy.release();
 	Dxy.release();
-	
 }
 
 //Função Principal
@@ -323,19 +416,17 @@ int main(int, char** argv ){
 	//Calculando Fast Hessian com imagem integral e salvando
 	initOctaves();
 	
-	quantKeyPoints = (int)keyPoint.size();
-	printf("quantidade de KeyPoints depois threshold: %d\n", quantKeyPoints);
-	
 	//Fazendo NonMaximaSupression nos keypoints encontrados
-	//nonMaximaSupression();
+	nonMaximaSupression();
 	
-	printf("quantidade final KeyPoints: %d\n", quantKeyPoints);
+	//Thresould
+	threshold();
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
-	//saveKeypoints(); 
+	saveKeypoints(); 
 	
 	//Salvando pontos vermelhos na imagem 
-	//showKeyPoints();
+	showKeyPoints();
 		
 	//Salvando imagens com Keypoints
 	int len = strlen(saida);
