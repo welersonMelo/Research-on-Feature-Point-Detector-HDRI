@@ -111,13 +111,12 @@ void saveKeypoints(){
     
     int quantMaxKP = 500;
     
-    for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
+    for(int i = 0, k = 0; k < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
-	 	if(y >= roi[1].rows || x >= roi[1].cols) continue; 
 	 	
-	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({aux[i].first, {y, x}});
-	 	else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({aux[i].first, {y, x}});
-	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({aux[i].first, {y, x}});
+	 	if(roi[1].at<uchar>(y, x) != 0){ aux1.push_back({aux[i].first, {y, x}}); k++;}
+	 	else if(roi[2].at<uchar>(y, x) != 0){ aux2.push_back({aux[i].first, {y, x}}); k++;}
+	 	else if(roi[3].at<uchar>(y, x) != 0){ aux3.push_back({aux[i].first, {y, x}}); k++;}
     }
     
     double T = aux1.size() + aux2.size() + aux3.size();
@@ -176,9 +175,9 @@ void threshold(){
 					}
 				}
 			}
+			cout<<"Cont KP : "<<cont<<endl;
+			cont = 0;
 		}
-		cout<<"Cont KP af thr : "<<cont<<endl;
-		cont = 0;
 	}
 }
 
