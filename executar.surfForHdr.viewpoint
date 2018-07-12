@@ -1,0 +1,211 @@
+clear
+echo "viewpoint/00"
+
+./surfForHdr ../dataset/2D/viewpoint/00/00.HDR.hdr ../dataset/2D/viewpoint/00/00
+./surfForHdr ../dataset/2D/viewpoint/00/00.LDR.histeq.jpg ../dataset/2D/viewpoint/00/00
+./surfForHdr ../dataset/2D/viewpoint/00/00.LDR.jpg ../dataset/2D/viewpoint/00/00
+./surfForHdr ../dataset/2D/viewpoint/00/00.lFattal02.jpg ../dataset/2D/viewpoint/00/00
+./surfForHdr ../dataset/2D/viewpoint/00/00.lMantiuk06equ.jpg ../dataset/2D/viewpoint/00/00
+./surfForHdr ../dataset/2D/viewpoint/00/00.logHDR.hdr ../dataset/2D/viewpoint/00/00
+
+clear
+echo "viewpoint/01"
+
+./surfForHdr ../dataset/2D/viewpoint/01/01.HDR.hdr ../dataset/2D/viewpoint/01/01
+./surfForHdr ../dataset/2D/viewpoint/01/01.LDR.histeq.jpg ../dataset/2D/viewpoint/01/01
+./surfForHdr ../dataset/2D/viewpoint/01/01.LDR.jpg ../dataset/2D/viewpoint/01/01
+./surfForHdr ../dataset/2D/viewpoint/01/01.lFattal02.jpg ../dataset/2D/viewpoint/01/01
+./surfForHdr ../dataset/2D/viewpoint/01/01.lMantiuk06equ.jpg ../dataset/2D/viewpoint/01/01
+./surfForHdr ../dataset/2D/viewpoint/01/01.logHDR.hdr ../dataset/2D/viewpoint/01/01
+
+clear
+echo "viewpoint/02"
+
+./surfForHdr ../dataset/2D/viewpoint/02/02.HDR.hdr ../dataset/2D/viewpoint/02/02
+./surfForHdr ../dataset/2D/viewpoint/02/02.LDR.histeq.jpg ../dataset/2D/viewpoint/02/02
+./surfForHdr ../dataset/2D/viewpoint/02/02.LDR.jpg ../dataset/2D/viewpoint/02/02
+./surfForHdr ../dataset/2D/viewpoint/02/02.lFattal02.jpg ../dataset/2D/viewpoint/02/02
+./surfForHdr ../dataset/2D/viewpoint/02/02.lMantiuk06equ.jpg ../dataset/2D/viewpoint/02/02
+./surfForHdr ../dataset/2D/viewpoint/02/02.logHDR.hdr ../dataset/2D/viewpoint/02/02
+
+clear
+echo "viewpoint/03"
+
+./surfForHdr ../dataset/2D/viewpoint/03/03.HDR.hdr ../dataset/2D/viewpoint/03/03
+./surfForHdr ../dataset/2D/viewpoint/03/03.LDR.histeq.jpg ../dataset/2D/viewpoint/03/03
+./surfForHdr ../dataset/2D/viewpoint/03/03.LDR.jpg ../dataset/2D/viewpoint/03/03
+./surfForHdr ../dataset/2D/viewpoint/03/03.lFattal02.jpg ../dataset/2D/viewpoint/03/03
+./surfForHdr ../dataset/2D/viewpoint/03/03.lMantiuk06equ.jpg ../dataset/2D/viewpoint/03/03
+./surfForHdr ../dataset/2D/viewpoint/03/03.logHDR.hdr ../dataset/2D/viewpoint/03/03
+
+
+clear
+echo "viewpoint/04"
+
+./surfForHdr ../dataset/2D/viewpoint/04/04.HDR.hdr ../dataset/2D/viewpoint/04/04
+./surfForHdr ../dataset/2D/viewpoint/04/04.LDR.histeq.jpg ../dataset/2D/viewpoint/04/04
+./surfForHdr ../dataset/2D/viewpoint/04/04.LDR.jpg ../dataset/2D/viewpoint/04/04
+./surfForHdr ../dataset/2D/viewpoint/04/04.lFattal02.jpg ../dataset/2D/viewpoint/04/04
+./surfForHdr ../dataset/2D/viewpoint/04/04.lMantiuk06equ.jpg ../dataset/2D/viewpoint/04/04
+./surfForHdr ../dataset/2D/viewpoint/04/04.logHDR.hdr ../dataset/2D/viewpoint/04/04
+
+clear
+echo "viewpoint/05"
+
+./surfForHdr ../dataset/2D/viewpoint/05/05.HDR.hdr ../dataset/2D/viewpoint/05/05
+./surfForHdr ../dataset/2D/viewpoint/05/05.LDR.histeq.jpg ../dataset/2D/viewpoint/05/05
+./surfForHdr ../dataset/2D/viewpoint/05/05.LDR.jpg ../dataset/2D/viewpoint/05/05
+./surfForHdr ../dataset/2D/viewpoint/05/05.lFattal02.jpg ../dataset/2D/viewpoint/05/05
+./surfForHdr ../dataset/2D/viewpoint/05/05.lMantiuk06equ.jpg ../dataset/2D/viewpoint/05/05
+./surfForHdr ../dataset/2D/viewpoint/05/05.logHDR.hdr ../dataset/2D/viewpoint/05/05
+
+clear
+echo "viewpoint/06"
+
+./surfForHdr ../dataset/2D/viewpoint/06/06.HDR.hdr ../dataset/2D/viewpoint/06/06
+./surfForHdr ../dataset/2D/viewpoint/06/06.LDR.histeq.jpg ../dataset/2D/viewpoint/06/06
+./surfForHdr ../dataset/2D/viewpoint/06/06.LDR.jpg ../dataset/2D/viewpoint/06/06
+./surfForHdr ../dataset/2D/viewpoint/06/06.lFattal02.jpg ../dataset/2D/viewpoint/06/06
+./surfForHdr ../dataset/2D/viewpoint/06/06.lMantiuk06equ.jpg ../dataset/2D/viewpoint/06/06
+./surfForHdr ../dataset/2D/viewpoint/06/06.logHDR.hdr ../dataset/2D/viewpoint/06/06
+
+clear
+echo "viewpoint/07"
+
+./surfForHdr ../dataset/2D/viewpoint/07/07.HDR.hdr ../dataset/2D/viewpoint/07/07
+./surfForHdr ../dataset/2D/viewpoint/07/07.LDR.histeq.jpg ../dataset/2D/viewpoint/07/07
+./surfForHdr ../dataset/2D/viewpoint/07/07.LDR.jpg ../dataset/2D/viewpoint/07/07
+./surfForHdr ../dataset/2D/viewpoint/07/07.lFattal02.jpg ../dataset/2D/viewpoint/07/07
+./surfForHdr ../dataset/2D/viewpoint/07/07.lMantiuk06equ.jpg ../dataset/2D/viewpoint/07/07
+./surfForHdr ../dataset/2D/viewpoint/07/07.logHDR.hdr ../dataset/2D/viewpoint/07/07
+
+clear
+echo "viewpoint/08"
+
+./surfForHdr ../dataset/2D/viewpoint/08/08.HDR.hdr ../dataset/2D/viewpoint/08/08
+./surfForHdr ../dataset/2D/viewpoint/08/08.LDR.histeq.jpg ../dataset/2D/viewpoint/08/08
+./surfForHdr ../dataset/2D/viewpoint/08/08.LDR.jpg ../dataset/2D/viewpoint/08/08
+./surfForHdr ../dataset/2D/viewpoint/08/08.lFattal02.jpg ../dataset/2D/viewpoint/08/08
+./surfForHdr ../dataset/2D/viewpoint/08/08.lMantiuk06equ.jpg ../dataset/2D/viewpoint/08/08
+./surfForHdr ../dataset/2D/viewpoint/08/08.logHDR.hdr ../dataset/2D/viewpoint/08/08
+
+clear
+echo "viewpoint/09"
+
+./surfForHdr ../dataset/2D/viewpoint/09/09.HDR.hdr ../dataset/2D/viewpoint/09/09
+./surfForHdr ../dataset/2D/viewpoint/09/09.LDR.histeq.jpg ../dataset/2D/viewpoint/09/09
+./surfForHdr ../dataset/2D/viewpoint/09/09.LDR.jpg ../dataset/2D/viewpoint/09/09
+./surfForHdr ../dataset/2D/viewpoint/09/09.lFattal02.jpg ../dataset/2D/viewpoint/09/09
+./surfForHdr ../dataset/2D/viewpoint/09/09.lMantiuk06equ.jpg ../dataset/2D/viewpoint/09/09
+./surfForHdr ../dataset/2D/viewpoint/09/09.logHDR.hdr ../dataset/2D/viewpoint/09/09
+
+clear
+echo "viewpoint/10"
+
+./surfForHdr ../dataset/2D/viewpoint/10/10.HDR.hdr ../dataset/2D/viewpoint/10/10
+./surfForHdr ../dataset/2D/viewpoint/10/10.LDR.histeq.jpg ../dataset/2D/viewpoint/10/10
+./surfForHdr ../dataset/2D/viewpoint/10/10.LDR.jpg ../dataset/2D/viewpoint/10/10
+./surfForHdr ../dataset/2D/viewpoint/10/10.lFattal02.jpg ../dataset/2D/viewpoint/10/10
+./surfForHdr ../dataset/2D/viewpoint/10/10.lMantiuk06equ.jpg ../dataset/2D/viewpoint/10/10
+./surfForHdr ../dataset/2D/viewpoint/10/10.logHDR.hdr ../dataset/2D/viewpoint/10/10
+
+clear
+echo "viewpoint/11"
+
+./surfForHdr ../dataset/2D/viewpoint/11/11.HDR.hdr ../dataset/2D/viewpoint/11/11
+./surfForHdr ../dataset/2D/viewpoint/11/11.LDR.histeq.jpg ../dataset/2D/viewpoint/11/11
+./surfForHdr ../dataset/2D/viewpoint/11/11.LDR.jpg ../dataset/2D/viewpoint/11/11
+./surfForHdr ../dataset/2D/viewpoint/11/11.lFattal02.jpg ../dataset/2D/viewpoint/11/11
+./surfForHdr ../dataset/2D/viewpoint/11/11.lMantiuk06equ.jpg ../dataset/2D/viewpoint/11/11
+./surfForHdr ../dataset/2D/viewpoint/11/11.logHDR.hdr ../dataset/2D/viewpoint/11/11
+
+clear
+echo "viewpoint/12"
+
+./surfForHdr ../dataset/2D/viewpoint/12/12.HDR.hdr ../dataset/2D/viewpoint/12/12
+./surfForHdr ../dataset/2D/viewpoint/12/12.LDR.histeq.jpg ../dataset/2D/viewpoint/12/12
+./surfForHdr ../dataset/2D/viewpoint/12/12.LDR.jpg ../dataset/2D/viewpoint/12/12
+./surfForHdr ../dataset/2D/viewpoint/12/12.lFattal02.jpg ../dataset/2D/viewpoint/12/12
+./surfForHdr ../dataset/2D/viewpoint/12/12.lMantiuk06equ.jpg ../dataset/2D/viewpoint/12/12
+./surfForHdr ../dataset/2D/viewpoint/12/12.logHDR.hdr ../dataset/2D/viewpoint/12/12
+
+clear
+echo "viewpoint/13"
+
+./surfForHdr ../dataset/2D/viewpoint/13/13.HDR.hdr ../dataset/2D/viewpoint/13/13
+./surfForHdr ../dataset/2D/viewpoint/13/13.LDR.histeq.jpg ../dataset/2D/viewpoint/13/13
+./surfForHdr ../dataset/2D/viewpoint/13/13.LDR.jpg ../dataset/2D/viewpoint/13/13
+./surfForHdr ../dataset/2D/viewpoint/13/13.lFattal02.jpg ../dataset/2D/viewpoint/13/13
+./surfForHdr ../dataset/2D/viewpoint/13/13.lMantiuk06equ.jpg ../dataset/2D/viewpoint/13/13
+./surfForHdr ../dataset/2D/viewpoint/13/13.logHDR.hdr ../dataset/2D/viewpoint/13/13
+
+clear
+echo "viewpoint/14"
+
+./surfForHdr ../dataset/2D/viewpoint/14/14.HDR.hdr ../dataset/2D/viewpoint/14/14
+./surfForHdr ../dataset/2D/viewpoint/14/14.LDR.histeq.jpg ../dataset/2D/viewpoint/14/14
+./surfForHdr ../dataset/2D/viewpoint/14/14.LDR.jpg ../dataset/2D/viewpoint/14/14
+./surfForHdr ../dataset/2D/viewpoint/14/14.lFattal02.jpg ../dataset/2D/viewpoint/14/14
+./surfForHdr ../dataset/2D/viewpoint/14/14.lMantiuk06equ.jpg ../dataset/2D/viewpoint/14/14
+./surfForHdr ../dataset/2D/viewpoint/14/14.logHDR.hdr ../dataset/2D/viewpoint/14/14
+
+clear
+echo "viewpoint/15"
+
+./surfForHdr ../dataset/2D/viewpoint/15/15.HDR.hdr ../dataset/2D/viewpoint/15/15
+./surfForHdr ../dataset/2D/viewpoint/15/15.LDR.histeq.jpg ../dataset/2D/viewpoint/15/15
+./surfForHdr ../dataset/2D/viewpoint/15/15.LDR.jpg ../dataset/2D/viewpoint/15/15
+./surfForHdr ../dataset/2D/viewpoint/15/15.lFattal02.jpg ../dataset/2D/viewpoint/15/15
+./surfForHdr ../dataset/2D/viewpoint/15/15.lMantiuk06equ.jpg ../dataset/2D/viewpoint/15/15
+./surfForHdr ../dataset/2D/viewpoint/15/15.logHDR.hdr ../dataset/2D/viewpoint/15/15
+
+clear
+echo "viewpoint/16"
+
+./surfForHdr ../dataset/2D/viewpoint/16/16.HDR.hdr ../dataset/2D/viewpoint/16/16
+./surfForHdr ../dataset/2D/viewpoint/16/16.LDR.histeq.jpg ../dataset/2D/viewpoint/16/16
+./surfForHdr ../dataset/2D/viewpoint/16/16.LDR.jpg ../dataset/2D/viewpoint/16/16
+./surfForHdr ../dataset/2D/viewpoint/16/16.lFattal02.jpg ../dataset/2D/viewpoint/16/16
+./surfForHdr ../dataset/2D/viewpoint/16/16.lMantiuk06equ.jpg ../dataset/2D/viewpoint/16/16
+./surfForHdr ../dataset/2D/viewpoint/16/16.logHDR.hdr ../dataset/2D/viewpoint/16/16
+
+clear
+echo "viewpoint/17"
+
+./surfForHdr ../dataset/2D/viewpoint/17/17.HDR.hdr ../dataset/2D/viewpoint/17/17
+./surfForHdr ../dataset/2D/viewpoint/17/17.LDR.histeq.jpg ../dataset/2D/viewpoint/17/17
+./surfForHdr ../dataset/2D/viewpoint/17/17.LDR.jpg ../dataset/2D/viewpoint/17/17
+./surfForHdr ../dataset/2D/viewpoint/17/17.lFattal02.jpg ../dataset/2D/viewpoint/17/17
+./surfForHdr ../dataset/2D/viewpoint/17/17.lMantiuk06equ.jpg ../dataset/2D/viewpoint/17/17
+./surfForHdr ../dataset/2D/viewpoint/17/17.logHDR.hdr ../dataset/2D/viewpoint/17/17
+
+clear
+echo "viewpoint/18"
+
+./surfForHdr ../dataset/2D/viewpoint/18/18.HDR.hdr ../dataset/2D/viewpoint/18/18
+./surfForHdr ../dataset/2D/viewpoint/18/18.LDR.histeq.jpg ../dataset/2D/viewpoint/18/18
+./surfForHdr ../dataset/2D/viewpoint/18/18.LDR.jpg ../dataset/2D/viewpoint/18/18
+./surfForHdr ../dataset/2D/viewpoint/18/18.lFattal02.jpg ../dataset/2D/viewpoint/18/18
+./surfForHdr ../dataset/2D/viewpoint/18/18.lMantiuk06equ.jpg ../dataset/2D/viewpoint/18/18
+./surfForHdr ../dataset/2D/viewpoint/18/18.logHDR.hdr ../dataset/2D/viewpoint/18/18
+
+clear
+echo "viewpoint/19"
+
+./surfForHdr ../dataset/2D/viewpoint/19/19.HDR.hdr ../dataset/2D/viewpoint/19/19
+./surfForHdr ../dataset/2D/viewpoint/19/19.LDR.histeq.jpg ../dataset/2D/viewpoint/19/19
+./surfForHdr ../dataset/2D/viewpoint/19/19.LDR.jpg ../dataset/2D/viewpoint/19/19
+./surfForHdr ../dataset/2D/viewpoint/19/19.lFattal02.jpg ../dataset/2D/viewpoint/19/19
+./surfForHdr ../dataset/2D/viewpoint/19/19.lMantiuk06equ.jpg ../dataset/2D/viewpoint/19/19
+./surfForHdr ../dataset/2D/viewpoint/19/19.logHDR.hdr ../dataset/2D/viewpoint/19/19
+
+clear
+echo "viewpoint/20"
+./surfForHdr ../dataset/2D/viewpoint/20/20.HDR.hdr ../dataset/2D/viewpoint/20/20
+./surfForHdr ../dataset/2D/viewpoint/20/20.LDR.histeq.jpg ../dataset/2D/viewpoint/20/20
+./surfForHdr ../dataset/2D/viewpoint/20/20.LDR.jpg ../dataset/2D/viewpoint/20/20
+./surfForHdr ../dataset/2D/viewpoint/20/20.lFattal02.jpg ../dataset/2D/viewpoint/20/20
+./surfForHdr ../dataset/2D/viewpoint/20/20.lMantiuk06equ.jpg ../dataset/2D/viewpoint/20/20
+./surfForHdr ../dataset/2D/viewpoint/20/20.logHDR.hdr ../dataset/2D/viewpoint/20/20
+
+

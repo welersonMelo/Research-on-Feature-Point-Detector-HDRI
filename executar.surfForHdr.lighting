@@ -1,0 +1,71 @@
+clear
+echo "lighting/001"
+
+./surfForHdr ../dataset/2D/lighting/001/001.HDR.hdr ../dataset/2D/lighting/001/001
+./surfForHdr ../dataset/2D/lighting/001/001.LDR.histeq.jpg ../dataset/2D/lighting/001/001
+./surfForHdr ../dataset/2D/lighting/001/001.LDR.jpg ../dataset/2D/lighting/001/001
+./surfForHdr ../dataset/2D/lighting/001/001.lFattal02.jpg ../dataset/2D/lighting/001/001
+./surfForHdr ../dataset/2D/lighting/001/001.lMantiuk06equ.jpg ../dataset/2D/lighting/001/001
+./surfForHdr ../dataset/2D/lighting/001/001.logHDR.hdr ../dataset/2D/lighting/001/001
+
+clear
+echo "lighting/010"
+
+./surfForHdr ../dataset/2D/lighting/010/010.HDR.hdr ../dataset/2D/lighting/010/010
+./surfForHdr ../dataset/2D/lighting/010/010.LDR.histeq.jpg ../dataset/2D/lighting/010/010
+./surfForHdr ../dataset/2D/lighting/010/010.LDR.jpg ../dataset/2D/lighting/010/010
+./surfForHdr ../dataset/2D/lighting/010/010.lFattal02.jpg ../dataset/2D/lighting/010/010
+./surfForHdr ../dataset/2D/lighting/010/010.lMantiuk06equ.jpg ../dataset/2D/lighting/010/010
+./surfForHdr ../dataset/2D/lighting/010/010.logHDR.hdr ../dataset/2D/lighting/010/010
+
+clear
+echo "lighting/011"
+
+./surfForHdr ../dataset/2D/lighting/011/011.HDR.hdr ../dataset/2D/lighting/011/011
+./surfForHdr ../dataset/2D/lighting/011/011.LDR.histeq.jpg ../dataset/2D/lighting/011/011
+./surfForHdr ../dataset/2D/lighting/011/011.LDR.jpg ../dataset/2D/lighting/011/011
+./surfForHdr ../dataset/2D/lighting/011/011.lFattal02.jpg ../dataset/2D/lighting/011/011
+./surfForHdr ../dataset/2D/lighting/011/011.lMantiuk06equ.jpg ../dataset/2D/lighting/011/011
+./surfForHdr ../dataset/2D/lighting/011/011.logHDR.hdr ../dataset/2D/lighting/011/011
+
+clear
+echo "lighting/100"
+
+./surfForHdr ../dataset/2D/lighting/100/100.HDR.hdr ../dataset/2D/lighting/100/100
+./surfForHdr ../dataset/2D/lighting/100/100.LDR.histeq.jpg ../dataset/2D/lighting/100/100
+./surfForHdr ../dataset/2D/lighting/100/100.LDR.jpg ../dataset/2D/lighting/100/100
+./surfForHdr ../dataset/2D/lighting/100/100.lFattal02.jpg ../dataset/2D/lighting/100/100
+./surfForHdr ../dataset/2D/lighting/100/100.lMantiuk06equ.jpg ../dataset/2D/lighting/100/100
+./surfForHdr ../dataset/2D/lighting/100/100.logHDR.hdr ../dataset/2D/lighting/100/100
+
+clear
+echo "lighting/101"
+
+./surfForHdr ../dataset/2D/lighting/101/101.HDR.hdr ../dataset/2D/lighting/101/101
+./surfForHdr ../dataset/2D/lighting/101/101.LDR.histeq.jpg ../dataset/2D/lighting/101/101
+./surfForHdr ../dataset/2D/lighting/101/101.LDR.jpg ../dataset/2D/lighting/101/101
+./surfForHdr ../dataset/2D/lighting/101/101.lFattal02.jpg ../dataset/2D/lighting/101/101
+./surfForHdr ../dataset/2D/lighting/101/101.lMantiuk06equ.jpg ../dataset/2D/lighting/101/101
+./surfForHdr ../dataset/2D/lighting/101/101.logHDR.hdr ../dataset/2D/lighting/101/101
+
+clear
+echo "lighting/110"
+
+./surfForHdr ../dataset/2D/lighting/110/110.HDR.hdr ../dataset/2D/lighting/110/110
+./surfForHdr ../dataset/2D/lighting/110/110.LDR.histeq.jpg ../dataset/2D/lighting/110/110
+./surfForHdr ../dataset/2D/lighting/110/110.LDR.jpg ../dataset/2D/lighting/110/110
+./surfForHdr ../dataset/2D/lighting/110/110.lFattal02.jpg ../dataset/2D/lighting/110/110
+./surfForHdr ../dataset/2D/lighting/110/110.lMantiuk06equ.jpg ../dataset/2D/lighting/110/110
+./surfForHdr ../dataset/2D/lighting/110/110.logHDR.hdr ../dataset/2D/lighting/110/110
+
+clear
+echo "lighting/111"
+
+./surfForHdr ../dataset/2D/lighting/111/111.HDR.hdr ../dataset/2D/lighting/111/111
+./surfForHdr ../dataset/2D/lighting/111/111.LDR.histeq.jpg ../dataset/2D/lighting/111/111
+./surfForHdr ../dataset/2D/lighting/111/111.LDR.jpg ../dataset/2D/lighting/111/111
+./surfForHdr ../dataset/2D/lighting/111/111.lFattal02.jpg ../dataset/2D/lighting/111/111
+./surfForHdr ../dataset/2D/lighting/111/111.lMantiuk06equ.jpg ../dataset/2D/lighting/111/111
+./surfForHdr ../dataset/2D/lighting/111/111.logHDR.hdr ../dataset/2D/lighting/111/111
+
+

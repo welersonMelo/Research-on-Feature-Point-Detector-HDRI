@@ -165,8 +165,8 @@ void threshold(){
 	
 	double T = 100;
 	
-	for(int c = 0; c < 1; c++){ // Escalas
-		for(int z = 1; z < 3; z++){
+	for(int c = 0; c < 2; c++){ // Escalas
+		for(int z = 1; z < 3; z++){ // Layes
 			
 			for(int y = begY; y < endY-10; y++){
 				for(int x = begX; x < endX-10; x++){
@@ -191,7 +191,7 @@ void nonMaximaSupression(){
 	int maskSize = 21; // Mascara de 21 x 21 baseado no artigo do prybil
 	int cont = 0;
 	
-	for(int c = 0; c < 1; c++){ // Octave - Escalas - Voltar para 4 depois
+	for(int c = 0; c < 2; c++){ // Octave - Escalas - Voltar para 4 depois
 		for(int z = 1; z < 3; z++){ // Layers
 			Mat matAux = Mat::zeros(Size(inputGray.cols, inputGray.rows), CV_64F);
 			
@@ -332,7 +332,7 @@ void initOctaves(){
 	Dyy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	Dxy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	
-	for(int i = 0; i < 1; i++){ //Octaves ---  //Colocar i de volta pra 4 depois 
+	for(int i = 0; i < 2; i++){ //Octaves ---  //Colocar i de volta pra 4 depois 
 		for(int j = 0; j < 4; j++){ // Layes ----
 			//Eliminando Redundancia - melhorar essa parte 			
 			

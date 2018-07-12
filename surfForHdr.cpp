@@ -1,4 +1,4 @@
-//g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename surf.cpp .cpp` surf.cpp `pkg-config --libs opencv`
+//g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename surfForHdr.cpp .cpp` surfForHdr.cpp `pkg-config --libs opencv`
 
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
@@ -40,8 +40,8 @@ void read(char *name, char *argv2){
 	//Conferindo se é HDR
 	if(input.depth() == CV_32F) {
 		isHDR = true;
-		//normalize(inputGray, inputGray, 0.0, 256.0, NORM_MINMAX, CV_32FC1, Mat());
-		normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
+		normalize(inputGray, inputGray, 0.0, 256.0, NORM_MINMAX, CV_32FC1, Mat());
+		//normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 		printf("Imagem HDR\n");
 	}else isHDR = false;
 	
@@ -99,7 +99,6 @@ void showKeyPoints(){
 }
 
 //Salvando keypoints no arquivo
-
 void saveKeypoints(){
 	printf("Salvando keypoints ROIs no arquivo...\n");
 	
@@ -163,10 +162,10 @@ void threshold(){
 	int begX = 0, begY = 0; 
 	int endX = inputGray.cols, endY = inputGray.rows;
 	
-	double T = 100;
+	double T = 10;
 	
-	for(int c = 0; c < 1; c++){ // Escalas
-		for(int z = 1; z < 3; z++){
+	for(int c = 0; c < 2; c++){ // Escalas
+		for(int z = 1; z < 3; z++){ //Layes
 			
 			for(int y = begY; y < endY-10; y++){
 				for(int x = begX; x < endX-10; x++){
@@ -191,7 +190,7 @@ void nonMaximaSupression(){
 	int maskSize = 21; // Mascara de 21 x 21 baseado no artigo do prybil
 	int cont = 0;
 	
-	for(int c = 0; c < 1; c++){ // Octave - Escalas - Voltar para 4 depois
+	for(int c = 0; c < 2; c++){ // Octave - Escalas - Voltar para 4 depois
 		for(int z = 1; z < 3; z++){ // Layers
 			Mat matAux = Mat::zeros(Size(inputGray.cols, inputGray.rows), CV_64F);
 			
@@ -233,6 +232,72 @@ void nonMaximaSupression(){
 	}
 	
 }//Fim função
+
+//Coeficiente de Variacao
+Mat coefficienceOfVariationMask(Mat aux){
+	
+	if(aux.depth() != CV_32F)
+		aux.convertTo(aux, CV_32F);
+	
+	Mat response = aux;
+	
+	Mat auxResponse = Mat::zeros(cv::Size(response.cols, response.rows), CV_32F);
+	
+	int n = 3;//maskSize impar
+	int N = n*n, cont = 0;//quantidade de pixels visitados
+	
+	Mat response2 = Mat::zeros(cv::Size(response.cols, response.rows), CV_64F);
+	//response * response 
+	for(int y = 0; y < response.rows; y++)
+		for(int x = 0; x < response.cols; x++)
+			response2.at<float>(y, x) = (response.at<float>(y, x) * response.at<float>(y, x));
+	
+	float sum1 = 0, sum2 = 0;
+	
+	for(int y = 1; y < n; y++){
+		for(int x = 0; x <= n; x++){
+			sum1 += response.at<float>(y, x);
+			sum2 += response2.at<float>(y, x);
+		}
+	}
+	
+	//"Convolution"
+	for(int i = (n/2)+1; i < response.rows - (n/2); i++){
+		int yBeg = i-(n/2), yEnd = i+(n/2);
+		for(int j = (n/2); j < response.cols - (n/2); j++){
+			//passando mascara 
+			float sumVal = 0, sumVal2 = 0, maior = 0;
+			int xBeg = j-(n/2), xEnd = j+(n/2);
+			
+			for(int y = yBeg; y <= yEnd; y++){
+				for(int x = xBeg; x <= xEnd; x++){
+					sumVal += response.at<float>(y, x);
+					sumVal2 += response2.at<float>(y, x);
+					maior = max(maior, response.at<float>(y, x));
+				}
+			}
+						
+			float media = sumVal/N;
+			
+			float variancia = (sumVal2/N) - (media*media);
+
+			float S = sqrt(variancia); // desvio padrao
+			float CV = media == 0? 0 : S/media; // Coef de Variacao
+			auxResponse.at<float>(i, j) = CV * 100;
+			
+			//printf("%d %d %f\n", i, j, CV);
+			//printf("%.8f %.8f %.8f %.8f %.8f %.8f\n", sumVal, sumVal2, media, variancia, S, CV);
+		}
+	}
+	
+	//Response recebe o valor de coef salvo em aux
+	response = auxResponse;
+	
+	Mat aux2;
+	normalize(response, aux2, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
+	
+	return aux2;
+}
 
 //NOVAS FUNCOES DO SURF A PARTIR DAQUI
 
@@ -332,7 +397,7 @@ void initOctaves(){
 	Dyy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	Dxy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	
-	for(int i = 0; i < 1; i++){ //Octaves ---  //Colocar i de volta pra 4 depois 
+	for(int i = 0; i < 2; i++){ //Octaves ---  //Colocar i de volta pra 4 depois 
 		for(int j = 0; j < 4; j++){ // Layes ----
 			//Eliminando Redundancia - melhorar essa parte 			
 			
@@ -396,10 +461,10 @@ int main(int, char** argv ){
 	string saida3 = saida2;
 	string saida4 = saida3;
 	
-	saida1 += ".surf.distribution.txt";
-	saida2 += ".surf1.txt";
-	saida3 += ".surf2.txt";
-	saida4 += ".surf3.txt";
+	saida1 += ".surfForHdr.distribution.txt";
+	saida2 += ".surfForHdr1.txt";
+	saida3 += ".surfForHdr2.txt";
+	saida4 += ".surfForHdr3.txt";
 	
 	out0 = fopen(saida1.c_str(), "w+");
 	out1 = fopen(saida2.c_str(), "w+");
@@ -408,6 +473,10 @@ int main(int, char** argv ){
 		
 	//Lendo imagem de entrada
 	read(argv[1], argv[2]);
+	
+	inputGray = coefficienceOfVariationMask(inputGray);
+	
+	//imwrite("CV image.jpg", inputGray);
 	
 	//Calculando e salvando imagem integral na matriz integralImg
 	calculateIntegraImage(inputGray);

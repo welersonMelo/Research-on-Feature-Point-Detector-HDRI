@@ -1,0 +1,71 @@
+clear
+echo "distance/100"
+
+./surfForHdr ../dataset/2D/distance/100/100.HDR.hdr ../dataset/2D/distance/100/100
+./surfForHdr ../dataset/2D/distance/100/100.LDR.histeq.jpg ../dataset/2D/distance/100/100
+./surfForHdr ../dataset/2D/distance/100/100.LDR.jpg ../dataset/2D/distance/100/100
+./surfForHdr ../dataset/2D/distance/100/100.lFattal02.jpg ../dataset/2D/distance/100/100
+./surfForHdr ../dataset/2D/distance/100/100.lMantiuk06equ.jpg ../dataset/2D/distance/100/100
+./surfForHdr ../dataset/2D/distance/100/100.logHDR.hdr ../dataset/2D/distance/100/100
+
+clear
+echo "distance/103"
+
+./surfForHdr ../dataset/2D/distance/103/103.HDR.hdr ../dataset/2D/distance/103/103
+./surfForHdr ../dataset/2D/distance/103/103.LDR.histeq.jpg ../dataset/2D/distance/103/103
+./surfForHdr ../dataset/2D/distance/103/103.LDR.jpg ../dataset/2D/distance/103/103
+./surfForHdr ../dataset/2D/distance/103/103.lFattal02.jpg ../dataset/2D/distance/103/103
+./surfForHdr ../dataset/2D/distance/103/103.lMantiuk06equ.jpg ../dataset/2D/distance/103/103
+./surfForHdr ../dataset/2D/distance/103/103.logHDR.hdr ../dataset/2D/distance/103/103
+
+clear
+echo "distance/109"
+
+./surfForHdr ../dataset/2D/distance/109/109.HDR.hdr ../dataset/2D/distance/109/109
+./surfForHdr ../dataset/2D/distance/109/109.LDR.histeq.jpg ../dataset/2D/distance/109/109
+./surfForHdr ../dataset/2D/distance/109/109.LDR.jpg ../dataset/2D/distance/109/109
+./surfForHdr ../dataset/2D/distance/109/109.lFattal02.jpg ../dataset/2D/distance/109/109
+./surfForHdr ../dataset/2D/distance/109/109.lMantiuk06equ.jpg ../dataset/2D/distance/109/109
+./surfForHdr ../dataset/2D/distance/109/109.logHDR.hdr ../dataset/2D/distance/109/109
+
+clear
+echo "distance/122"
+
+./surfForHdr ../dataset/2D/distance/122/122.HDR.hdr ../dataset/2D/distance/122/122
+./surfForHdr ../dataset/2D/distance/122/122.LDR.histeq.jpg ../dataset/2D/distance/122/122
+./surfForHdr ../dataset/2D/distance/122/122.LDR.jpg ../dataset/2D/distance/122/122
+./surfForHdr ../dataset/2D/distance/122/122.lFattal02.jpg ../dataset/2D/distance/122/122
+./surfForHdr ../dataset/2D/distance/122/122.lMantiuk06equ.jpg ../dataset/2D/distance/122/122
+./surfForHdr ../dataset/2D/distance/122/122.logHDR.hdr ../dataset/2D/distance/122/122
+
+clear
+echo "distance/147"
+
+./surfForHdr ../dataset/2D/distance/147/147.HDR.hdr ../dataset/2D/distance/147/147
+./surfForHdr ../dataset/2D/distance/147/147.LDR.histeq.jpg ../dataset/2D/distance/147/147
+./surfForHdr ../dataset/2D/distance/147/147.LDR.jpg ../dataset/2D/distance/147/147
+./surfForHdr ../dataset/2D/distance/147/147.lFattal02.jpg ../dataset/2D/distance/147/147
+./surfForHdr ../dataset/2D/distance/147/147.lMantiuk06equ.jpg ../dataset/2D/distance/147/147
+./surfForHdr ../dataset/2D/distance/147/147.logHDR.hdr ../dataset/2D/distance/147/147
+
+clear
+echo "distance/197"
+
+./surfForHdr ../dataset/2D/distance/197/197.HDR.hdr ../dataset/2D/distance/197/197
+./surfForHdr ../dataset/2D/distance/197/197.LDR.histeq.jpg ../dataset/2D/distance/197/197
+./surfForHdr ../dataset/2D/distance/197/197.LDR.jpg ../dataset/2D/distance/197/197
+./surfForHdr ../dataset/2D/distance/197/197.lFattal02.jpg ../dataset/2D/distance/197/197
+./surfForHdr ../dataset/2D/distance/197/197.lMantiuk06equ.jpg ../dataset/2D/distance/197/197
+./surfForHdr ../dataset/2D/distance/197/197.logHDR.hdr ../dataset/2D/distance/197/197
+
+clear
+echo "distance/297"
+
+./surfForHdr ../dataset/2D/distance/297/297.HDR.hdr ../dataset/2D/distance/297/297
+./surfForHdr ../dataset/2D/distance/297/297.LDR.histeq.jpg ../dataset/2D/distance/297/297
+./surfForHdr ../dataset/2D/distance/297/297.LDR.jpg ../dataset/2D/distance/297/297
+./surfForHdr ../dataset/2D/distance/297/297.lFattal02.jpg ../dataset/2D/distance/297/297
+./surfForHdr ../dataset/2D/distance/297/297.lMantiuk06equ.jpg ../dataset/2D/distance/297/297
+./surfForHdr ../dataset/2D/distance/297/297.logHDR.hdr ../dataset/2D/distance/297/297
+
+

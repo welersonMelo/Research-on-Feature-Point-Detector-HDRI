@@ -1,0 +1,31 @@
+clear
+echo "surf RR/distance/BX.SX"
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gLarson97.surf1.txt ../dataset/2D/distance/SX/SX.gLarson97.surf1.txt > ../dataset/2D/distance/RR/RR.gLarson97.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gLogMap.surf1.txt ../dataset/2D/distance/SX/SX.gLogMap.surf1.txt > ../dataset/2D/distance/RR/RR.gLogMap.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gMantiuk08.surf1.txt ../dataset/2D/distance/SX/SX.gMantiuk08.surf1.txt > ../dataset/2D/distance/RR/RR.gMantiuk08.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gReinhard02.surf1.txt ../dataset/2D/distance/SX/SX.gReinhard02.surf1.txt > ../dataset/2D/distance/RR/RR.gReinhard02.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.gReinhard05.surf1.txt ../dataset/2D/distance/SX/SX.gReinhard05.surf1.txt > ../dataset/2D/distance/RR/RR.gReinhard05.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.HDR.surf1.txt ../dataset/2D/distance/SX/SX.HDR.surf1.txt > ../dataset/2D/distance/RR/RR.HDR.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.LDR.histeq.surf1.txt ../dataset/2D/distance/SX/SX.LDR.histeq.surf1.txt > ../dataset/2D/distance/RR/RR.LDR.histeq.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.LDR.surf1.txt ../dataset/2D/distance/SX/SX.LDR.surf1.txt > ../dataset/2D/distance/RR/RR.LDR.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lFattal02.surf1.txt ../dataset/2D/distance/SX/SX.lFattal02.surf1.txt > ../dataset/2D/distance/RR/RR.lFattal02.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lFattal09.surf1.txt ../dataset/2D/distance/SX/SX.lFattal09.surf1.txt > ../dataset/2D/distance/RR/RR.lFattal09.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lMantiuk06equ.surf1.txt ../dataset/2D/distance/SX/SX.lMantiuk06equ.surf1.txt > ../dataset/2D/distance/RR/RR.lMantiuk06equ.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lMantiuk06map.surf1.txt ../dataset/2D/distance/SX/SX.lMantiuk06map.surf1.txt > ../dataset/2D/distance/RR/RR.lMantiuk06map.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.logHDR.surf1.txt ../dataset/2D/distance/SX/SX.logHDR.surf1.txt > ../dataset/2D/distance/RR/RR.logHDR.surf1.txt
+
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lReinhard02.surf1.txt ../dataset/2D/distance/SX/SX.lReinhard02.surf1.txt > ../dataset/2D/distance/RR/RR.lReinhard02.surf1.txt
+

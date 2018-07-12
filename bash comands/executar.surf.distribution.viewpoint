@@ -1,0 +1,31 @@
+clear
+echo "surf distribution/viewpoint/BX.SX"
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gLarson97.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.gLarson97.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.gLarson97.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gLogMap.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.gLogMap.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.gLogMap.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gMantiuk08.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.gMantiuk08.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.gMantiuk08.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gReinhard02.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.gReinhard02.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.gReinhard02.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.gReinhard05.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.gReinhard05.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.gReinhard05.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.HDR.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.HDR.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.HDR.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.LDR.histeq.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.LDR.histeq.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.LDR.histeq.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.LDR.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.LDR.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.LDR.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lFattal02.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.lFattal02.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lFattal02.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lFattal09.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.lFattal09.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lFattal09.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lMantiuk06equ.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.lMantiuk06equ.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lMantiuk06equ.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lMantiuk06map.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.lMantiuk06map.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lMantiuk06map.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.logHDR.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.logHDR.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.logHDR.surf.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lReinhard02.surf.distribution.txt ../dataset/2D/viewpoint/SX/SX.lReinhard02.surf.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lReinhard02.surf.distribution.txt
+

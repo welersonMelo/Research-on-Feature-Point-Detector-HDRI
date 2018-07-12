@@ -1,0 +1,31 @@
+clear
+echo "surf RR/lighting/BX.SX"
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.gLarson97.surf1.txt ../dataset/2D/lighting/SX/SX.gLarson97.surf1.txt > ../dataset/2D/lighting/RR/RR.gLarson97.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.gLogMap.surf1.txt ../dataset/2D/lighting/SX/SX.gLogMap.surf1.txt > ../dataset/2D/lighting/RR/RR.gLogMap.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.gMantiuk08.surf1.txt ../dataset/2D/lighting/SX/SX.gMantiuk08.surf1.txt > ../dataset/2D/lighting/RR/RR.gMantiuk08.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.gReinhard02.surf1.txt ../dataset/2D/lighting/SX/SX.gReinhard02.surf1.txt > ../dataset/2D/lighting/RR/RR.gReinhard02.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.gReinhard05.surf1.txt ../dataset/2D/lighting/SX/SX.gReinhard05.surf1.txt > ../dataset/2D/lighting/RR/RR.gReinhard05.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.HDR.surf1.txt ../dataset/2D/lighting/SX/SX.HDR.surf1.txt > ../dataset/2D/lighting/RR/RR.HDR.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.LDR.histeq.surf1.txt ../dataset/2D/lighting/SX/SX.LDR.histeq.surf1.txt > ../dataset/2D/lighting/RR/RR.LDR.histeq.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.LDR.surf1.txt ../dataset/2D/lighting/SX/SX.LDR.surf1.txt > ../dataset/2D/lighting/RR/RR.LDR.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.lFattal02.surf1.txt ../dataset/2D/lighting/SX/SX.lFattal02.surf1.txt > ../dataset/2D/lighting/RR/RR.lFattal02.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.lFattal09.surf1.txt ../dataset/2D/lighting/SX/SX.lFattal09.surf1.txt > ../dataset/2D/lighting/RR/RR.lFattal09.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.lMantiuk06equ.surf1.txt ../dataset/2D/lighting/SX/SX.lMantiuk06equ.surf1.txt > ../dataset/2D/lighting/RR/RR.lMantiuk06equ.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.lMantiuk06map.surf1.txt ../dataset/2D/lighting/SX/SX.lMantiuk06map.surf1.txt > ../dataset/2D/lighting/RR/RR.lMantiuk06map.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.logHDR.surf1.txt ../dataset/2D/lighting/SX/SX.logHDR.surf1.txt > ../dataset/2D/lighting/RR/RR.logHDR.surf1.txt
+
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.lReinhard02.surf1.txt ../dataset/2D/lighting/SX/SX.lReinhard02.surf1.txt > ../dataset/2D/lighting/RR/RR.lReinhard02.surf1.txt
+
