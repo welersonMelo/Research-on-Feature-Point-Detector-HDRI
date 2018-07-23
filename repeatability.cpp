@@ -279,7 +279,7 @@ void distanceUniformity(char ** argv){
 	
 	double medDist = sumDist/siz;
 	
-	printf("%.2f\n", medDist*100);	
+	printf("%.2f\n", medDist);	
 }
 void lightUniformity(char **argv){
 	string light[] = {"001", "010", "011", "100", "101", "110", "111"};
@@ -290,7 +290,7 @@ void lightUniformity(char **argv){
 	
 	double medDist = sumDist/siz;
 	
-	printf("%.2f\n", medDist*100);	
+	printf("%.2f\n", medDist);	
 }
 void viewpointUniformity(char **argv){
 	string view[] = {"00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
@@ -301,7 +301,7 @@ void viewpointUniformity(char **argv){
 	
 	double medDist = sumDist/siz;
 	
-	printf("%.2f\n", medDist*100);	
+	printf("%.2f\n", medDist);	
 }
 void distanceRR(char **argv){
 	string distance[] = {"100", "103", "109", "122", "147", "197", "297"};
