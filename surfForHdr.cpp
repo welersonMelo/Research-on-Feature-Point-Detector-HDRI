@@ -21,7 +21,7 @@ vector<unsigned int> integralImg[5000];
 
 bool isHDR = false;
 
-int quantKeyPoints = 0;
+int quantKeyPoints = 0, numberOfScales = 1;
 
 struct KeyPoints{
 	int x, y, scale;//posicao (x, y) e o octave ou escala da imagem
@@ -78,6 +78,17 @@ void read(char *name, char *argv2){
 			}
 		}
 	}
+}
+
+Mat logTranformUchar(Mat src, int c){
+	for(int y = 0; y < src.rows; y++){
+		for(int x = 0; x < src.cols; x++){
+			double r = src.at<uchar>(y, x);
+			double val = c * log10(r + 1);
+			src.at<uchar>(y, x) = (uchar)val;
+		}
+	}
+	return src;
 }
 
 //Conferindo se o valor a ser acessado está dentro dos limites da ROI
@@ -164,7 +175,7 @@ void threshold(){
 	
 	double T = 10;
 	
-	for(int c = 0; c < 2; c++){ // Escalas
+	for(int c = 0; c < numberOfScales; c++){ // Escalas
 		for(int z = 1; z < 3; z++){ //Layes
 			
 			for(int y = begY; y < endY-10; y++){
@@ -190,7 +201,7 @@ void nonMaximaSupression(){
 	int maskSize = 21; // Mascara de 21 x 21 baseado no artigo do prybil
 	int cont = 0;
 	
-	for(int c = 0; c < 2; c++){ // Octave - Escalas - Voltar para 4 depois
+	for(int c = 0; c < numberOfScales; c++){ // Octave - Escalas - Voltar para 4 depois
 		for(int z = 1; z < 3; z++){ // Layers
 			Mat matAux = Mat::zeros(Size(inputGray.cols, inputGray.rows), CV_64F);
 			
@@ -397,7 +408,7 @@ void initOctaves(){
 	Dyy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	Dxy = Mat::zeros(cv::Size(inputGray.cols, inputGray.rows), CV_64F);
 	
-	for(int i = 0; i < 2; i++){ //Octaves ---  //Colocar i de volta pra 4 depois 
+	for(int i = 0; i < numberOfScales; i++){ //Octaves ---  //Colocar i de volta pra 4 depois 
 		for(int j = 0; j < 4; j++){ // Layes ----
 			//Eliminando Redundancia - melhorar essa parte 			
 			
@@ -475,8 +486,11 @@ int main(int, char** argv ){
 	read(argv[1], argv[2]);
 	
 	inputGray = coefficienceOfVariationMask(inputGray);
+	//imwrite("CV image1.jpg", inputGray);
 	
-	//imwrite("CV image.jpg", inputGray);
+	inputGray = logTranformUchar(inputGray, 10);
+	
+	//imwrite("CV image2.jpg", inputGray);
 	
 	//Calculando e salvando imagem integral na matriz integralImg
 	calculateIntegraImage(inputGray);
