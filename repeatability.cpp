@@ -387,8 +387,8 @@ int main(int, char** argv ){
 	//lightUniformity(argv);
 	//viewpointUniformity(argv);
 	//distanceRR(argv);
-	//lightRR(argv);
-	viewpointRR(argv);
+	lightRR(argv);
+	//viewpointRR(argv);
 	
 	return 0;
 }
