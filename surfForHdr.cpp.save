@@ -1,4 +1,4 @@
-//g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename surfForHdr.cpp .cpp` surfForHdr.cpp `pkg-config --libs opencv`
+g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename surfForHdr.cpp .cpp` surfForHdr.cpp `pkg-config --libs opencv`//g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename surfForHdr.cpp .cpp` surfForHdr.cpp `pkg-config --libs opencv`
 
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
@@ -508,13 +508,13 @@ int main(int, char** argv ){
 	saveKeypoints(); 
 	
 	//Salvando pontos vermelhos na imagem 
-	//showKeyPoints();
+	showKeyPoints();
 		
 	//Salvando imagens com Keypoints
-	//int len = strlen(saida);
-	//saida[len] = 'R';saida[len+1] = '.';saida[len+2] = 'j';saida[len+3] = 'p';saida[len+4] = 'g';saida[len+5] = '\0';
+	int len = strlen(saida);
+	saida[len] = 'R';saida[len+1] = '.';saida[len+2] = 'j';saida[len+3] = 'p';saida[len+4] = 'g';saida[len+5] = '\0';
 	
-	//imwrite(saida, input);
+	imwrite(saida, input);
 	
 	//Mostrando imagem com Keypoints
 	//imshow("Result", input);
