@@ -383,11 +383,11 @@ void viewpointRR(char **argv){
 
 int main(int, char** argv ){
 		
-	//distanceUniformity(argv);
+	distanceUniformity(argv);
 	//lightUniformity(argv);
 	//viewpointUniformity(argv);
 	//distanceRR(argv);
-	lightRR(argv);
+	//lightRR(argv);
 	//viewpointRR(argv);
 	
 	return 0;
