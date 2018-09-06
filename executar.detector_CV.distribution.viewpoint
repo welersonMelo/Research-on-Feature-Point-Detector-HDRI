@@ -1,0 +1,17 @@
+clear
+echo "detectorCV distribution/viewpoint/BX.SX"
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.HDR.detectorCV.distribution.txt ../dataset/2D/viewpoint/SX/SX.HDR.detectorCV.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.HDR.detectorCV.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.LDR.histeq.detectorCV.distribution.txt ../dataset/2D/viewpoint/SX/SX.LDR.histeq.detectorCV.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.LDR.histeq.detectorCV.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.LDR.detectorCV.distribution.txt ../dataset/2D/viewpoint/SX/SX.LDR.detectorCV.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.LDR.detectorCV.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lFattal02.detectorCV.distribution.txt ../dataset/2D/viewpoint/SX/SX.lFattal02.detectorCV.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lFattal02.detectorCV.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lMantiuk06equ.detectorCV.distribution.txt ../dataset/2D/viewpoint/SX/SX.lMantiuk06equ.detectorCV.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lMantiuk06equ.detectorCV.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lMantiuk06map.detectorCV.distribution.txt ../dataset/2D/viewpoint/SX/SX.lMantiuk06map.detectorCV.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.lMantiuk06map.detectorCV.distribution.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.logHDR.detectorCV.distribution.txt ../dataset/2D/viewpoint/SX/SX.logHDR.detectorCV.distribution.txt > ../dataset/2D/viewpoint/Dist/distribution.logHDR.detectorCV.distribution.txt
+

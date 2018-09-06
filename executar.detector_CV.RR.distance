@@ -1,15 +1,15 @@
 clear
-echo "detector_CV RR/distance/BX.SX"
+echo "detectorCV RR/distance/BX.SX"
 
-./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.HDR.detector_CV1.txt ../dataset/2D/distance/SX/SX.HDR.detector_CV1.txt > ../dataset/2D/distance/RR/RR.HDR.detector_CV1.txt
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.HDR.detectorCV1.txt ../dataset/2D/distance/SX/SX.HDR.detectorCV1.txt > ../dataset/2D/distance/RR/RR.HDR.detectorCV1.txt
 
-./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.LDR.histeq.detector_CV1.txt ../dataset/2D/distance/SX/SX.LDR.histeq.detector_CV1.txt > ../dataset/2D/distance/RR/RR.LDR.histeq.detector_CV1.txt
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.LDR.histeq.detectorCV1.txt ../dataset/2D/distance/SX/SX.LDR.histeq.detectorCV1.txt > ../dataset/2D/distance/RR/RR.LDR.histeq.detectorCV1.txt
 
-./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.LDR.detector_CV1.txt ../dataset/2D/distance/SX/SX.LDR.detector_CV1.txt > ../dataset/2D/distance/RR/RR.LDR.detector_CV1.txt
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.LDR.detectorCV1.txt ../dataset/2D/distance/SX/SX.LDR.detectorCV1.txt > ../dataset/2D/distance/RR/RR.LDR.detectorCV1.txt
 
-./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lFattal02.detector_CV1.txt ../dataset/2D/distance/SX/SX.lFattal02.detector_CV1.txt > ../dataset/2D/distance/RR/RR.lFattal02.detector_CV1.txt
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lFattal02.detectorCV1.txt ../dataset/2D/distance/SX/SX.lFattal02.detectorCV1.txt > ../dataset/2D/distance/RR/RR.lFattal02.detectorCV1.txt
 
-./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lMantiuk06equ.detector_CV1.txt ../dataset/2D/distance/SX/SX.lMantiuk06equ.detector_CV1.txt > ../dataset/2D/distance/RR/RR.lMantiuk06equ.detector_CV1.txt
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.lMantiuk06equ.detectorCV1.txt ../dataset/2D/distance/SX/SX.lMantiuk06equ.detectorCV1.txt > ../dataset/2D/distance/RR/RR.lMantiuk06equ.detectorCV1.txt
 
-./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.logHDR.detector_CV1.txt ../dataset/2D/distance/SX/SX.logHDR.detector_CV1.txt > ../dataset/2D/distance/RR/RR.logHDR.detector_CV1.txt
+./repeatability ../dataset/2D/distance/H.BX.SX.txt ../dataset/2D/distance/BX/BX.logHDR.detectorCV1.txt ../dataset/2D/distance/SX/SX.logHDR.detectorCV1.txt > ../dataset/2D/distance/RR/RR.logHDR.detectorCV1.txt
 

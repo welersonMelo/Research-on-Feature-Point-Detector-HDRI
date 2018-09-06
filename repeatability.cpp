@@ -262,8 +262,6 @@ void executeUniformity(char** argv, string base){
 	fscanf(inKP, "%f", &val);	
 	if(isnan(val)) val = 0.0;
 	
-	//cout<<val<<endl;
-	
 	sumDist += val;
 }
 
@@ -383,12 +381,12 @@ void viewpointRR(char **argv){
 
 int main(int, char** argv ){
 		
-	distanceUniformity(argv);
+	//distanceUniformity(argv);
 	//lightUniformity(argv);
 	//viewpointUniformity(argv);
 	//distanceRR(argv);
 	//lightRR(argv);
-	//viewpointRR(argv);
+	viewpointRR(argv);
 	
 	return 0;
 }

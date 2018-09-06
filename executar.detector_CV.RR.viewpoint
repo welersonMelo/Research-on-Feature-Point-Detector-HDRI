@@ -1,0 +1,16 @@
+clear
+echo "detectorCV RR/viewpoint/BX.SX"
+
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.HDR.detectorCV1.txt ../dataset/2D/viewpoint/SX/SX.HDR.detectorCV1.txt > ../dataset/2D/viewpoint/RR/RR.HDR.detectorCV1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.LDR.histeq.detectorCV1.txt ../dataset/2D/viewpoint/SX/SX.LDR.histeq.detectorCV1.txt > ../dataset/2D/viewpoint/RR/RR.LDR.histeq.detectorCV1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.LDR.detectorCV1.txt ../dataset/2D/viewpoint/SX/SX.LDR.detectorCV1.txt > ../dataset/2D/viewpoint/RR/RR.LDR.detectorCV1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lFattal02.detectorCV1.txt ../dataset/2D/viewpoint/SX/SX.lFattal02.detectorCV1.txt > ../dataset/2D/viewpoint/RR/RR.lFattal02.detectorCV1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.lMantiuk06equ.detectorCV1.txt ../dataset/2D/viewpoint/SX/SX.lMantiuk06equ.detectorCV1.txt > ../dataset/2D/viewpoint/RR/RR.lMantiuk06equ.detectorCV1.txt
+
+./repeatability ../dataset/2D/viewpoint/H.BX.SX.txt ../dataset/2D/viewpoint/BX/BX.logHDR.detectorCV1.txt ../dataset/2D/viewpoint/SX/SX.logHDR.detectorCV1.txt > ../dataset/2D/viewpoint/RR/RR.logHDR.detectorCV1.txt
+
