@@ -182,8 +182,8 @@ Mat coefficienceOfVariationMask(Mat aux, int n){
 	//Testando a gaussiana 5x5 na média
 	
 	//float gerador[] = {0.06136,	0.24477,	0.38774,	0.24477,	0.06136};//  - SD(sigma) = 1.0
-	//float gerador[] = {0.122581,	0.233062,	0.288713,	0.233062,	0.122581};// - SD(sigma) = 1.5
-	float gerador[] = {0.153388,	0.221461,	0.250301,	0.221461,	0.153388};// - SD(sigma) = 2.0
+	float gerador[] = {0.122581,	0.233062,	0.288713,	0.233062,	0.122581};// - SD(sigma) = 1.5
+	//float gerador[] = {0.153388,	0.221461,	0.250301,	0.221461,	0.153388};// - SD(sigma) = 2.0
 	
 	Mat gaussianBox = Mat::zeros(cv::Size(5, 5), CV_32F);
 	Mat gen1 = cv::Mat(1, 5, CV_32F, gerador);
@@ -411,7 +411,7 @@ int main(int, char** argv ){
 	
 	inputGray = inputGray.mul(25);
 	
-	GaussianBlur(inputGray, inputGray, Size(9, 9), 0, 0, BORDER_DEFAULT);
+	GaussianBlur(inputGray, inputGray, Size(3, 3), 0, 0, BORDER_DEFAULT);
 
 	//imwrite("in1.png", inputGray);
 	

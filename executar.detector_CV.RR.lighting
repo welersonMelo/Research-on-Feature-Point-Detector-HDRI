@@ -3,16 +3,16 @@ echo "detectorCV RR/lighting/BX.SX"
 
 
 
-./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.HDR.detectorCV1.txt ../dataset/2D/lighting/SX/SX.HDR.detectorCV1.txt > ../dataset/2D/lighting/RR/RR.HDR.detectorCV1.txt
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.HDR.detectorCV1.txt ../dataset/2D/lighting/SX/SX.HDR.detectorCV1.txt 5 > ../dataset/2D/lighting/RR/RR.HDR.detectorCV1.txt
 
-./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.LDR.histeq.detectorCV1.txt ../dataset/2D/lighting/SX/SX.LDR.histeq.detectorCV1.txt > ../dataset/2D/lighting/RR/RR.LDR.histeq.detectorCV1.txt
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.LDR.histeq.detectorCV1.txt ../dataset/2D/lighting/SX/SX.LDR.histeq.detectorCV1.txt 5 > ../dataset/2D/lighting/RR/RR.LDR.histeq.detectorCV1.txt
 
-./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.LDR.detectorCV1.txt ../dataset/2D/lighting/SX/SX.LDR.detectorCV1.txt > ../dataset/2D/lighting/RR/RR.LDR.detectorCV1.txt
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.LDR.detectorCV1.txt ../dataset/2D/lighting/SX/SX.LDR.detectorCV1.txt 5 > ../dataset/2D/lighting/RR/RR.LDR.detectorCV1.txt
 
-./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.lFattal02.detectorCV1.txt ../dataset/2D/lighting/SX/SX.lFattal02.detectorCV1.txt > ../dataset/2D/lighting/RR/RR.lFattal02.detectorCV1.txt
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.lFattal02.detectorCV1.txt ../dataset/2D/lighting/SX/SX.lFattal02.detectorCV1.txt 5 > ../dataset/2D/lighting/RR/RR.lFattal02.detectorCV1.txt
 
-./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.lMantiuk06equ.detectorCV1.txt ../dataset/2D/lighting/SX/SX.lMantiuk06equ.detectorCV1.txt > ../dataset/2D/lighting/RR/RR.lMantiuk06equ.detectorCV1.txt
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.lMantiuk06equ.detectorCV1.txt ../dataset/2D/lighting/SX/SX.lMantiuk06equ.detectorCV1.txt 5 > ../dataset/2D/lighting/RR/RR.lMantiuk06equ.detectorCV1.txt
 
-./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.logHDR.detectorCV1.txt ../dataset/2D/lighting/SX/SX.logHDR.detectorCV1.txt > ../dataset/2D/lighting/RR/RR.logHDR.detectorCV1.txt
+./repeatability ../dataset/2D/lighting/H.BX.SX.txt ../dataset/2D/lighting/BX/BX.logHDR.detectorCV1.txt ../dataset/2D/lighting/SX/SX.logHDR.detectorCV1.txt 5 > ../dataset/2D/lighting/RR/RR.logHDR.detectorCV1.txt
 
 

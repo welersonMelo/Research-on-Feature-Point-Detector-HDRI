@@ -1,0 +1,12 @@
+
+clear
+
+bash executar.detector_CV.distribution.distance
+bash executar.detector_CV.distribution.lighting
+bash executar.detector_CV.distribution.viewpoint
+
+bash executar.detector_CV.RR.distance
+bash executar.detector_CV.RR.lighting
+bash executar.detector_CV.RR.viewpoint
+
+

@@ -380,13 +380,15 @@ void viewpointRR(char **argv){
 }
 
 int main(int, char** argv ){
+	
+	string tipo(argv[4]);
 		
-	//distanceUniformity(argv);
-	//lightUniformity(argv);
-	//viewpointUniformity(argv);
-	//distanceRR(argv);
-	//lightRR(argv);
-	viewpointRR(argv);
+	if(tipo == "1") distanceUniformity(argv);
+	else if(tipo == "2") lightUniformity(argv);
+	else if(tipo == "3") viewpointUniformity(argv);
+	else if(tipo == "4") distanceRR(argv);
+	else if(tipo == "5") lightRR(argv);
+	else if(tipo == "6") viewpointRR(argv);
 	
 	return 0;
 }
