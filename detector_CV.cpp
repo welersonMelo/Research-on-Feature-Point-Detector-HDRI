@@ -411,7 +411,7 @@ int main(int, char** argv ){
 	
 	inputGray = inputGray.mul(25);
 	
-	GaussianBlur(inputGray, inputGray, Size(3, 3), 0, 0, BORDER_DEFAULT);
+	GaussianBlur(inputGray, inputGray, Size(5, 5), 0, 0, BORDER_DEFAULT);
 
 	//imwrite("in1.png", inputGray);
 	
