@@ -1,0 +1,50 @@
+clear
+echo "viewpoint/00"
+
+./detector_CV ../dataset/2D/viewpoint/00/00.HDR.hdr ../dataset/2D/viewpoint/00/00
+./detector_CV ../dataset/2D/viewpoint/00/00.lFattal02.jpg ../dataset/2D/viewpoint/00/00
+./detector_CV ../dataset/2D/viewpoint/00/00.lMantiuk06equ.jpg ../dataset/2D/viewpoint/00/00
+./detector_CV ../dataset/2D/viewpoint/00/00.logHDR.hdr ../dataset/2D/viewpoint/00/00
+
+clear
+echo "viewpoint/01"
+
+./detector_CV ../dataset/2D/viewpoint/01/01.HDR.hdr ../dataset/2D/viewpoint/01/01
+./detector_CV ../dataset/2D/viewpoint/01/01.lFattal02.jpg ../dataset/2D/viewpoint/01/01
+./detector_CV ../dataset/2D/viewpoint/01/01.lMantiuk06equ.jpg ../dataset/2D/viewpoint/01/01
+./detector_CV ../dataset/2D/viewpoint/01/01.logHDR.hdr ../dataset/2D/viewpoint/01/01
+
+clear
+echo "viewpoint/02"
+
+./detector_CV ../dataset/2D/viewpoint/02/02.HDR.hdr ../dataset/2D/viewpoint/02/02
+./detector_CV ../dataset/2D/viewpoint/02/02.lFattal02.jpg ../dataset/2D/viewpoint/02/02
+./detector_CV ../dataset/2D/viewpoint/02/02.lMantiuk06equ.jpg ../dataset/2D/viewpoint/02/02
+./detector_CV ../dataset/2D/viewpoint/02/02.logHDR.hdr ../dataset/2D/viewpoint/02/02
+
+clear
+echo "viewpoint/03"
+
+./detector_CV ../dataset/2D/viewpoint/03/03.HDR.hdr ../dataset/2D/viewpoint/03/03
+./detector_CV ../dataset/2D/viewpoint/03/03.lFattal02.jpg ../dataset/2D/viewpoint/03/03
+./detector_CV ../dataset/2D/viewpoint/03/03.lMantiuk06equ.jpg ../dataset/2D/viewpoint/03/03
+./detector_CV ../dataset/2D/viewpoint/03/03.logHDR.hdr ../dataset/2D/viewpoint/03/03
+
+
+clear
+echo "viewpoint/04"
+
+./detector_CV ../dataset/2D/viewpoint/04/04.HDR.hdr ../dataset/2D/viewpoint/04/04
+./detector_CV ../dataset/2D/viewpoint/04/04.lFattal02.jpg ../dataset/2D/viewpoint/04/04
+./detector_CV ../dataset/2D/viewpoint/04/04.lMantiuk06equ.jpg ../dataset/2D/viewpoint/04/04
+./detector_CV ../dataset/2D/viewpoint/04/04.logHDR.hdr ../dataset/2D/viewpoint/04/04
+
+clear
+echo "viewpoint/05"
+
+./detector_CV ../dataset/2D/viewpoint/05/05.HDR.hdr ../dataset/2D/viewpoint/05/05
+./detector_CV ../dataset/2D/viewpoint/05/05.lFattal02.jpg ../dataset/2D/viewpoint/05/05
+./detector_CV ../dataset/2D/viewpoint/05/05.lMantiuk06equ.jpg ../dataset/2D/viewpoint/05/05
+./detector_CV ../dataset/2D/viewpoint/05/05.logHDR.hdr ../dataset/2D/viewpoint/05/05
+
+

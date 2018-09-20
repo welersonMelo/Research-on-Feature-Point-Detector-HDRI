@@ -1,0 +1,40 @@
+clear
+echo "viewpoint/06"
+
+./detector_CV ../dataset/2D/viewpoint/06/06.HDR.hdr ../dataset/2D/viewpoint/06/06
+./detector_CV ../dataset/2D/viewpoint/06/06.lFattal02.jpg ../dataset/2D/viewpoint/06/06
+./detector_CV ../dataset/2D/viewpoint/06/06.lMantiuk06equ.jpg ../dataset/2D/viewpoint/06/06
+./detector_CV ../dataset/2D/viewpoint/06/06.logHDR.hdr ../dataset/2D/viewpoint/06/06
+
+clear
+echo "viewpoint/07"
+
+./detector_CV ../dataset/2D/viewpoint/07/07.HDR.hdr ../dataset/2D/viewpoint/07/07
+./detector_CV ../dataset/2D/viewpoint/07/07.lFattal02.jpg ../dataset/2D/viewpoint/07/07
+./detector_CV ../dataset/2D/viewpoint/07/07.lMantiuk06equ.jpg ../dataset/2D/viewpoint/07/07
+./detector_CV ../dataset/2D/viewpoint/07/07.logHDR.hdr ../dataset/2D/viewpoint/07/07
+
+clear
+echo "viewpoint/08"
+
+./detector_CV ../dataset/2D/viewpoint/08/08.HDR.hdr ../dataset/2D/viewpoint/08/08
+./detector_CV ../dataset/2D/viewpoint/08/08.lFattal02.jpg ../dataset/2D/viewpoint/08/08
+./detector_CV ../dataset/2D/viewpoint/08/08.lMantiuk06equ.jpg ../dataset/2D/viewpoint/08/08
+./detector_CV ../dataset/2D/viewpoint/08/08.logHDR.hdr ../dataset/2D/viewpoint/08/08
+
+clear
+echo "viewpoint/09"
+
+./detector_CV ../dataset/2D/viewpoint/09/09.HDR.hdr ../dataset/2D/viewpoint/09/09
+./detector_CV ../dataset/2D/viewpoint/09/09.lFattal02.jpg ../dataset/2D/viewpoint/09/09
+./detector_CV ../dataset/2D/viewpoint/09/09.lMantiuk06equ.jpg ../dataset/2D/viewpoint/09/09
+./detector_CV ../dataset/2D/viewpoint/09/09.logHDR.hdr ../dataset/2D/viewpoint/09/09
+
+clear
+echo "viewpoint/10"
+
+./detector_CV ../dataset/2D/viewpoint/10/10.HDR.hdr ../dataset/2D/viewpoint/10/10
+./detector_CV ../dataset/2D/viewpoint/10/10.lFattal02.jpg ../dataset/2D/viewpoint/10/10
+./detector_CV ../dataset/2D/viewpoint/10/10.lMantiuk06equ.jpg ../dataset/2D/viewpoint/10/10
+./detector_CV ../dataset/2D/viewpoint/10/10.logHDR.hdr ../dataset/2D/viewpoint/10/10
+
