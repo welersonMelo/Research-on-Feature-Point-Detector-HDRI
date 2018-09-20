@@ -1,0 +1,11 @@
+nohup bash executar.detector_CV.distance1 &
+nohup bash executar.detector_CV.distance2 &
+
+nohup bash executar.detector_CV.lighting1 &
+nohup bash executar.detector_CV.lighting2 &
+
+nohup bash executar.detector_CV.viewpoint1 &
+nohup bash executar.detector_CV.viewpoint2 &
+nohup bash executar.detector_CV.viewpoint3 &
+nohup bash executar.detector_CV.viewpoint4 &
+
