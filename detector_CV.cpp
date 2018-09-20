@@ -161,7 +161,7 @@ Mat nonMaximaSupression(Mat response){
 }//Fim função
 
 // mascara coefficiente de variacao
-Mat coefficienceOfVariationMask(Mat aux, int n){
+Mat coefficienceOfVariationMaskGaussian(Mat aux, int n){
 	if(aux.depth() != CV_32F)
 		aux.convertTo(aux, CV_32F);
 	
@@ -229,8 +229,9 @@ Mat coefficienceOfVariationMask(Mat aux, int n){
 	normalize(response, aux2, 0.0, 256.0, NORM_MINMAX, CV_32FC1, Mat());
 	
 	return aux2;
-	
-	/*
+}
+
+Mat coefficienceOfVariationMask(Mat aux, int n){
 	
 	if(aux.depth() != CV_32F)
 		aux.convertTo(aux, CV_32F);
@@ -293,7 +294,6 @@ Mat coefficienceOfVariationMask(Mat aux, int n){
 	
 	return aux2;
 	
-	*/
 }
 
 void showKeyPoints(){
@@ -403,15 +403,15 @@ int main(int, char** argv ){
 	
 	read(argv[1], argv[2]);
 	
-	//inputGray = coefficienceOfVariationMask(inputGray, 5);
-	
 	inputGray = coefficienceOfVariationMask(inputGray, 5);
+	
+	//inputGray = coefficienceOfVariationMaskGaussian(inputGray, 5);
 	
 	normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	
 	inputGray = inputGray.mul(25);
 	
-	GaussianBlur(inputGray, inputGray, Size(5, 5), 0, 0, BORDER_DEFAULT);
+	GaussianBlur(inputGray, inputGray, Size(9, 9), 0, 0, BORDER_DEFAULT);
 
 	//imwrite("in1.png", inputGray);
 	
