@@ -403,7 +403,7 @@ int main(int, char** argv ){
 	
 	read(argv[1], argv[2]);
 	
-	inputGray = coefficienceOfVariationMask(inputGray, 5);
+	inputGray = coefficienceOfVariationMask(inputGray, 3);
 	
 	//inputGray = coefficienceOfVariationMaskGaussian(inputGray, 5);
 	
