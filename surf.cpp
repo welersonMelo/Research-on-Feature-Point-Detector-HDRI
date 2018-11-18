@@ -374,9 +374,10 @@ void initOctaves(){
 	normalize(responseBlob[0][1], im2, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	normalize(responseBlob[0][2], im3, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	
-	//imwrite("response0.png", im1);
-	//imwrite("response1.png", im2);
-	//imwrite("response2.png", im3);
+	imwrite("response-1.png", responseBlob[0][0]);
+	imwrite("response0.png", im1);
+	imwrite("response1.png", im2);
+	imwrite("response2.png", im3);
 	
 	Dxx.release();
 	Dyy.release();

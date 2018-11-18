@@ -181,8 +181,8 @@ Mat coefficienceOfVariationMaskGaussian(Mat aux, int n){
 	
 	//Testando a gaussiana 5x5 na média
 	
-	//float gerador[] = {0.06136,	0.24477,	0.38774,	0.24477,	0.06136};//  - SD(sigma) = 1.0
-	float gerador[] = {0.122581,	0.233062,	0.288713,	0.233062,	0.122581};// - SD(sigma) = 1.5
+	float gerador[] = {0.06136,	0.24477,	0.38774,	0.24477,	0.06136};//  - SD(sigma) = 1.0
+	//float gerador[] = {0.122581,	0.233062,	0.288713,	0.233062,	0.122581};// - SD(sigma) = 1.5
 	//float gerador[] = {0.153388,	0.221461,	0.250301,	0.221461,	0.153388};// - SD(sigma) = 2.0
 	//float gerador[] = {0.169327,    0.214574, 0.232198,     0.214574,       0.169327}; // SD(sigma); sigma = 2.5
 	
@@ -404,18 +404,18 @@ int main(int, char** argv ){
 	
 	read(argv[1], argv[2]);
 	
-	inputGray = coefficienceOfVariationMask(inputGray, 5);
+	//inputGray = coefficienceOfVariationMask(inputGray, 5);
 	
-	//inputGray = coefficienceOfVariationMaskGaussian(inputGray, 5);
+	inputGray = coefficienceOfVariationMaskGaussian(inputGray, 5);
 	
 	normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	
 	//inputGray = inputGray.mul(25);
+	
 	equalizeHist(inputGray, inputGray);
 	
-	GaussianBlur(inputGray, inputGray, Size(9, 9), 0, 0, BORDER_DEFAULT);
-
-	//imwrite("in1.png", inputGray);
+	//GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
+	//Mat ans; bilateralFilter(inputGray, ans, 10, 170, 170, BORDER_DEFAULT); inputGray = ans;
 	
 	//Threshoulding image 
 	thresholdR(inputGray);
@@ -448,7 +448,7 @@ int main(int, char** argv ){
 	int len = strlen(saida);
 	saida[len] = 'R';saida[len+1] = '.';saida[len+2] = 'j';saida[len+3] = 'p';saida[len+4] = 'g';saida[len+5] = '\0';
 	
-	//imwrite(saida, input);
+	imwrite(saida, input);
 	
 	return 0;
 }

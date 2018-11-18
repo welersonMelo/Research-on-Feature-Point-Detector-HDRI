@@ -241,11 +241,8 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-<<<<<<< HEAD:dog.cpp
     int quantMaxKP = 500;
-=======
-    int quantMaxKP = 5400;
->>>>>>> a9cd81b43283ee74ef0b0922078b984bee8a5508:sift.cpp
+    //int quantMaxKP = 5400;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
@@ -334,6 +331,11 @@ int main(int, char** argv ){
 	
 	//Calculando DoG
 	calcDoG();
+	
+	
+	Mat responseEx = dogI[0][2].mul(45);
+	
+	imwrite("response.png", responseEx);
 
 	//Fazendo NonMaximaSupression na imagem DoG
 	nonMaximaSupression();
