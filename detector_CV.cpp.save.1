@@ -180,20 +180,21 @@ Mat coefficienceOfVariationMaskGaussian(Mat aux, int n){
 			response2.at<float>(y, x) = (response.at<float>(y, x) * response.at<float>(y, x));
 	
 	//Testando a gaussiana 5x5 na média
-	float gerador[] = {0.06136,	0.24477,	0.38774,	0.24477,	0.06136 };//  - SD(sigma) = 1.0
+	
+	//float gerador[] = {0.06136,	0.24477,	0.38774,	0.24477,	0.06136};//  - SD(sigma) = 1.0
 	//float gerador[] = {0.122581,	0.233062,	0.288713,	0.233062,	0.122581};// - SD(sigma) = 1.5
 	//float gerador[] = {0.153388,	0.221461,	0.250301,	0.221461,	0.153388};// - SD(sigma) = 2.0
-	//float gerador[] = {0.169327,      0.214574, 	0.232198,       0.214574,       0.169327};// SD(sigma); sigma = 2.5
-
-	Mat gaussianBox = Mat::zeros(cv::Size(n, n), CV_32F);
-	Mat gen1 = cv::Mat(1, n, CV_32F, gerador);
-	Mat gen2 = cv::Mat(n, 1, CV_32F, gerador);
+	//float gerador[] = {0.169327,    0.214574, 0.232198,     0.214574,       0.169327}; // SD(sigma); sigma = 2.5
+	
+	Mat gaussianBox = Mat::zeros(cv::Size(5, 5), CV_32F);
+	Mat gen1 = cv::Mat(1, 5, CV_32F, gerador);
+	Mat gen2 = cv::Mat(5, 1, CV_32F, gerador);
 	gaussianBox = gen2*gen1;
 	
 	float SUM = 0; // A soma de todos os valores da mascara gaussiana 5x5
 	
-	for(int R = 0; R < n; R++)
-		for(int C = 0; C < n; C++)
+	for(int R = 0; R < 5; R++)
+		for(int C = 0; C < 5; C++)
 			SUM += gaussianBox.at<float>(R, C);
 		
 	cout<<"S:"<< SUM <<endl;
@@ -403,18 +404,18 @@ int main(int, char** argv ){
 	
 	read(argv[1], argv[2]);
 	
-	//inputGray = coefficienceOfVariationMask(inputGray, 5);
+	inputGray = coefficienceOfVariationMask(inputGray, 5);
 	
-	inputGray = coefficienceOfVariationMaskGaussian(inputGray, 5);
+	//inputGray = coefficienceOfVariationMaskGaussian(inputGray, 5);
 	
 	normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	
 	//inputGray = inputGray.mul(25);
-	
 	equalizeHist(inputGray, inputGray);
+	
+	GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
 
-	//GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
-	Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
+	//imwrite("in1.png", inputGray);
 	
 	//Threshoulding image 
 	thresholdR(inputGray);
