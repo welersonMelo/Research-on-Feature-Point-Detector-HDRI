@@ -1,0 +1,15 @@
+echo "viewpoint/16" 1  1  1  2  3  4 
+./detector_CV ../dataset/2D/viewpoint/16/16.HDR.hdr ../dataset/2D/viewpoint/16/16
+./detector_CV ../dataset/2D/viewpoint/16/16.logHDR.hdr ../dataset/2D/viewpoint/16/16
+echo "viewpoint/17" 1  1  1  2  3  4 
+./detector_CV ../dataset/2D/viewpoint/17/17.HDR.hdr ../dataset/2D/viewpoint/17/17
+./detector_CV ../dataset/2D/viewpoint/17/17.logHDR.hdr ../dataset/2D/viewpoint/17/17
+echo "viewpoint/18" 1  1  1  2  3  4 
+./detector_CV ../dataset/2D/viewpoint/18/18.HDR.hdr ../dataset/2D/viewpoint/18/18
+./detector_CV ../dataset/2D/viewpoint/18/18.logHDR.hdr ../dataset/2D/viewpoint/18/18
+echo "viewpoint/19" 1  1  1  2  3  4 
+./detector_CV ../dataset/2D/viewpoint/19/19.HDR.hdr ../dataset/2D/viewpoint/19/19
+./detector_CV ../dataset/2D/viewpoint/19/19.logHDR.hdr ../dataset/2D/viewpoint/19/19
+echo "viewpoint/20" 1  1  1  2  3  4 
+./detector_CV ../dataset/2D/viewpoint/20/20.HDR.hdr ../dataset/2D/viewpoint/20/20
+./detector_CV ../dataset/2D/viewpoint/20/20.logHDR.hdr ../dataset/2D/viewpoint/20/20

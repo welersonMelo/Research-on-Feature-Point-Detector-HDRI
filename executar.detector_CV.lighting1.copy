@@ -1,0 +1,15 @@
+echo "lighting/001"
+./detector_CV ../dataset/2D/lighting/001/001.HDR.hdr ../dataset/2D/lighting/001/001
+./detector_CV ../dataset/2D/lighting/001/001.lFattal02.jpg ../dataset/2D/lighting/001/001
+./detector_CV ../dataset/2D/lighting/001/001.lMantiuk06equ.jpg ../dataset/2D/lighting/001/001
+./detector_CV ../dataset/2D/lighting/001/001.logHDR.hdr ../dataset/2D/lighting/001/001
+echo "lighting/010"
+./detector_CV ../dataset/2D/lighting/010/010.HDR.hdr ../dataset/2D/lighting/010/010
+./detector_CV ../dataset/2D/lighting/010/010.lFattal02.jpg ../dataset/2D/lighting/010/010
+./detector_CV ../dataset/2D/lighting/010/010.lMantiuk06equ.jpg ../dataset/2D/lighting/010/010
+./detector_CV ../dataset/2D/lighting/010/010.logHDR.hdr ../dataset/2D/lighting/010/010
+echo "lighting/011"
+./detector_CV ../dataset/2D/lighting/011/011.HDR.hdr ../dataset/2D/lighting/011/011
+./detector_CV ../dataset/2D/lighting/011/011.lFattal02.jpg ../dataset/2D/lighting/011/011
+./detector_CV ../dataset/2D/lighting/011/011.lMantiuk06equ.jpg ../dataset/2D/lighting/011/011
+./detector_CV ../dataset/2D/lighting/011/011.logHDR.hdr ../dataset/2D/lighting/011/011

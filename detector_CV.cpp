@@ -161,7 +161,7 @@ Mat nonMaximaSupression(Mat response){
 }//Fim função
 
 // mascara coefficiente de variacao
-Mat coefficienceOfVariationMaskGaussian(Mat aux, int n){
+Mat coefficienceOfVariationMaskGaussian(Mat aux, int n, string gaussianOp){
 	if(aux.depth() != CV_32F)
 		aux.convertTo(aux, CV_32F);
 	
@@ -178,13 +178,22 @@ Mat coefficienceOfVariationMaskGaussian(Mat aux, int n){
 	for(int y = 0; y < response.rows; y++)
 		for(int x = 0; x < response.cols; x++)
 			response2.at<float>(y, x) = (response.at<float>(y, x) * response.at<float>(y, x));
-	
-	//Testando a gaussiana 5x5 na média
-	float gerador[] = {0.06136,	0.24477,	0.38774,	0.24477,	0.06136 };//  - SD(sigma) = 1.0
-	//float gerador[] = {0.122581,	0.233062,	0.288713,	0.233062,	0.122581};// - SD(sigma) = 1.5
-	//float gerador[] = {0.153388,	0.221461,	0.250301,	0.221461,	0.153388};// - SD(sigma) = 2.0
-	//float gerador[] = {0.169327,      0.214574, 	0.232198,       0.214574,       0.169327};// SD(sigma); sigma = 2.5
 
+	float gerador[] = {0.0, 0.0, 0.0, 0.0, 0.0};
+	//Testando a gaussiana 5x5 na média
+	if(gaussianOp == "1"){
+		gerador[0] = 0.06136; gerador[1] = 0.24477; gerador[2] = 0.38774; gerador[3] = 0.24477; gerador[4] = 0.06136;//  - SD(sigma) = 1.0
+	}
+	else if(gaussianOp == "2"){
+		gerador[0] = 0.122581; gerador[1] = 0.233062; gerador[2] = 0.288713; gerador[3] = gerador[1]; gerador[4] = gerador[0];// - SD(sigma) = 1.5 
+	}
+	else if(gaussianOp == "3"){
+		gerador[0] = 0.153388; gerador[1] = 0.221461; gerador[2] = 0.250301; gerador[3] = gerador[1]; gerador[4] = gerador[0];// - SD(sigma) = 2.0
+	}
+	else if(gaussianOp == "4"){
+		gerador[0] = 0.169327; gerador[1] = 0.214574; gerador[2] = 0.232198; gerador[3] = gerador[1]; gerador[4] = gerador[0];// SD(sigma); sigma = 2.5
+	}
+	
 	Mat gaussianBox = Mat::zeros(cv::Size(n, n), CV_32F);
 	Mat gen1 = cv::Mat(1, n, CV_32F, gerador);
 	Mat gen2 = cv::Mat(n, 1, CV_32F, gerador);
@@ -405,7 +414,9 @@ int main(int, char** argv ){
 	
 	//inputGray = coefficienceOfVariationMask(inputGray, 5);
 	
-	inputGray = coefficienceOfVariationMaskGaussian(inputGray, 5);
+	string gaussianOp(argv[3]);
+	
+	inputGray = coefficienceOfVariationMaskGaussian(inputGray, 5, gaussianOp);
 	
 	normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	

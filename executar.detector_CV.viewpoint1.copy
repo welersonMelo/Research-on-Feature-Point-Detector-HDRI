@@ -1,0 +1,19 @@
+echo "viewpoint/00"
+./detector_CV ../dataset/2D/viewpoint/00/00.HDR.hdr ../dataset/2D/viewpoint/00/00
+./detector_CV ../dataset/2D/viewpoint/00/00.logHDR.hdr ../dataset/2D/viewpoint/00/00
+echo "viewpoint/01" 1  1  1  2  3  4 
+ 1  1  1  2  3  4 
+./detector_CV ../dataset/2D/viewpoint/01/01.HDR.hdr ../dataset/2D/viewpoint/01/01
+./detector_CV ../dataset/2D/viewpoint/01/01.logHDR.hdr ../dataset/2D/viewpoint/01/01
+echo "viewpoint/02" 1  1  1  2  3  4 
+./detector_CV ../dataset/2D/viewpoint/02/02.HDR.hdr ../dataset/2D/viewpoint/02/02
+./detector_CV ../dataset/2D/viewpoint/02/02.logHDR.hdr ../dataset/2D/viewpoint/02/02
+echo "viewpoint/03" 1  1  1  2  3  4 
+./detector_CV ../dataset/2D/viewpoint/03/03.HDR.hdr ../dataset/2D/viewpoint/03/03
+./detector_CV ../dataset/2D/viewpoint/03/03.logHDR.hdr ../dataset/2D/viewpoint/03/03
+echo "viewpoint/04" 1  1  1  2  3  4
+./detector_CV ../dataset/2D/viewpoint/04/04.HDR.hdr ../dataset/2D/viewpoint/04/04
+./detector_CV ../dataset/2D/viewpoint/04/04.logHDR.hdr ../dataset/2D/viewpoint/04/04
+echo "viewpoint/05" 1  1  1  2  3  4 
+./detector_CV ../dataset/2D/viewpoint/05/05.HDR.hdr ../dataset/2D/viewpoint/05/05
+./detector_CV ../dataset/2D/viewpoint/05/05.logHDR.hdr ../dataset/2D/viewpoint/05/05
