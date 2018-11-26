@@ -1,15 +1,15 @@
-echo "lighting/001" 4 
-./detector_CV ../dataset/2D/lighting/001/001.HDR.hdr ../dataset/2D/lighting/001/001 4 
-./detector_CV ../dataset/2D/lighting/001/001.lFattal02.jpg ../dataset/2D/lighting/001/001 4 
-./detector_CV ../dataset/2D/lighting/001/001.lMantiuk06equ.jpg ../dataset/2D/lighting/001/001 4 
-./detector_CV ../dataset/2D/lighting/001/001.logHDR.hdr ../dataset/2D/lighting/001/001 4 
-echo "lighting/010" 4 
-./detector_CV ../dataset/2D/lighting/010/010.HDR.hdr ../dataset/2D/lighting/010/010 4 
-./detector_CV ../dataset/2D/lighting/010/010.lFattal02.jpg ../dataset/2D/lighting/010/010 4 
-./detector_CV ../dataset/2D/lighting/010/010.lMantiuk06equ.jpg ../dataset/2D/lighting/010/010 4 
-./detector_CV ../dataset/2D/lighting/010/010.logHDR.hdr ../dataset/2D/lighting/010/010 4 
-echo "lighting/011" 4 
-./detector_CV ../dataset/2D/lighting/011/011.HDR.hdr ../dataset/2D/lighting/011/011 4 
-./detector_CV ../dataset/2D/lighting/011/011.lFattal02.jpg ../dataset/2D/lighting/011/011 4 
-./detector_CV ../dataset/2D/lighting/011/011.lMantiuk06equ.jpg ../dataset/2D/lighting/011/011 4 
-./detector_CV ../dataset/2D/lighting/011/011.logHDR.hdr ../dataset/2D/lighting/011/011 4 
+echo "lighting/001" 1 
+./detector_CV ../dataset/2D/lighting/001/001.HDR.hdr ../dataset/2D/lighting/001/001 1 
+./detector_CV ../dataset/2D/lighting/001/001.lFattal02.jpg ../dataset/2D/lighting/001/001 1 
+./detector_CV ../dataset/2D/lighting/001/001.lMantiuk06equ.jpg ../dataset/2D/lighting/001/001 1 
+./detector_CV ../dataset/2D/lighting/001/001.logHDR.hdr ../dataset/2D/lighting/001/001 1 
+echo "lighting/010" 1 
+./detector_CV ../dataset/2D/lighting/010/010.HDR.hdr ../dataset/2D/lighting/010/010 1 
+./detector_CV ../dataset/2D/lighting/010/010.lFattal02.jpg ../dataset/2D/lighting/010/010 1 
+./detector_CV ../dataset/2D/lighting/010/010.lMantiuk06equ.jpg ../dataset/2D/lighting/010/010 1 
+./detector_CV ../dataset/2D/lighting/010/010.logHDR.hdr ../dataset/2D/lighting/010/010 1 
+echo "lighting/011" 1 
+./detector_CV ../dataset/2D/lighting/011/011.HDR.hdr ../dataset/2D/lighting/011/011 1 
+./detector_CV ../dataset/2D/lighting/011/011.lFattal02.jpg ../dataset/2D/lighting/011/011 1 
+./detector_CV ../dataset/2D/lighting/011/011.lMantiuk06equ.jpg ../dataset/2D/lighting/011/011 1 
+./detector_CV ../dataset/2D/lighting/011/011.logHDR.hdr ../dataset/2D/lighting/011/011 1 

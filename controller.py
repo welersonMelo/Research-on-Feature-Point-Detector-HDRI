@@ -29,7 +29,6 @@ for gaussianOp in num:
 	print (os.system("bash executar.ALL"))
 
 	print('entrando em espera')
-	
 	time.sleep(60*19)
 
 	print('fim execucao\nRodar repetibilidade')
@@ -87,6 +86,10 @@ for gaussianOp in num:
 
 	finalResultlogHDR.append('(' + str (DmediaHDR) + ' ; ' + str (RmediaHDR) + ')')
 
+
+resultsF = open('finalResults', 'w')
+resultsF.write(str(finalResultHDR) + '\n' + str(finalResultlogHDR))
+resultsF.close()
 
 print ('resultados HDR')
 for k in finalResultHDR:
