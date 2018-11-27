@@ -29,11 +29,11 @@ for gaussianOp in num:
 	print (os.system("bash executar.ALL"))
 
 	print('entrando em espera')
-	time.sleep(60*19)
+	time.sleep(60*14)
 
 	print('fim execucao\nRodar repetibilidade')
 
-	os.system('bash executar.detector_CV.distribution_and_RR')
+	print(os.system('bash executar.detector_CV.distribution_and_RR '))
 
 	print ('entrando na pasta dataset/2D')
 

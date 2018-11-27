@@ -1,15 +1,15 @@
-echo "viewpoint/16" 1  1  1  2  3  4  1 
-./detector_CV ../dataset/2D/viewpoint/16/16.HDR.hdr ../dataset/2D/viewpoint/16/16 1 
-./detector_CV ../dataset/2D/viewpoint/16/16.logHDR.hdr ../dataset/2D/viewpoint/16/16 1 
-echo "viewpoint/17" 1  1  1  2  3  4  1 
-./detector_CV ../dataset/2D/viewpoint/17/17.HDR.hdr ../dataset/2D/viewpoint/17/17 1 
-./detector_CV ../dataset/2D/viewpoint/17/17.logHDR.hdr ../dataset/2D/viewpoint/17/17 1 
-echo "viewpoint/18" 1  1  1  2  3  4  1 
-./detector_CV ../dataset/2D/viewpoint/18/18.HDR.hdr ../dataset/2D/viewpoint/18/18 1 
-./detector_CV ../dataset/2D/viewpoint/18/18.logHDR.hdr ../dataset/2D/viewpoint/18/18 1 
-echo "viewpoint/19" 1  1  1  2  3  4  1 
-./detector_CV ../dataset/2D/viewpoint/19/19.HDR.hdr ../dataset/2D/viewpoint/19/19 1 
-./detector_CV ../dataset/2D/viewpoint/19/19.logHDR.hdr ../dataset/2D/viewpoint/19/19 1 
-echo "viewpoint/20" 1  1  1  2  3  4  1 
-./detector_CV ../dataset/2D/viewpoint/20/20.HDR.hdr ../dataset/2D/viewpoint/20/20 1 
-./detector_CV ../dataset/2D/viewpoint/20/20.logHDR.hdr ../dataset/2D/viewpoint/20/20 1 
+echo "viewpoint/16" 1  1  1  2  3  4  4 
+./detector_CV ../dataset/2D/viewpoint/16/16.HDR.hdr ../dataset/2D/viewpoint/16/16 4 
+./detector_CV ../dataset/2D/viewpoint/16/16.logHDR.hdr ../dataset/2D/viewpoint/16/16 4 
+echo "viewpoint/17" 1  1  1  2  3  4  4 
+./detector_CV ../dataset/2D/viewpoint/17/17.HDR.hdr ../dataset/2D/viewpoint/17/17 4 
+./detector_CV ../dataset/2D/viewpoint/17/17.logHDR.hdr ../dataset/2D/viewpoint/17/17 4 
+echo "viewpoint/18" 1  1  1  2  3  4  4 
+./detector_CV ../dataset/2D/viewpoint/18/18.HDR.hdr ../dataset/2D/viewpoint/18/18 4 
+./detector_CV ../dataset/2D/viewpoint/18/18.logHDR.hdr ../dataset/2D/viewpoint/18/18 4 
+echo "viewpoint/19" 1  1  1  2  3  4  4 
+./detector_CV ../dataset/2D/viewpoint/19/19.HDR.hdr ../dataset/2D/viewpoint/19/19 4 
+./detector_CV ../dataset/2D/viewpoint/19/19.logHDR.hdr ../dataset/2D/viewpoint/19/19 4 
+echo "viewpoint/20" 1  1  1  2  3  4  4 
+./detector_CV ../dataset/2D/viewpoint/20/20.HDR.hdr ../dataset/2D/viewpoint/20/20 4 
+./detector_CV ../dataset/2D/viewpoint/20/20.logHDR.hdr ../dataset/2D/viewpoint/20/20 4 
