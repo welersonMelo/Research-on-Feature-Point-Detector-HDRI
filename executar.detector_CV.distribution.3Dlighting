@@ -1,0 +1,17 @@
+clear
+echo "detectorCV distribution/lighting/BX.SX"
+
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.HDR.detectorCV.distribution.txt ../dataset/3D/lighting/SX/SX.HDR.detectorCV.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.HDR.detectorCV.distribution.txt
+
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.LDR.histeq.detectorCV.distribution.txt ../dataset/3D/lighting/SX/SX.LDR.histeq.detectorCV.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.LDR.histeq.detectorCV.distribution.txt
+
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.LDR.detectorCV.distribution.txt ../dataset/3D/lighting/SX/SX.LDR.detectorCV.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.LDR.detectorCV.distribution.txt
+
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.lFattal02.detectorCV.distribution.txt ../dataset/3D/lighting/SX/SX.lFattal02.detectorCV.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.lFattal02.detectorCV.distribution.txt
+
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.lMantiuk06equ.detectorCV.distribution.txt ../dataset/3D/lighting/SX/SX.lMantiuk06equ.detectorCV.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.lMantiuk06equ.detectorCV.distribution.txt
+
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.logHDR.detectorCV.distribution.txt ../dataset/3D/lighting/SX/SX.logHDR.detectorCV.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.logHDR.detectorCV.distribution.txt
+
+
+

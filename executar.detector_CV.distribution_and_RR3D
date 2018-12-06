@@ -1,0 +1,7 @@
+
+clear
+
+bash executar.detector_CV.distribution.3Dlighting
+
+bash executar.detector_CV.RR.3Dlighting
+

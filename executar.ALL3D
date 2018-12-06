@@ -1,0 +1,3 @@
+nohup bash executar.detector_CV.3Dlighting1 &
+nohup bash executar.detector_CV.3Dlighting2 &
+

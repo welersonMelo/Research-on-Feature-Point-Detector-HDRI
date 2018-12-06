@@ -39,10 +39,10 @@ void logTranform(int c){
 }
 
 void logTranformUchar(int c){
-	for(int y = 0; y < input.rows; y++){
-		for(int x = 0; x < input.cols; x++){
+	for(int y = 0; y < inputGray.rows; y++){
+		for(int x = 0; x < inputGray.cols; x++){
 			uchar r = inputGray.at<uchar>(y, x);
-			uchar val = c * log10(r + 1);
+			uchar val = (uchar)(int)fmin(c * log10(r + 1), 255);
 			inputGray.at<uchar>(y, x) = val;
 		}
 	}
@@ -421,11 +421,13 @@ int main(int, char** argv ){
 	normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	
 	//inputGray = inputGray.mul(25);
-	
-	equalizeHist(inputGray, inputGray);
+	//equalizeHist(inputGray, inputGray);
+	logTranformUchar(150);
 
-	//GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
-	Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
+	GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
+	//Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
+	
+	//imwrite("response.png", inputGray);
 	
 	//Threshoulding image 
 	thresholdR(inputGray);
@@ -458,7 +460,7 @@ int main(int, char** argv ){
 	int len = strlen(saida);
 	saida[len] = 'R';saida[len+1] = '.';saida[len+2] = 'j';saida[len+3] = 'p';saida[len+4] = 'g';saida[len+5] = '\0';
 	
-	//imwrite(saida, input);
+	imwrite(saida, input);
 	
 	return 0;
 }
