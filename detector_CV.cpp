@@ -47,6 +47,7 @@ void logTranformUchar(int c){
 		}
 	}
 }
+
 	
 //Abrindo imagem no argumento da linha de comando
 void read(char *name, char *argv2){
@@ -424,10 +425,15 @@ int main(int, char** argv ){
 	//equalizeHist(inputGray, inputGray);
 	logTranformUchar(150);
 
+<<<<<<< HEAD
 	GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
 	//Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
 	
 	//imwrite("response.png", inputGray);
+=======
+	GaussianBlur(inputGray, inputGray, Size(5, 5), 0, 0, BORDER_DEFAULT);
+	//Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
+>>>>>>> ca8533667520bd8912796b61fcb89721dc83b21b
 	
 	//Threshoulding image 
 	thresholdR(inputGray);
