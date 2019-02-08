@@ -422,15 +422,15 @@ int main(int, char** argv ){
 	
 	normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	
-	//inputGray = inputGray.mul(25);
-	equalizeHist(inputGray, inputGray);
+	inputGray = inputGray.mul(25);
+	//equalizeHist(inputGray, inputGray);
 	//logTranformUchar(150);
 	
 	//imwrite("response.png", inputGray);
-	GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
+	GaussianBlur(inputGray, inputGray, Size(9, 9), 0, 0, BORDER_DEFAULT);
 	//Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
 	
-	imwrite("response.png", inputGray);
+	//imwrite("response.png", inputGray);
 	
 	//Threshoulding image 
 	thresholdR(inputGray);
