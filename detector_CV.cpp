@@ -63,9 +63,9 @@ void read(char *name, char *argv2){
 		printf("Imagem HDR\n");
 	}else isHDR = false;
 	
-	//Lendo arquivo com os pontos (x, y) da ROI
+	//Lendo arquivo ROI
 	if(argv2 != NULL){
-		string path(argv2); //../dataset/2D/distance/100/100
+		string path(argv2); //../dataset/XD/distance/100/100
 		string num = "";
 		while(true){
 			if(path.back() == '/'){
@@ -99,10 +99,10 @@ void thresholdR(Mat response){
 	int begX = 0, begY = 0; 
 	int endX = response.cols, endY = response.rows;
 
-	uchar thresholdValue = 5;
+	uchar thresholdValue = 10;
 	
-	for(int row = begY; row < endY; row++){
-		for(int col = begX; col < endX; col++){
+	for(int row = begY; row < endY-100; row++){
+		for(int col = begX; col < endX-100; col++){
 			uchar val = response.at<uchar>(row, col);
 			
 			if(val > thresholdValue){
@@ -321,37 +321,38 @@ void showKeyPoints(){
 	}
 }
 
-void saveKeypoints(Mat response){
+void saveKeypoints(Mat response){	
 	printf("Salvando keypoints ROIs no arquivo...\n");
-	
+		
 	vector<pair<int, pair<int, int> > > aux1, aux2, aux3;
 	vector<pair<int, pair<int, int> > > aux;
 	
-    for(int i = 0; i < (int)keyPoint.size(); i++){
+    for(int i = 0; i < (int)keyPoint.size(); i++) {
 		int y = keyPoint[i].first, x = keyPoint[i].second;
 		aux.push_back({(int)response.at<uchar>(y, x), {y, x}});
-	}
+	}	
     sort(aux.begin(), aux.end());
     reverse(aux.begin(), aux.end());
     
     int quantMaxKP = 500;
     
+    //cout << (int)roi[0].at<uchar>(1012, 1012) << endl << (int)roi[0].at<uchar>(23, 10) << endl;
+    
     for(int i = 0, k = 0; k < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
 	 	
-	 	if(roi[1].at<uchar>(y, x) != 0) {
+	 	if((int)roi[1].at<uchar>(y, x) != 0) {
 			aux1.push_back({(int)response.at<uchar>(y, x), {y, x}}) ;
 			k++;
 		}
-	 	else if(roi[2].at<uchar>(y, x) != 0) {
+	 	else if((int)roi[2].at<uchar>(y, x) != 0) {
 			aux2.push_back({(int)response.at<uchar>(y, x), {y, x}});
 			k++;
 		}
-	 	else if(roi[3].at<uchar>(y, x) != 0) {
+	 	else if((int)roi[3].at<uchar>(y, x) != 0) {
 			aux3.push_back({(int)response.at<uchar>(y, x), {y, x}});
 			k++;
-		}
-	 	
+		}	 	
     }
     
     double T = aux1.size() + aux2.size() + aux3.size();
@@ -422,18 +423,14 @@ int main(int, char** argv ){
 	normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	
 	//inputGray = inputGray.mul(25);
-	//equalizeHist(inputGray, inputGray);
-	logTranformUchar(150);
-
-<<<<<<< HEAD
+	equalizeHist(inputGray, inputGray);
+	//logTranformUchar(150);
+	
+	//imwrite("response.png", inputGray);
 	GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
 	//Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
 	
-	//imwrite("response.png", inputGray);
-=======
-	GaussianBlur(inputGray, inputGray, Size(5, 5), 0, 0, BORDER_DEFAULT);
-	//Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
->>>>>>> ca8533667520bd8912796b61fcb89721dc83b21b
+	imwrite("response.png", inputGray);
 	
 	//Threshoulding image 
 	thresholdR(inputGray);
@@ -442,25 +439,20 @@ int main(int, char** argv ){
 	Mat responseImg = nonMaximaSupression(inputGray);
 	
 	printf("quantidade KeyPoints: %d\n", quantKeyPoints);
-	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	saveKeypoints(responseImg); 
 	
 	//Salvando keypoints na imagem de entrada 
 	showKeyPoints();
 	
-	//Aumentando brilho da parte escura da imagem
-	/*
+	//Aumentando brilho da imagem
 	for(int y = 0; y < input.rows; y++){
 		for(int x = 0; x < input.cols; x++){
-			if(roi[3].at<uchar>(y, x) != 0) {
-				input.at<Vec3f>(y, x)[0] *= 5;
-				input.at<Vec3f>(y, x)[1] *= 5;
-				input.at<Vec3f>(y, x)[2] *= 5;	
-			}
+			input.at<Vec3f>(y, x)[0] *= 100;
+			input.at<Vec3f>(y, x)[1] *= 100;
+			input.at<Vec3f>(y, x)[2] *= 100;	
 		}
 	}
-	*/
 	
 	//Salvando imagens com Keypoints
 	int len = strlen(saida);
@@ -470,4 +462,3 @@ int main(int, char** argv ){
 	
 	return 0;
 }
-

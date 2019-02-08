@@ -195,7 +195,7 @@ void threshold(){
 	}
 }
 
-// 21 x 21 x 21 non Maxima Supression
+// 21 x 21 X 3 non Maxima Supression
 
 void nonMaximaSupression(){
 	int maskSize = 21; // Mascara de 21 x 21 baseado no artigo do prybil

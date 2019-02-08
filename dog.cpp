@@ -332,7 +332,6 @@ int main(int, char** argv ){
 	//Calculando DoG
 	calcDoG();
 	
-	
 	Mat responseEx = dogI[0][2].mul(45);
 	
 	imwrite("response.png", responseEx);
