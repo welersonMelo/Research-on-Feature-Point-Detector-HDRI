@@ -18,6 +18,7 @@ FILE *in, *out0, *out1, *out2, *out3;
 
 Mat input, inputGray;
 Mat roi[4];
+bool nullRoi = false;
 
 bool isHDR = false;
 
@@ -64,8 +65,8 @@ void read(char *name, char *argv2){
 	}else isHDR = false;
 	
 	//Lendo arquivo ROI
-	if(argv2 != NULL){
-		string path(argv2); //../dataset/XD/distance/100/100
+	string path(argv2);
+	if(path != "null") {
 		string num = "";
 		while(true){
 			if(path.back() == '/'){
@@ -82,6 +83,7 @@ void read(char *name, char *argv2){
 		roi[3] = imread(path+"ROIs."+num+".png", IMREAD_UNCHANGED);
 		
 	}else{
+		nullRoi = true;
 		roi[0] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
 		roi[1] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
 		roi[2] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
@@ -341,7 +343,7 @@ void saveKeypoints(Mat response){
     for(int i = 0, k = 0; k < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
 	 	
-	 	if((int)roi[1].at<uchar>(y, x) != 0) {
+	 	if((int)roi[1].at<uchar>(y, x) != 0 || nullRoi == true) {
 			aux1.push_back({(int)response.at<uchar>(y, x), {y, x}}) ;
 			k++;
 		}
@@ -427,7 +429,7 @@ int main(int, char** argv ){
 	logTranformUchar(150);
 	
 	//imwrite("response.png", inputGray);
-	GaussianBlur(inputGray, inputGray, Size(9, 9), 0, 0, BORDER_DEFAULT);
+	GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
 	//Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
 	
 	//imwrite("response.png", inputGray);
@@ -440,7 +442,7 @@ int main(int, char** argv ){
 	
 	printf("quantidade KeyPoints: %d\n", quantKeyPoints);
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
-	saveKeypoints(responseImg); 
+	saveKeypoints(responseImg);
 	
 	//Salvando keypoints na imagem de entrada 
 	showKeyPoints();
