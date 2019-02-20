@@ -430,7 +430,7 @@ int main(int, char** argv ){
 	
 	//imwrite("response.png", inputGray);
 	//GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
-	Mat ans; bilateralFilter(inputGray, ans, 10, 150, 150, BORDER_DEFAULT); inputGray = ans;
+	Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
 	
 	//imwrite("response.png", inputGray);
 	
