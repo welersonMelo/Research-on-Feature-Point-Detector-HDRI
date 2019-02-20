@@ -2,4 +2,10 @@ g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename detector_CV.cpp .
 
 nohup bash executar.detector_CV.3Dlighting1 &
 nohup bash executar.detector_CV.3Dlighting2 &
+nohup bash executar.detector_CV.3Dlighting3 &
+nohup bash executar.detector_CV.3Dlighting4 &
+nohup bash executar.detector_CV.3Dlighting5 &
+nohup bash executar.detector_CV.3Dlighting6 &
+nohup bash executar.detector_CV.3Dlighting7 &
+
 

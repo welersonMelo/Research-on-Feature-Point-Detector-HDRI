@@ -1,0 +1,3 @@
+echo "lighting/011" 
+./detector_CV ../dataset/3D/lighting/011/011.HDR.hdr ../dataset/3D/lighting/011/011 4 
+./detector_CV ../dataset/3D/lighting/011/011.logHDR.hdr ../dataset/3D/lighting/011/011 4 
