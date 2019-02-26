@@ -1,0 +1,18 @@
+clear  4 
+echo "distance/100"  4 
+./detector_CV ../dataset/2D/distance/100/100.HDR.hdr ../dataset/2D/distance/100/100 4 
+./detector_CV ../dataset/2D/distance/100/100.lFattal02.jpg ../dataset/2D/distance/100/100 4 
+./detector_CV ../dataset/2D/distance/100/100.lMantiuk06equ.jpg ../dataset/2D/distance/100/100 4 
+./detector_CV ../dataset/2D/distance/100/100.logHDR.hdr ../dataset/2D/distance/100/100 4 
+clear 4 
+echo "distance/103" 4 
+./detector_CV ../dataset/2D/distance/103/103.HDR.hdr ../dataset/2D/distance/103/103 4 
+./detector_CV ../dataset/2D/distance/103/103.lFattal02.jpg ../dataset/2D/distance/103/103 4 
+./detector_CV ../dataset/2D/distance/103/103.lMantiuk06equ.jpg ../dataset/2D/distance/103/103 4 
+./detector_CV ../dataset/2D/distance/103/103.logHDR.hdr ../dataset/2D/distance/103/103 4 
+clear 4 
+echo "distance/109" 4 
+./detector_CV ../dataset/2D/distance/109/109.HDR.hdr ../dataset/2D/distance/109/109 4 
+./detector_CV ../dataset/2D/distance/109/109.lFattal02.jpg ../dataset/2D/distance/109/109 4 
+./detector_CV ../dataset/2D/distance/109/109.lMantiuk06equ.jpg ../dataset/2D/distance/109/109 4 
+./detector_CV ../dataset/2D/distance/109/109.logHDR.hdr ../dataset/2D/distance/109/109 4 
