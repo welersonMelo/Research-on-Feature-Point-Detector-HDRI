@@ -18,4 +18,56 @@ echo "Calculando RR e Dist 1"
 
 sleep 15
 
+echo "desv padro 2"
 
+nohup ./detector_CV ../dataset/projectRoom/1/1.hdr ../dataset/projectRoom/1/1 2 &
+nohup ./detector_CV ../dataset/projectRoom/2/2.hdr ../dataset/projectRoom/2/2 2 &
+nohup ./detector_CV ../dataset/projectRoom/3/3.hdr ../dataset/projectRoom/3/3 2 &
+nohup ./detector_CV ../dataset/projectRoom/4/4.hdr ../dataset/projectRoom/4/4 2 &
+nohup ./detector_CV ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 2 &
+nohup ./detector_CV ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 2 & 
+nohup ./detector_CV ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 2 &
+
+sleep 120
+echo "Calculando RR e Dist 2"
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV1.txt ../dataset/projectRoom/SX/SX.detectorCV1.txt 8 > ../dataset/projectRoom/RR/RR.2.detectorCV1.txt
+
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV.distribution.txt ../dataset/projectRoom/SX/SX.detectorCV.distribution.txt 7 > ../dataset/projectRoom/Dist/distribution.2.detectorCV.distribution.txt
+
+sleep 15
+
+echo "desv padro 3"
+
+nohup ./detector_CV ../dataset/projectRoom/1/1.hdr ../dataset/projectRoom/1/1 3 &
+nohup ./detector_CV ../dataset/projectRoom/2/2.hdr ../dataset/projectRoom/2/2 3 &
+nohup ./detector_CV ../dataset/projectRoom/3/3.hdr ../dataset/projectRoom/3/3 3 &
+nohup ./detector_CV ../dataset/projectRoom/4/4.hdr ../dataset/projectRoom/4/4 3 &
+nohup ./detector_CV ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 3 &
+nohup ./detector_CV ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 3 & 
+nohup ./detector_CV ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 3 &
+
+sleep 120
+echo "Calculando RR e Dist 3"
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV1.txt ../dataset/projectRoom/SX/SX.detectorCV1.txt 8 > ../dataset/projectRoom/RR/RR.3.detectorCV1.txt
+
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV.distribution.txt ../dataset/projectRoom/SX/SX.detectorCV.distribution.txt 7 > ../dataset/projectRoom/Dist/distribution.3.detectorCV.distribution.txt
+
+sleep 15
+
+echo "desv padro 4"
+
+nohup ./detector_CV ../dataset/projectRoom/1/1.hdr ../dataset/projectRoom/1/1 4 &
+nohup ./detector_CV ../dataset/projectRoom/2/2.hdr ../dataset/projectRoom/2/2 4 &
+nohup ./detector_CV ../dataset/projectRoom/3/3.hdr ../dataset/projectRoom/3/3 4 &
+nohup ./detector_CV ../dataset/projectRoom/4/4.hdr ../dataset/projectRoom/4/4 4 &
+nohup ./detector_CV ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 4 &
+nohup ./detector_CV ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 4 & 
+nohup ./detector_CV ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 4 &
+
+sleep 120
+echo "Calculando RR e Dist 4"
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV1.txt ../dataset/projectRoom/SX/SX.detectorCV1.txt 8 > ../dataset/projectRoom/RR/RR.4.detectorCV1.txt
+
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV.distribution.txt ../dataset/projectRoom/SX/SX.detectorCV.distribution.txt 7 > ../dataset/projectRoom/Dist/distribution.4.detectorCV.distribution.txt
+
+sleep 15

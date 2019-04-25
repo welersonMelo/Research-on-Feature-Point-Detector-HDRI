@@ -525,7 +525,7 @@ int main(int, char** argv ){
 	int len = strlen(saida);
 	saida[len] = 'R';saida[len+1] = '.';saida[len+2] = 'j';saida[len+3] = 'p';saida[len+4] = 'g';saida[len+5] = '\0';
 	
-	imwrite(saida, input);
+	//imwrite(saida, input);
 	
 	return 0;
 }
