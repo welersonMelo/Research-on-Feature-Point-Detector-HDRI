@@ -379,6 +379,46 @@ void viewpointRR(char **argv){
 	printf("RR %.8f\n", RR);
 }
 
+void projectRoomRR(char **argv){
+	string projectRoom[] = {"1", "2", "3", "4", "5", "6", "7"};
+	int cont = 0;
+	int siz = 7;
+
+	for(int i = 0; i < siz; i++){
+		for(int j = 0; j < siz; j++){
+			if(i != j){
+				execute(argv, projectRoom[i], projectRoom[j]);
+			}
+		}
+	}
+	 
+	if(NU[0] == 0) NU[0]=1;
+	//if(NU[1] == 0) NU[1]=1;
+	if(NU[2] == 0) NU[2]=1;
+
+	double RR1 = NR[0]/NU[0];
+	//double RR2 = NR[1]/NU[1];
+	double RR3 = NR[2]/NU[2];
+	
+	double RR = min(RR1, RR3);
+	//double RR = (RR1 + RR2 + RR3)/3;
+	//printf("RR1  %.8f RR2  %.8f RR2  %.8f\n", RR1, RR2, RR3);
+	
+	printf("RR %.8f\n", RR);
+}
+
+void projectRoomUniformity(char ** argv){
+	string projectRoom[] = {"1", "2", "3", "4", "5", "6", "7"};
+	int siz = 7;
+	for(int i = 0; i < siz; i++){
+		executeUniformity(argv, projectRoom[i]);
+	}
+	
+	double medDist = sumDist/siz;
+	
+	printf("%.2f\n", medDist);	
+}
+
 int main(int, char** argv ){
 	
 	string tipo(argv[4]);
@@ -389,6 +429,8 @@ int main(int, char** argv ){
 	else if(tipo == "4") distanceRR(argv);
 	else if(tipo == "5") lightRR(argv);
 	else if(tipo == "6") viewpointRR(argv);
+	else if(tipo == "7") projectRoomUniformity(argv);
+	else if(tipo == "8") projectRoomRR(argv);
 	
 	return 0;
 }

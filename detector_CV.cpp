@@ -391,6 +391,68 @@ void saveKeypoints(Mat response){
 	fclose(out3);
 }
 
+void saveKeypoints2ROIs(Mat response){
+	// Quando tem somento duas ROIs, uma muito escura e outra muita clara, ou seja sem a região intermediária de tons médios ROI[2]
+	printf("Salvando keypoints ROIs no arquivo...\n");
+		
+	vector<pair<int, pair<int, int> > > aux1, aux3;
+	vector<pair<int, pair<int, int> > > aux;
+	
+    for(int i = 0; i < (int)keyPoint.size(); i++) {
+		int y = keyPoint[i].first, x = keyPoint[i].second;
+		aux.push_back({(int)response.at<uchar>(y, x), {y, x}});
+	}	
+    sort(aux.begin(), aux.end());
+    reverse(aux.begin(), aux.end());
+    
+    int quantMaxKP = 500;
+    
+    //cout << (int)roi[0].at<uchar>(1012, 1012) << endl << (int)roi[0].at<uchar>(23, 10) << endl;
+    
+    for(int i = 0, k = 0; k < quantMaxKP && i < aux.size(); i++){
+	 	int y = aux[i].second.first, x = aux[i].second.second;
+	 	
+	 	if((int)roi[0].at<uchar>(y, x) == 0)
+			continue;
+	 	
+	 	if((int)roi[1].at<uchar>(y, x) != 0 || nullRoi == true) {
+			aux1.push_back({(int)response.at<uchar>(y, x), {y, x}}) ;
+			k++;
+		}
+	 	else if((int)roi[3].at<uchar>(y, x) != 0) {
+			aux3.push_back({(int)response.at<uchar>(y, x), {y, x}});
+			k++;
+		}	 	
+    }
+    
+    double T = aux1.size() + aux3.size();
+	
+	double minFp = min(aux1.size()/T, aux3.size()/T);
+	double maxFp = max(aux1.size()/T, aux3.size()/T);
+	double D = 1 - (maxFp - minFp);
+	
+	//Salvando Distribution Rate
+	fprintf(out0, "%.4f\n", D);
+    
+	keyPoint.clear();
+	for(int i = 0; i < aux1.size(); i++)
+		keyPoint.push_back({aux1[i].second.first, aux1[i].second.second});
+	for(int i = 0; i < aux3.size(); i++)
+		keyPoint.push_back({aux3[i].second.first, aux3[i].second.second});
+	
+	//Salvando pontos ROI 1
+	fprintf(out1, "%d\n", (int)aux1.size());
+	for(int i = 0; i < (int)aux1.size(); i++)
+		fprintf(out1, "%d %d %d\n", aux1[i].second.first, aux1[i].second.second, aux1[i].first);
+	fclose(out1);
+	
+	//Salvando pontos ROI 3
+	fprintf(out3, "%d\n", (int)aux3.size());
+	for(int i = 0; i < (int)aux3.size(); i++)
+		fprintf(out3, "%d %d %d\n", aux3[i].second.first, aux3[i].second.second, aux3[i].first);
+	fclose(out3);
+}
+
 //Função Principal
 // ROI = Region Of Interest
 // Ex Chamada: 
@@ -442,7 +504,10 @@ int main(int, char** argv ){
 	
 	printf("quantidade KeyPoints: %d\n", quantKeyPoints);
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
-	saveKeypoints(responseImg);
+	
+	saveKeypoints2ROIs(responseImg);
+	//saveKeypoints(responseImg);
+	
 	
 	//Salvando keypoints na imagem de entrada 
 	showKeyPoints();

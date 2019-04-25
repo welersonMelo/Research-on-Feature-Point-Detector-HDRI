@@ -1,0 +1,21 @@
+g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename detector_CV.cpp .cpp` detector_CV.cpp `pkg-config --libs opencv`
+
+echo "desv padro 1"
+
+nohup ./detector_CV ../dataset/projectRoom/1/1.hdr ../dataset/projectRoom/1/1 1 &
+nohup ./detector_CV ../dataset/projectRoom/2/2.hdr ../dataset/projectRoom/2/2 1 &
+nohup ./detector_CV ../dataset/projectRoom/3/3.hdr ../dataset/projectRoom/3/3 1 &
+nohup ./detector_CV ../dataset/projectRoom/4/4.hdr ../dataset/projectRoom/4/4 1 &
+nohup ./detector_CV ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 1 &
+nohup ./detector_CV ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 1 & 
+nohup ./detector_CV ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 1 &
+
+sleep 120
+echo "Calculando RR e Dist 1"
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV1.txt ../dataset/projectRoom/SX/SX.detectorCV1.txt 8 > ../dataset/projectRoom/RR/RR.1.detectorCV1.txt
+
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV.distribution.txt ../dataset/projectRoom/SX/SX.detectorCV.distribution.txt 7 > ../dataset/projectRoom/Dist/distribution.1.detectorCV.distribution.txt
+
+sleep 15
+
+
