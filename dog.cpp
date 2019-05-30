@@ -145,7 +145,7 @@ void nonMaximaSupression(){
 		for(int z = 1; z < 3; z++){
 			Mat matAux = Mat::zeros(Size(dogI[c][z].cols, dogI[c][z].rows), CV_32F);
 			for(int x = 50; x < dogI[c][z].cols-50; x++){
-				for(int y = 50; y < dogI[c][z].rows-50; y++){
+				for(int y = 50; y < dogI[c][z].rows-61; y++){
 					float mid = dogI[c][z].at<float>(y, x);	
 					
 					if(roi[0].at<uchar>(y, x) == 0){

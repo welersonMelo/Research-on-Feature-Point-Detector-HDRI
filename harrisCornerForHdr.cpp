@@ -1,4 +1,4 @@
-//g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename harrisCornerForHDRI.cpp .cpp` harrisCornerForHDRI.cpp `pkg-config --libs opencv`
+//g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename harrisCornerForHdr.cpp .cpp` harrisCornerForHdr.cpp `pkg-config --libs opencv`
 
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
@@ -126,7 +126,9 @@ void responseCalc(){
 			float det = (fx2 * fy2) - (fxy * fxy);
 			float trace = (fx2 + fy2);
 			response.at<float>(row, col) = det - k*(trace*trace);
-			if(response.at<float>(row, col) < 0 || roi[0].at<uchar>(row, col) == 0) response.at<float>(row, col) = 0;
+			if(response.at<float>(row, col) < 0) response.at<float>(row, col) = 0; 
+			if (row >= roi[0].rows || col >= roi[0].cols) response.at<float>(row, col) = 0; 
+			else if (roi[0].at<uchar>(row, col) == 0) response.at<float>(row, col) = 0;
 		}
 	}
 }

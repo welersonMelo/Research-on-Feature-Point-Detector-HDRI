@@ -1,0 +1,50 @@
+clear
+echo "lighting/001"
+
+./dog ../dataset/3D/lighting/001/001.HDR.hdr ../dataset/3D/lighting/001/001
+./dog ../dataset/3D/lighting/001/001.LDR.jpg ../dataset/3D/lighting/001/001
+./dog ../dataset/3D/lighting/001/001.logHDR.hdr ../dataset/3D/lighting/001/001
+
+clear
+echo "lighting/010"
+
+./dog ../dataset/3D/lighting/010/010.HDR.hdr ../dataset/3D/lighting/010/010
+./dog ../dataset/3D/lighting/010/010.LDR.jpg ../dataset/3D/lighting/010/010
+./dog ../dataset/3D/lighting/010/010.logHDR.hdr ../dataset/3D/lighting/010/010
+
+clear
+echo "lighting/011"
+
+./dog ../dataset/3D/lighting/011/011.HDR.hdr ../dataset/3D/lighting/011/011
+./dog ../dataset/3D/lighting/011/011.LDR.jpg ../dataset/3D/lighting/011/011
+./dog ../dataset/3D/lighting/011/011.logHDR.hdr ../dataset/3D/lighting/011/011
+
+clear
+echo "lighting/100"
+
+./dog ../dataset/3D/lighting/100/100.HDR.hdr ../dataset/3D/lighting/100/100
+./dog ../dataset/3D/lighting/100/100.LDR.jpg ../dataset/3D/lighting/100/100
+./dog ../dataset/3D/lighting/100/100.logHDR.hdr ../dataset/3D/lighting/100/100
+
+clear
+echo "lighting/101"
+
+./dog ../dataset/3D/lighting/101/101.HDR.hdr ../dataset/3D/lighting/101/101
+./dog ../dataset/3D/lighting/101/101.LDR.jpg ../dataset/3D/lighting/101/101
+./dog ../dataset/3D/lighting/101/101.logHDR.hdr ../dataset/3D/lighting/101/101
+
+clear
+echo "lighting/110"
+
+./dog ../dataset/3D/lighting/110/110.HDR.hdr ../dataset/3D/lighting/110/110
+./dog ../dataset/3D/lighting/110/110.LDR.jpg ../dataset/3D/lighting/110/110
+./dog ../dataset/3D/lighting/110/110.logHDR.hdr ../dataset/3D/lighting/110/110
+
+clear
+echo "lighting/111"
+
+./dog ../dataset/3D/lighting/111/111.HDR.hdr ../dataset/3D/lighting/111/111
+./dog ../dataset/3D/lighting/111/111.LDR.jpg ../dataset/3D/lighting/111/111
+./dog ../dataset/3D/lighting/111/111.logHDR.hdr ../dataset/3D/lighting/111/111
+
+

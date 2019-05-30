@@ -206,6 +206,10 @@ Mat coefficienceOfVariationMaskGaussian(Mat aux, int n, string gaussianOp){
 	
 	for(int R = 0; R < n; R++)
 		for(int C = 0; C < n; C++)
+			gaussianBox.at<float>(R, C) = - gaussianBox.at<float>(R, C) + 0.062650591 ;
+	
+	for(int R = 0; R < n; R++)
+		for(int C = 0; C < n; C++)
 			SUM += gaussianBox.at<float>(R, C);
 		
 	cout<<"S:"<< SUM <<endl;
@@ -494,7 +498,7 @@ int main(int, char** argv ){
 	//GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
 	Mat ans; bilateralFilter(inputGray, ans, 10, 150, 150, BORDER_DEFAULT); inputGray = ans;
 	
-	//imwrite("response.png", inputGray);
+	imwrite("response.png", inputGray);
 	
 	//Threshoulding image 
 	thresholdR(inputGray);
@@ -505,13 +509,14 @@ int main(int, char** argv ){
 	printf("quantidade KeyPoints: %d\n", quantKeyPoints);
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	
-	saveKeypoints2ROIs(responseImg);
-	//saveKeypoints(responseImg);
+	//saveKeypoints2ROIs(responseImg);
+	saveKeypoints(responseImg);
 	
 	
 	//Salvando keypoints na imagem de entrada 
 	showKeyPoints();
 	
+	/*
 	//Aumentando brilho da imagem
 	for(int y = 0; y < input.rows; y++){
 		for(int x = 0; x < input.cols; x++){
@@ -520,12 +525,13 @@ int main(int, char** argv ){
 			input.at<Vec3f>(y, x)[2] *= 100;	
 		}
 	}
+	*/
 	
 	//Salvando imagens com Keypoints
 	int len = strlen(saida);
 	saida[len] = 'R';saida[len+1] = '.';saida[len+2] = 'j';saida[len+3] = 'p';saida[len+4] = 'g';saida[len+5] = '\0';
 	
-	//imwrite(saida, input);
+	imwrite(saida, input);
 	
 	return 0;
 }

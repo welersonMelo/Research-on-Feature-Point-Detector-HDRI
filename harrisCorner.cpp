@@ -57,6 +57,7 @@ void read(char *name, char *argv2){
 			num += path.back();
 			path.pop_back();
 		}
+		
 		reverse(num.begin(), num.end());
 		
 		roi[0] = imread(path+"ROI."+num+".png", IMREAD_UNCHANGED);
@@ -65,6 +66,7 @@ void read(char *name, char *argv2){
 		roi[3] = imread(path+"ROIs."+num+".png", IMREAD_UNCHANGED);
 		
 	}else{
+		
 		roi[0] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
 		roi[1] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
 		roi[2] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
@@ -87,7 +89,9 @@ void responseCalc(){
 			float det = (fx2 * fy2) - (fxy * fxy);
 			float trace = (fx2 + fy2);
 			response.at<float>(row, col) = det - k*(trace*trace);
-			if(response.at<float>(row, col) < 0 || roi[0].at<uchar>(row, col) == 0) response.at<float>(row, col) = 0;
+			if(response.at<float>(row, col) < 0) response.at<float>(row, col) = 0; 
+			if (row >= roi[0].rows || col >= roi[0].cols) response.at<float>(row, col) = 0; 
+			else if (roi[0].at<uchar>(row, col) == 0) response.at<float>(row, col) = 0;
 		}
 	}
 }
@@ -96,7 +100,7 @@ void responseCalc(){
 void thresholdR(){
 	//Atualizando threshold
 	//thresholdValue = 8*(1e14); // Threshold fixo para teste do pribyl
-	thresholdValue = 1;
+	thresholdValue = 10;
 	
 	//Valor dentro da area externa
 	int begX = 0, begY = 0; 
@@ -293,12 +297,12 @@ int main(int, char** argv ){
 	
 	//Calculando resposta da derivada 
 	responseCalc();
-	//showResponse("Antes Th");	
+	//showRresesponse("Antes Th");	
 	
 	Mat aux1;
 	normalize(response, aux1, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
-	aux1*=5;
 	imwrite("response_1.png", aux1);
+	//imwrite("roi0.png", roi[0]);
 	
 	//Limiar na imagem de Response
 	thresholdR();

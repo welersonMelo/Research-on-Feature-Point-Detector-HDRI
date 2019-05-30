@@ -1,0 +1,12 @@
+clear
+echo "dog distribution/lighting/BX.SX"
+
+
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.HDR.dog.distribution.txt ../dataset/3D/lighting/SX/SX.HDR.dog.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.HDR.dog.distribution.txt
+
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.LDR.dog.distribution.txt ../dataset/3D/lighting/SX/SX.LDR.dog.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.LDR.dog.distribution.txt
+
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.logHDR.dog.distribution.txt ../dataset/3D/lighting/SX/SX.logHDR.dog.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.logHDR.dog.distribution.txt
+
+
+
