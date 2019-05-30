@@ -2,8 +2,8 @@ clear
 echo "harris RR/lighting/BX.SX"
 
 
-./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.HDR.surf1.txt ../dataset/3D/lighting/SX/SX.HDR.surf1.txt 5 > ../dataset/3D/lighting/RR/RR.HDR.surf1.txt
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.HDR.surfForHdr1.txt ../dataset/3D/lighting/SX/SX.HDR.surfForHdr1.txt 5 > ../dataset/3D/lighting/RR/RR.HDR.surfForHdr1.txt
 
-./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.LDR.surf1.txt ../dataset/3D/lighting/SX/SX.LDR.surf1.txt 5 > ../dataset/3D/lighting/RR/RR.LDR.surf1.txt
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.LDR.surfForHdr1.txt ../dataset/3D/lighting/SX/SX.LDR.surfForHdr1.txt 5 > ../dataset/3D/lighting/RR/RR.LDR.surfForHdr1.txt
 
-./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.logHDR.surf1.txt ../dataset/3D/lighting/SX/SX.logHDR.surf1.txt 5 > ../dataset/3D/lighting/RR/RR.logHDR.surf1.txt
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.logHDR.surfForHdr1.txt ../dataset/3D/lighting/SX/SX.logHDR.surfForHdr1.txt 5 > ../dataset/3D/lighting/RR/RR.logHDR.surfForHdr1.txt
