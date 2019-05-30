@@ -11,6 +11,7 @@ using namespace std;
 
 const int INF = (int) 1e9;
 
+
 //Criando imagens do tipo Mat
 FILE *in, *out0, *out1, *out2, *out3;
 
