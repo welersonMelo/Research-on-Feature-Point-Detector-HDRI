@@ -2,8 +2,8 @@ clear
 echo "harris RR/lighting/BX.SX"
 
 
-./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.HDR.dog1.txt ../dataset/3D/lighting/SX/SX.HDR.dog1.txt 5 > ../dataset/3D/lighting/RR/RR.HDR.dog1.txt
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.HDR.dogForHDR1.txt ../dataset/3D/lighting/SX/SX.HDR.dogForHDR1.txt 5 > ../dataset/3D/lighting/RR/RR.HDR.dogForHDR1.txt
 
-./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.LDR.dog1.txt ../dataset/3D/lighting/SX/SX.LDR.dog1.txt 5 > ../dataset/3D/lighting/RR/RR.LDR.dog1.txt
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.LDR.dogForHDR1.txt ../dataset/3D/lighting/SX/SX.LDR.dogForHDR1.txt 5 > ../dataset/3D/lighting/RR/RR.LDR.dogForHDR1.txt
 
-./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.logHDR.dog1.txt ../dataset/3D/lighting/SX/SX.logHDR.dog1.txt 5 > ../dataset/3D/lighting/RR/RR.logHDR.dog1.txt
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.logHDR.dogForHDR1.txt ../dataset/3D/lighting/SX/SX.logHDR.dogForHDR1.txt 5 > ../dataset/3D/lighting/RR/RR.logHDR.dogForHDR1.txt

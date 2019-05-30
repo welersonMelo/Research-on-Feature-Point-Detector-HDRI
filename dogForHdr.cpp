@@ -286,8 +286,8 @@ void nonMaximaSupression(){
 		for(int z = 1; z < 3; z++){
 			dogCopy[z] = dogI[c][z];
 			Mat matAux = Mat::zeros(Size(dogI[c][z].cols, dogI[c][z].rows), CV_32F);
-			for(int x = 0; x < dogI[c][z].cols-100; x++){
-				for(int y = 0; y < dogI[c][z].rows-100; y++){
+			for(int x = 0; x < dogI[c][z].cols-61; x++){
+				for(int y = 0; y < dogI[c][z].rows-61; y++){
 					float mid = dogI[c][z].at<float>(y, x);	
 					if(roi[0].at<uchar>(y, x) == 0){
 						matAux.at<float>(y, x) = 0;
