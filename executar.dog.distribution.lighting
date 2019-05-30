@@ -1,12 +1,12 @@
 clear
-echo "dogForHDR distribution/lighting/BX.SX"
+echo "surf distribution/lighting/BX.SX"
 
 
-./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.HDR.dogForHDR.distribution.txt ../dataset/3D/lighting/SX/SX.HDR.dogForHDR.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.HDR.dogForHDR.distribution.txt
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.HDR.surf.distribution.txt ../dataset/3D/lighting/SX/SX.HDR.surf.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.HDR.surf.distribution.txt
 
-./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.LDR.dogForHDR.distribution.txt ../dataset/3D/lighting/SX/SX.LDR.dogForHDR.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.LDR.dogForHDR.distribution.txt
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.LDR.surf.distribution.txt ../dataset/3D/lighting/SX/SX.LDR.surf.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.LDR.surf.distribution.txt
 
-./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.logHDR.dogForHDR.distribution.txt ../dataset/3D/lighting/SX/SX.logHDR.dogForHDR.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.logHDR.dogForHDR.distribution.txt
+./repeatability ../dataset/3D/lighting/H.BX.SX.txt ../dataset/3D/lighting/BX/BX.logHDR.surf.distribution.txt ../dataset/3D/lighting/SX/SX.logHDR.surf.distribution.txt 2 > ../dataset/3D/lighting/Dist/distribution.logHDR.surf.distribution.txt
 
 
 
