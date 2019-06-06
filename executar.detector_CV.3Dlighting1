@@ -1,3 +1,3 @@
-echo "lighting/001" 
+echo "lighting/001"  4 
 ./detector_CV ../dataset/3D/lighting/001/001.HDR.hdr ../dataset/3D/lighting/001/001 4 
 ./detector_CV ../dataset/3D/lighting/001/001.logHDR.hdr ../dataset/3D/lighting/001/001 4 

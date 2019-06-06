@@ -24,7 +24,7 @@ for gaussianOp in num:
 	print (os.system("bash executar.ALL3D"))
 
 	print('entrando em espera')
-	minutes = 4 # tempode de espera em minutos
+	minutes = 5 # tempode de espera em minutos
 	time.sleep(60*minutes) 
 
 	print('fim execucao\nRodar repetibilidade')

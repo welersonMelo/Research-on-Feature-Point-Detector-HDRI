@@ -10,7 +10,7 @@ nohup ./detector_CV ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 1 
 nohup ./detector_CV ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 1 & 
 nohup ./detector_CV ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 1 &
 
-sleep 120
+sleep 220
 echo "Calculando RR e Dist 1"
 ./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV1.txt ../dataset/projectRoom/SX/SX.detectorCV1.txt 8 > ../dataset/projectRoom/RR/RR.1.detectorCV1.txt
 
@@ -28,7 +28,7 @@ nohup ./detector_CV ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 2 
 nohup ./detector_CV ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 2 & 
 nohup ./detector_CV ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 2 &
 
-sleep 120
+sleep 220
 echo "Calculando RR e Dist 2"
 ./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV1.txt ../dataset/projectRoom/SX/SX.detectorCV1.txt 8 > ../dataset/projectRoom/RR/RR.2.detectorCV1.txt
 
@@ -46,7 +46,7 @@ nohup ./detector_CV ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 3 
 nohup ./detector_CV ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 3 & 
 nohup ./detector_CV ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 3 &
 
-sleep 120
+sleep 220
 echo "Calculando RR e Dist 3"
 ./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV1.txt ../dataset/projectRoom/SX/SX.detectorCV1.txt 8 > ../dataset/projectRoom/RR/RR.3.detectorCV1.txt
 
@@ -64,7 +64,7 @@ nohup ./detector_CV ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 4 
 nohup ./detector_CV ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 4 & 
 nohup ./detector_CV ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 4 &
 
-sleep 120
+sleep 220
 echo "Calculando RR e Dist 4"
 ./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.detectorCV1.txt ../dataset/projectRoom/SX/SX.detectorCV1.txt 8 > ../dataset/projectRoom/RR/RR.4.detectorCV1.txt
 

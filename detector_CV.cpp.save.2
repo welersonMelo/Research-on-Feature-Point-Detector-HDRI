@@ -1,6 +1,5 @@
 //g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename detector_CV.cpp .cpp` detector_CV.cpp `pkg-config --libs opencv`
 
-https://github.com/welersonMelo/Research-on-Feature-Point-Detector-HDRI.git
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
@@ -19,6 +18,7 @@ FILE *in, *out0, *out1, *out2, *out3;
 
 Mat input, inputGray;
 Mat roi[4];
+bool nullRoi = false;
 
 bool isHDR = false;
 
@@ -40,14 +40,15 @@ void logTranform(int c){
 }
 
 void logTranformUchar(int c){
-	for(int y = 0; y < input.rows; y++){
-		for(int x = 0; x < input.cols; x++){
+	for(int y = 0; y < inputGray.rows; y++){
+		for(int x = 0; x < inputGray.cols; x++){
 			uchar r = inputGray.at<uchar>(y, x);
-			uchar val = c * log10(r + 1);
+			uchar val = (uchar)(int)fmin(c * log10(r + 1), 255);
 			inputGray.at<uchar>(y, x) = val;
 		}
 	}
 }
+
 	
 //Abrindo imagem no argumento da linha de comando
 void read(char *name, char *argv2){
@@ -63,9 +64,9 @@ void read(char *name, char *argv2){
 		printf("Imagem HDR\n");
 	}else isHDR = false;
 	
-	//Lendo arquivo com os pontos (x, y) da ROI
-	if(argv2 != NULL){
-		string path(argv2); //../dataset/2D/distance/100/100
+	//Lendo arquivo ROI
+	string path(argv2);
+	if(path != "null") {
 		string num = "";
 		while(true){
 			if(path.back() == '/'){
@@ -82,6 +83,7 @@ void read(char *name, char *argv2){
 		roi[3] = imread(path+"ROIs."+num+".png", IMREAD_UNCHANGED);
 		
 	}else{
+		nullRoi = true;
 		roi[0] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
 		roi[1] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
 		roi[2] = Mat::zeros(cv::Size(input.cols, input.rows), CV_8U);
@@ -99,10 +101,10 @@ void thresholdR(Mat response){
 	int begX = 0, begY = 0; 
 	int endX = response.cols, endY = response.rows;
 
-	uchar thresholdValue = 5;
+	uchar thresholdValue = 10;
 	
-	for(int row = begY; row < endY; row++){
-		for(int col = begX; col < endX; col++){
+	for(int row = begY; row < endY-100; row++){
+		for(int col = begX; col < endX-100; col++){
 			uchar val = response.at<uchar>(row, col);
 			
 			if(val > thresholdValue){
@@ -162,7 +164,7 @@ Mat nonMaximaSupression(Mat response){
 }//Fim função
 
 // mascara coefficiente de variacao
-Mat coefficienceOfVariationMask(Mat aux, int n){
+Mat coefficienceOfVariationMaskGaussian(Mat aux, int n, string gaussianOp){
 	if(aux.depth() != CV_32F)
 		aux.convertTo(aux, CV_32F);
 	
@@ -179,22 +181,31 @@ Mat coefficienceOfVariationMask(Mat aux, int n){
 	for(int y = 0; y < response.rows; y++)
 		for(int x = 0; x < response.cols; x++)
 			response2.at<float>(y, x) = (response.at<float>(y, x) * response.at<float>(y, x));
-	
+
+	float gerador[] = {0.0, 0.0, 0.0, 0.0, 0.0};
 	//Testando a gaussiana 5x5 na média
+	if(gaussianOp == "1"){
+		gerador[0] = 0.06136; gerador[1] = 0.24477; gerador[2] = 0.38774; gerador[3] = 0.24477; gerador[4] = 0.06136;//  - SD(sigma) = 1.0
+	}
+	else if(gaussianOp == "2"){
+		gerador[0] = 0.122581; gerador[1] = 0.233062; gerador[2] = 0.288713; gerador[3] = gerador[1]; gerador[4] = gerador[0];// - SD(sigma) = 1.5 
+	}
+	else if(gaussianOp == "3"){
+		gerador[0] = 0.153388; gerador[1] = 0.221461; gerador[2] = 0.250301; gerador[3] = gerador[1]; gerador[4] = gerador[0];// - SD(sigma) = 2.0
+	}
+	else if(gaussianOp == "4"){
+		gerador[0] = 0.169327; gerador[1] = 0.214574; gerador[2] = 0.232198; gerador[3] = gerador[1]; gerador[4] = gerador[0];// SD(sigma); sigma = 2.5
+	}
 	
-	//float gerador[] = {0.06136,	0.24477,	0.38774,	0.24477,	0.06136};//  - SD(sigma) = 1.0
-	//float gerador[] = {0.122581,	0.233062,	0.288713,	0.233062,	0.122581};// - SD(sigma) = 1.5
-	float gerador[] = {0.153388,	0.221461,	0.250301,	0.221461,	0.153388};// - SD(sigma) = 2.0
-	
-	Mat gaussianBox = Mat::zeros(cv::Size(5, 5), CV_32F);
-	Mat gen1 = cv::Mat(1, 5, CV_32F, gerador);
-	Mat gen2 = cv::Mat(5, 1, CV_32F, gerador);
+	Mat gaussianBox = Mat::zeros(cv::Size(n, n), CV_32F);
+	Mat gen1 = cv::Mat(1, n, CV_32F, gerador);
+	Mat gen2 = cv::Mat(n, 1, CV_32F, gerador);
 	gaussianBox = gen2*gen1;
 	
 	float SUM = 0; // A soma de todos os valores da mascara gaussiana 5x5
 	
-	for(int R = 0; R < 5; R++)
-		for(int C = 0; C < 5; C++)
+	for(int R = 0; R < n; R++)
+		for(int C = 0; C < n; C++)
 			SUM += gaussianBox.at<float>(R, C);
 		
 	cout<<"S:"<< SUM <<endl;
@@ -230,8 +241,9 @@ Mat coefficienceOfVariationMask(Mat aux, int n){
 	normalize(response, aux2, 0.0, 256.0, NORM_MINMAX, CV_32FC1, Mat());
 	
 	return aux2;
-	
-	/*
+}
+
+Mat coefficienceOfVariationMask(Mat aux, int n){
 	
 	if(aux.depth() != CV_32F)
 		aux.convertTo(aux, CV_32F);
@@ -294,7 +306,6 @@ Mat coefficienceOfVariationMask(Mat aux, int n){
 	
 	return aux2;
 	
-	*/
 }
 
 void showKeyPoints(){
@@ -312,37 +323,38 @@ void showKeyPoints(){
 	}
 }
 
-void saveKeypoints(Mat response){
+void saveKeypoints(Mat response){	
 	printf("Salvando keypoints ROIs no arquivo...\n");
-	
+		
 	vector<pair<int, pair<int, int> > > aux1, aux2, aux3;
 	vector<pair<int, pair<int, int> > > aux;
 	
-    for(int i = 0; i < (int)keyPoint.size(); i++){
+    for(int i = 0; i < (int)keyPoint.size(); i++) {
 		int y = keyPoint[i].first, x = keyPoint[i].second;
 		aux.push_back({(int)response.at<uchar>(y, x), {y, x}});
-	}
+	}	
     sort(aux.begin(), aux.end());
     reverse(aux.begin(), aux.end());
     
     int quantMaxKP = 500;
     
+    //cout << (int)roi[0].at<uchar>(1012, 1012) << endl << (int)roi[0].at<uchar>(23, 10) << endl;
+    
     for(int i = 0, k = 0; k < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
 	 	
-	 	if(roi[1].at<uchar>(y, x) != 0) {
+	 	if((int)roi[1].at<uchar>(y, x) != 0 || nullRoi == true) {
 			aux1.push_back({(int)response.at<uchar>(y, x), {y, x}}) ;
 			k++;
 		}
-	 	else if(roi[2].at<uchar>(y, x) != 0) {
+	 	else if((int)roi[2].at<uchar>(y, x) != 0) {
 			aux2.push_back({(int)response.at<uchar>(y, x), {y, x}});
 			k++;
 		}
-	 	else if(roi[3].at<uchar>(y, x) != 0) {
+	 	else if((int)roi[3].at<uchar>(y, x) != 0) {
 			aux3.push_back({(int)response.at<uchar>(y, x), {y, x}});
 			k++;
-		}
-	 	
+		}	 	
     }
     
     double T = aux1.size() + aux2.size() + aux3.size();
@@ -379,6 +391,79 @@ void saveKeypoints(Mat response){
 	fclose(out3);
 }
 
+void saveKeypoints2ROIs(Mat response){
+	// Quando tem somento duas ROIs, uma muito escura e outra muita clara, ou seja sem a região intermediária de tons médios ROI[2]
+	printf("Salvando keypoints ROIs no arquivo 2...\n");
+	
+		
+	vector<pair<int, pair<int, int> > > aux1, aux3;
+	vector<pair<int, pair<int, int> > > aux;
+	int bla;
+	cout<<"1 ";cin>>bla;
+	
+    for(int i = 0; i < (int)keyPoint.size(); i++) {
+		int y = keyPoint[i].first, x = keyPoint[i].second;
+		aux.push_back({(int)response.at<uchar>(y, x), {y, x}});
+	}	
+    cout<<"2 ";cin>>bla;
+    sort(aux.begin(), aux.end());
+    reverse(aux.begin(), aux.end());
+
+    cout <<"3 ";cin>>bla;
+
+    int quantMaxKP = 500;
+    
+    //cout << (int)roi[0].at<uchar>(1012, 1012) << endl << (int)roi[0].at<uchar>(23, 10) << endl;
+    
+    for(int i = 0, k = 0; k < quantMaxKP && i < aux.size(); i++){
+	 	int y = aux[i].second.first, x = aux[i].second.second;
+	 	
+	 	if((int)roi[0].at<uchar>(y, x) == 0)
+			continue;
+	 	
+	 	if((int)roi[1].at<uchar>(y, x) != 0 || nullRoi == true) {
+			aux1.push_back({(int)response.at<uchar>(y, x), {y, x}}) ;
+			k++;
+		}
+	 	else if((int)roi[3].at<uchar>(y, x) != 0) {
+			aux3.push_back({(int)response.at<uchar>(y, x), {y, x}});
+			k++;
+		}	 	
+    }
+
+    cout<<"4 ";cin>>bla;
+    
+    double T = aux1.size() + aux3.size();
+	
+	double minFp = min(aux1.size()/T, aux3.size()/T);
+	double maxFp = max(aux1.size()/T, aux3.size()/T);
+	double D = 1 - (maxFp - minFp);
+
+    cout<<"5 ";cin>>bla;
+
+	//Salvando Distribution Rate
+	fprintf(out0, "%.4f\n", D);
+    
+	keyPoint.clear();
+	for(int i = 0; i < aux1.size(); i++)
+		keyPoint.push_back({aux1[i].second.first, aux1[i].second.second});
+	for(int i = 0; i < aux3.size(); i++)
+		keyPoint.push_back({aux3[i].second.first, aux3[i].second.second});
+	
+	cout<<"6 ";waitKey(0);
+	//Salvando pontos ROI
+	fprintf(out1, "%d\n", (int)aux1.size());
+	for(int i = 0; i < (int)aux1.size(); i++)
+		fprintf(out1, "%d %d %d\n", aux1[i].second.first, aux1[i].second.second, aux1[i].first);
+	fclose(out1);
+	
+	//Salvando pontos ROI 3
+	fprintf(out3, "%d\n", (int)aux3.size());
+	for(int i = 0; i < (int)aux3.size(); i++)
+		fprintf(out3, "%d %d %d\n", aux3[i].second.first, aux3[i].second.second, aux3[i].first);
+	fclose(out3);
+}
+
 //Função Principal
 // ROI = Region Of Interest
 // Ex Chamada: 
@@ -406,15 +491,21 @@ int main(int, char** argv ){
 	
 	//inputGray = coefficienceOfVariationMask(inputGray, 5);
 	
-	inputGray = coefficienceOfVariationMask(inputGray, 5);
+	string gaussianOp(argv[3]);
+	
+	inputGray = coefficienceOfVariationMaskGaussian(inputGray, 5, gaussianOp);
 	
 	normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	
-	inputGray = inputGray.mul(25);
+	//inputGray = inputGray.mul(25);
+	equalizeHist(inputGray, inputGray);
+	//logTranformUchar(150);
 	
-	GaussianBlur(inputGray, inputGray, Size(5, 5), 0, 0, BORDER_DEFAULT);
-
-	//imwrite("in1.png", inputGray);
+	//imwrite("response.png", inputGray);
+	//GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
+	Mat ans; bilateralFilter(inputGray, ans, 10, 150, 150, BORDER_DEFAULT); inputGray = ans;
+	
+	//imwrite("response.png", inputGray);
 	
 	//Threshoulding image 
 	thresholdR(inputGray);
@@ -423,25 +514,23 @@ int main(int, char** argv ){
 	Mat responseImg = nonMaximaSupression(inputGray);
 	
 	printf("quantidade KeyPoints: %d\n", quantKeyPoints);
-	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
-	saveKeypoints(responseImg); 
+	
+	saveKeypoints2ROIs(responseImg);
+	//saveKeypoints(responseImg);
+	
 	
 	//Salvando keypoints na imagem de entrada 
 	showKeyPoints();
 	
-	//Aumentando brilho da parte escura da imagem
-	/*
+	//Aumentando brilho da imagem
 	for(int y = 0; y < input.rows; y++){
 		for(int x = 0; x < input.cols; x++){
-			if(roi[3].at<uchar>(y, x) != 0) {
-				input.at<Vec3f>(y, x)[0] *= 5;
-				input.at<Vec3f>(y, x)[1] *= 5;
-				input.at<Vec3f>(y, x)[2] *= 5;	
-			}
+			input.at<Vec3f>(y, x)[0] *= 100;
+			input.at<Vec3f>(y, x)[1] *= 100;
+			input.at<Vec3f>(y, x)[2] *= 100;	
 		}
 	}
-	*/
 	
 	//Salvando imagens com Keypoints
 	int len = strlen(saida);
@@ -451,4 +540,3 @@ int main(int, char** argv ){
 	
 	return 0;
 }
-
