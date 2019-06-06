@@ -221,14 +221,14 @@ Mat coefficienceOfVariationMaskGaussian(Mat aux, int n, string gaussianOp){
 			
 			for(int y = yBeg, I = 0; y <= yEnd; y++, I++){
 				for(int x = xBeg, J = 0; x <= xEnd; x++, J++){
-					sumVal += (response.at<float>(y, x) * gaussianBox.at<float>(I, J));
-					sumVal2 += (response2.at<float>(y, x));
+					sumVal += (response.at<float>(y, x));
+					sumVal2 += (response2.at<float>(y, x) * gaussianBox.at<float>(I, J));
 				}
 			}
 			
-			float media = sumVal/SUM;
+			float media = sumVal/N;
 			
-			float variancia = (sumVal2/N) - (media*media);
+			float variancia = (sumVal2/SUM) - (media*media);
 			float S = sqrt(variancia); // desvio padrao
 			float CV = media == 0? 0 : S/media; // Coef de Variacao
 			auxResponse.at<float>(i, j) = CV;
@@ -491,8 +491,8 @@ int main(int, char** argv ){
 	//logTranformUchar(150);
 	
 	//imwrite("response.png", inputGray);
-	//GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
-	Mat ans; bilateralFilter(inputGray, ans, 10, 150, 150, BORDER_DEFAULT); inputGray = ans;
+	GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
+	//Mat ans; bilateralFilter(inputGray, ans, 10, 150, 150, BORDER_DEFAULT); inputGray = ans;
 	
 	imwrite("response.png", inputGray);
 	
