@@ -533,5 +533,5 @@ int main(int, char** argv ){
 	
 	imwrite(saida, input);
 	
-	return 0;
+    return 0;
 }
