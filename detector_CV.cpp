@@ -206,10 +206,6 @@ Mat coefficienceOfVariationMaskGaussian(Mat aux, int n, string gaussianOp){
 	
 	for(int R = 0; R < n; R++)
 		for(int C = 0; C < n; C++)
-			gaussianBox.at<float>(R, C) = - gaussianBox.at<float>(R, C) + 0.062650591 ;
-	
-	for(int R = 0; R < n; R++)
-		for(int C = 0; C < n; C++)
 			SUM += gaussianBox.at<float>(R, C);
 		
 	cout<<"S:"<< SUM <<endl;
