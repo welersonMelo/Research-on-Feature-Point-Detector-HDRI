@@ -1,0 +1,11 @@
+g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename harrisCornerForHdr.cpp .cpp` harrisCornerForHdr.cpp `pkg-config --libs opencv`
+
+nohup ./harrisCornerForHdr ../dataset/projectRoom/1/1.hdr ../dataset/projectRoom/1/1 &
+nohup ./harrisCornerForHdr ../dataset/projectRoom/2/2.hdr ../dataset/projectRoom/2/2 &
+nohup ./harrisCornerForHdr ../dataset/projectRoom/3/3.hdr ../dataset/projectRoom/3/3 &
+nohup ./harrisCornerForHdr ../dataset/projectRoom/4/4.hdr ../dataset/projectRoom/4/4 &
+nohup ./harrisCornerForHdr ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 &
+nohup ./harrisCornerForHdr ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 & 
+nohup ./harrisCornerForHdr ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 &
+
+

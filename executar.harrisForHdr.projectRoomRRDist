@@ -1,0 +1,4 @@
+echo "Calculando RR e Dist "
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.harrisForHDR1.txt ../dataset/projectRoom/SX/SX.harrisForHDR1.txt 8 > ../dataset/projectRoom/RR/RR.harrisForHDR1.txt
+
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.harrisForHDR.distribution.txt ../dataset/projectRoom/SX/SX.harrisForHDR.distribution.txt 7 > ../dataset/projectRoom/Dist/distribution.harrisForHDR.distribution.txt
