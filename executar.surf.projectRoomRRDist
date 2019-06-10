@@ -1,0 +1,4 @@
+echo "Calculando RR e Dist "
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.surf1.txt ../dataset/projectRoom/SX/SX.surf1.txt 8 > ../dataset/projectRoom/RR/RR.surf1.txt
+
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.surf.distribution.txt ../dataset/projectRoom/SX/SX.surf.distribution.txt 7 > ../dataset/projectRoom/Dist/distribution.surf.distribution.txt

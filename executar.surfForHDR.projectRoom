@@ -10,7 +10,7 @@ nohup ./surfForHdr ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 &
 
 sleep 220
 
-echo "Calculando RR e Dist"
+echo "Calculando RR e Dist 4"
 ./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.surfForHdr1.txt ../dataset/projectRoom/SX/SX.surfForHdr1.txt 8 > ../dataset/projectRoom/RR/RR.4.surfForHdr1.txt
 
 ./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.surfForHdr.distribution.txt ../dataset/projectRoom/SX/SX.surfForHdr.distribution.txt 7 > ../dataset/projectRoom/Dist/distribution.4.surfForHdr.distribution.txt
