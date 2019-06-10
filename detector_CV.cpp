@@ -202,6 +202,8 @@ Mat coefficienceOfVariationMaskGaussian(Mat aux, int n, string gaussianOp){
 	Mat gen2 = cv::Mat(n, 1, CV_32F, gerador);
 	gaussianBox = gen2*gen1;
 	
+	int contVar = 0;
+	
 	float SUM = 0; // A soma de todos os valores da mascara gaussiana 5x5
 	
 	for(int R = 0; R < n; R++)
@@ -228,12 +230,19 @@ Mat coefficienceOfVariationMaskGaussian(Mat aux, int n, string gaussianOp){
 			
 			float media = sumVal/N;
 			
-			float variancia = (sumVal2/SUM) - (media*media);
+			float variancia = ((sumVal2/SUM) - (media*media));
+			
 			float S = sqrt(variancia); // desvio padrao
+			
+			if (isnan(S)) contVar++;
+			
 			float CV = media == 0? 0 : S/media; // Coef de Variacao
 			auxResponse.at<float>(i, j) = CV;
 		}
 	}
+	
+	cout << contVar << " valPerc: " << (contVar*1.0)/(response.rows*response.cols) * 100 << endl;
+	
 	//Response recebe o valor de coef salvo em aux
 	response = auxResponse;
 	
@@ -491,8 +500,8 @@ int main(int, char** argv ){
 	//logTranformUchar(150);
 	
 	//imwrite("response.png", inputGray);
-	GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
-	//Mat ans; bilateralFilter(inputGray, ans, 10, 150, 150, BORDER_DEFAULT); inputGray = ans;
+	//GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
+	Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
 	
 	imwrite("response.png", inputGray);
 	
@@ -505,8 +514,8 @@ int main(int, char** argv ){
 	printf("quantidade KeyPoints: %d\n", quantKeyPoints);
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	
-	//saveKeypoints2ROIs(responseImg);
-	saveKeypoints(responseImg);
+	saveKeypoints2ROIs(responseImg);
+	//saveKeypoints(responseImg);
 	
 	
 	//Salvando keypoints na imagem de entrada 

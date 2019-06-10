@@ -484,7 +484,7 @@ int main(int, char** argv ){
 	printf("quantidade final KeyPoints: %d\n", quantKeyPoints);
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
-	saveKeypoints(); 
+	//saveKeypoints(); 
 	saveKeypoints2ROIs();
 	
 	/*
