@@ -1,0 +1,16 @@
+g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename surfForHdr.cpp .cpp` surfForHdr.cpp `pkg-config --libs opencv`
+
+nohup ./surfForHdr ../dataset/projectRoom/1/1.hdr ../dataset/projectRoom/1/1 &
+nohup ./surfForHdr ../dataset/projectRoom/2/2.hdr ../dataset/projectRoom/2/2 &
+nohup ./surfForHdr ../dataset/projectRoom/3/3.hdr ../dataset/projectRoom/3/3 &
+nohup ./surfForHdr ../dataset/projectRoom/4/4.hdr ../dataset/projectRoom/4/4 &
+nohup ./surfForHdr ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 &
+nohup ./surfForHdr ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 & 
+nohup ./surfForHdr ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 &
+
+sleep 220
+
+echo "Calculando RR e Dist"
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.surfForHdr1.txt ../dataset/projectRoom/SX/SX.surfForHdr1.txt 8 > ../dataset/projectRoom/RR/RR.4.surfForHdr1.txt
+
+./repeatability ../dataset/projectRoom/H.BX.SX.txt ../dataset/projectRoom/BX/BX.surfForHdr.distribution.txt ../dataset/projectRoom/SX/SX.surfForHdr.distribution.txt 7 > ../dataset/projectRoom/Dist/distribution.4.surfForHdr.distribution.txt
