@@ -1,0 +1,11 @@
+g++ -std=c++11 -ggdb `pkg-config --cflags opencv` -o `basename dogForHdr.cpp .cpp` dogForHdr.cpp `pkg-config --libs opencv`
+
+nohup ./dogForHdr ../dataset/projectRoom/1/1.hdr ../dataset/projectRoom/1/1 &
+nohup ./dogForHdr ../dataset/projectRoom/2/2.hdr ../dataset/projectRoom/2/2 &
+nohup ./dogForHdr ../dataset/projectRoom/3/3.hdr ../dataset/projectRoom/3/3 &
+nohup ./dogForHdr ../dataset/projectRoom/4/4.hdr ../dataset/projectRoom/4/4 &
+nohup ./dogForHdr ../dataset/projectRoom/5/5.hdr ../dataset/projectRoom/5/5 &
+nohup ./dogForHdr ../dataset/projectRoom/6/6.hdr ../dataset/projectRoom/6/6 & 
+nohup ./dogForHdr ../dataset/projectRoom/7/7.hdr ../dataset/projectRoom/7/7 &
+
+

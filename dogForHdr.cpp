@@ -443,6 +443,59 @@ void saveKeypoints(){
 	fclose(out3);
 }
 
+void saveKeypoints2ROIs(){
+	printf("Salvando keypoints 2 ROIs no arquivo...\n");
+	
+	vector<pair<float, pair<int, int> > > aux1, aux2, aux3;
+	vector<pair<float, pair<int, int> > > aux;
+	
+    for(int i = 0; i < (int)keyPoint.size(); i++){
+		int y = keyPoint[i].y, x = keyPoint[i].x;
+		aux.push_back({-keyPoint[i].response, {y, x}});
+	}
+    sort(aux.begin(), aux.end());
+    
+    int quantMaxKP = 500;
+    
+    for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
+	 	int y = aux[i].second.first, x = aux[i].second.second;
+	 	if(y >= roi[1].rows || x >= roi[1].cols) continue;
+	 	
+	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({aux[i].first, {y, x}});
+	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({aux[i].first, {y, x}});
+    }
+    
+    if(aux3.size() > 500) aux3.clear();
+    
+    double T = aux1.size() + aux3.size();
+	
+	double minFp = min(aux1.size()/T,  aux3.size()/T);
+	double maxFp = max(aux1.size()/T, aux3.size()/T);
+	double D = 1 - (maxFp - minFp);
+	
+	//Salvando Distribution Rate
+	fprintf(out0, "%.4f\n", D);
+    
+	keyPoint.clear();
+	for(int i = 0; i < aux1.size(); i++)
+		keyPoint.push_back({aux1[i].second.first, aux1[i].second.second});
+
+	for(int i = 0; i < aux3.size(); i++)
+		keyPoint.push_back({aux3[i].second.first, aux3[i].second.second});
+	
+	//Salvando pontos ROI 1
+	fprintf(out1, "%d\n", (int)aux1.size());
+	for(int i = 0; i < (int)aux1.size(); i++)
+		fprintf(out1, "%d %d %.4f\n", aux1[i].second.first, aux1[i].second.second, -aux1[i].first);
+	fclose(out1);
+
+	//Salvando pontos ROI 3
+	fprintf(out3, "%d\n", (int)aux3.size());
+	for(int i = 0; i < (int)aux3.size(); i++)
+		fprintf(out3, "%d %d %.4f\n", aux3[i].second.first, aux3[i].second.second, -aux3[i].first);
+	fclose(out3);
+}
+
 //edgeThreshold
 
 void edgeThreshold(){
@@ -549,7 +602,8 @@ int main(int, char** argv ){
 	*/
 	
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
-	saveKeypoints();
+	//saveKeypoints();
+	saveKeypoints2ROIs();
 	
 	showKeyPoints();
 	
