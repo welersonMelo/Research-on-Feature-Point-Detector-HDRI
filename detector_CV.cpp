@@ -218,30 +218,34 @@ Mat coefficienceOfVariationMaskGaussian(Mat aux, int n, string gaussianOp){
 		int yBeg = i-(n/2), yEnd = i+(n/2);
 		for(int j = (n/2); j < response.cols - (n/2); j++){
 			//passando mascara 
-			float sumVal = 0, sumVal2 = 0, maior = 0;
+			float sumVal = 0, sumVal2 = 0, maior = 0, sumValG = 0;
+			
 			int xBeg = j-(n/2), xEnd = j+(n/2);
 			
 			for(int y = yBeg, I = 0; y <= yEnd; y++, I++){
 				for(int x = xBeg, J = 0; x <= xEnd; x++, J++){
+					sumValG += (response.at<float>(y, x) * gaussianBox.at<float>(I, J));
 					sumVal += (response.at<float>(y, x));
 					sumVal2 += (response2.at<float>(y, x) * gaussianBox.at<float>(I, J));
+					//sumVal2 += (response2.at<float>(y, x));
 				}
 			}
 			
 			float media = sumVal/N;
 			
-			float variancia = ((sumVal2/SUM) - (media*media));
+			float variancia = ((sumVal2/N) - (2*media*sumValG) + (sumValG*sumValG));
+			//float variancia = (sumVal2/N) - (media*media);
 			
 			float S = sqrt(variancia); // desvio padrao
 			
-			if (isnan(S)) contVar++;
+			//if (isnan(S)) contVar++;
 			
 			float CV = media == 0? 0 : S/media; // Coef de Variacao
 			auxResponse.at<float>(i, j) = CV;
 		}
 	}
 	
-	cout << contVar << " valPerc: " << (contVar*1.0)/(response.rows*response.cols) * 100 << endl;
+	//cout << contVar << " valPerc: " << (contVar*1.0)/(response.rows*response.cols) * 100 << endl;
 	
 	//Response recebe o valor de coef salvo em aux
 	response = auxResponse;
@@ -495,15 +499,15 @@ int main(int, char** argv ){
 	
 	normalize(inputGray, inputGray, 0, 255, NORM_MINMAX, CV_8UC1, Mat());
 	
-	//inputGray = inputGray.mul(25);
-	equalizeHist(inputGray, inputGray);
+	inputGray = inputGray.mul(25);
+	//equalizeHist(inputGray, inputGray);
 	//logTranformUchar(150);
 	
 	//imwrite("response.png", inputGray);
-	//GaussianBlur(inputGray, inputGray, Size(15, 15), 0, 0, BORDER_DEFAULT);
-	Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
+	GaussianBlur(inputGray, inputGray, Size(9, 9), 0, 0, BORDER_DEFAULT);
+	//Mat ans; bilateralFilter(inputGray, ans, 10, 175, 175, BORDER_DEFAULT); inputGray = ans;
 	
-	imwrite("response.png", inputGray);
+	//imwrite("response.png", inputGray);
 	
 	//Threshoulding image 
 	thresholdR(inputGray);
@@ -514,8 +518,8 @@ int main(int, char** argv ){
 	printf("quantidade KeyPoints: %d\n", quantKeyPoints);
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	
-	saveKeypoints2ROIs(responseImg);
-	//saveKeypoints(responseImg);
+	//saveKeypoints2ROIs(responseImg);
+	saveKeypoints(responseImg);
 	
 	
 	//Salvando keypoints na imagem de entrada 
