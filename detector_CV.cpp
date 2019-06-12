@@ -101,7 +101,7 @@ void thresholdR(Mat response){
 	int begX = 0, begY = 0; 
 	int endX = response.cols, endY = response.rows;
 
-	uchar thresholdValue = 10;
+	uchar thresholdValue = 50;
 	
 	for(int row = begY; row < endY-100; row++){
 		for(int col = begX; col < endX-100; col++){
@@ -233,7 +233,7 @@ Mat coefficienceOfVariationMaskGaussian(Mat aux, int n, string gaussianOp){
 			
 			float media = sumVal/N;
 			
-			float variancia = ((sumVal2/N) - (2*media*sumValG) + (sumValG*sumValG));
+			float variancia = (sumVal2 - (2*media*sumValG) + (sumValG*sumValG));
 			//float variancia = (sumVal2/N) - (media*media);
 			
 			float S = sqrt(variancia); // desvio padrao
@@ -466,6 +466,53 @@ void saveKeypoints2ROIs(Mat response){
 	fclose(out3);
 }
 
+//edgeThreshold
+void edgeThreshold(Mat responseImg){
+	Mat Ix, Iy, Ix2, Iy2, Ixy;
+	
+	//Computando sobel operator (derivada da gaussiana) no eixo x e y
+	Sobel(responseImg, Ix, CV_32F, 1, 0, 7, 1, 0, BORDER_DEFAULT);
+	Sobel(responseImg, Iy, CV_32F, 0, 1, 7, 1, 0, BORDER_DEFAULT);
+	
+	Ix2 = Ix.mul(Ix); // Ix^2
+	Iy2 = Iy.mul(Iy);// Iy^2
+	Ixy = Ix.mul(Iy);// Ix * Iy
+	
+	int rows = responseImg.rows, cols = responseImg.cols;
+	
+	Mat response = Mat::zeros(cv::Size(cols, rows), CV_32F);
+	for(int row = 0; row < rows; row++){
+		for(int col = 0; col < cols; col++){
+			float fx2 = Ix2.at<float>(row, col);
+			float fy2 = Iy2.at<float>(row, col);
+			float fxy = Ixy.at<float>(row, col);
+			float det = (fx2 * fy2) - (fxy * fxy);
+			float trace = (fx2 + fy2);
+			response.at<float>(row, col) = det - 0.04*(trace*trace);
+			//if(response.at<float>(row, col) < 0) response.at<float>(row, col) = 0;
+			//printf("%f", response.at<float>(row, col));
+		}
+	}
+	
+	for(int row = 0; row < rows; row++){
+		for(int col = 0; col < cols; col++){
+			float val = response.at<float>(row, col);
+			if(val < -1e4){
+				response.at<float>(row, col) = 0;
+			}
+		}	
+	}
+	
+	vector<pair<int, int> > auxKp;
+	
+	for(int i = 0; i < (int)keyPoint.size(); i++){
+		int y = keyPoint[i].first, x = keyPoint[i].second;
+		if(response.at<float>(y, x) != 0)
+			auxKp.push_back(keyPoint[i]);
+	}
+	keyPoint = auxKp;
+}
+
 //Função Principal
 // ROI = Region Of Interest
 // Ex Chamada: 
@@ -512,15 +559,18 @@ int main(int, char** argv ){
 	//Threshoulding image 
 	thresholdR(inputGray);
 	
+	//imwrite("responseThres.png", inputGray);
+	
 	//Fazendo NonMaximaSupression nos keypoints encontrados
 	Mat responseImg = nonMaximaSupression(inputGray);
+	
+	//edgeThreshold(responseImg);
 	
 	printf("quantidade KeyPoints: %d\n", quantKeyPoints);
 	//Salvando quantidade de Keypoints e para cada KP as coordenadas (x, y) e o response
 	
 	//saveKeypoints2ROIs(responseImg);
 	saveKeypoints(responseImg);
-	
 	
 	//Salvando keypoints na imagem de entrada 
 	showKeyPoints();
